@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Vacation register" moduleID="xvr"
+	allowAddRecord="no"
+	singularRecordName="Vacation entry" pluralRecordName="Vacation entries"
+	defaultMenuPath="Main Menu / Work time management / Vacation requests [xv] / Vacation register"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_VacationID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Vacation ID|An automatically assigned number used to identify a record"/>			
+		<TableField 
+			name="_ReplacementID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			phrase="Replacement|Person replacing the person making holidays"/>
+		<ForeignField 
+			name="_Replacement" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_ReplacementID" 			
+			phrase="Replacement|Person replacing the person making holidays">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_ReplacementLink" foreignModuleID="ppl" recordIDField="_ReplacementID" 
+			phrase="Replacement|Person replacing the person making holidays"/>		
+		<ForeignField 
+			name="_ReplacementOrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_ReplacementID" 
+			phrase="Replacement|Person replacing the person making holidays"/>
+		<ForeignField 
+			name="_ReplacementOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_ReplacementOrganizationID" 
+			phrase="Replacement|Person replacing the person making holidays"/>
+		<CombinedField name="_ReplacementNameOrganization"  
+			phrase="Replacement|Person replacing the person making holidays">
+			<CombinedFieldRef name="_Replacement"/>_/_<CombinedFieldRef name="_ReplacementOrganization"/>	
+		</CombinedField>
+				
+		<TableField 
+			name="_VacationTypeID" type="int" validate="RequireSelection" 
+			phrase="Vacation type|Type of the holiday as law requires"/>
+		<CodeField 
+			name="_VacationType" key="_VacationTypeID"  codeTypeID="1008" 
+			phrase="Vacation type|Type of the holiday as law requires"/>
+		
+		<TableField 
+			name="_VacationBegin" type="date" validate="notEmpty"
+			phrase="Vacation begin|Date of the start of holidays"/>			
+		<TableField 
+			name="_VacationFinish" type="date" 
+			validate="notEmpty | eval: NoLaterThan( $_VacationBegin, $_VacationFinish )"
+			phrase="Vacation finish|Date of the finish of holidays"/>
+		<TableField 
+			name="_WorkingdaysCount" type="int" validate="notEmpty" 
+			phrase="Number of working days|Number of working days for vacation accounting"/>
+			
+		<TableField 
+			name="_VacationRemarks" type="varchar(50)" 
+			phrase="Remarks to the vacation|Remarks important for accepting the request"/>
+				
+		<TableField 
+			name="_VacationPersonID" type="int" dbFlags="unsigned default 0" validate="RequireSelection"
+			defaultValue="userID" orgListOptions="intpar" 
+			phrase="Person on vacation|Person with accepted vacation request"/>
+		<ForeignField 
+			name="_VacationPerson" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_VacationPersonID" 
+			phrase="Person on vacation|Person with accepted vacation request"/>
+		<LinkField 
+			name="_VacationPersonLink" foreignModuleID="ppl" recordIDField="_VacationPersonID" 
+			phrase="Person on vacation|Person with accepted vacation request"/>
+		<ForeignField 
+			name="_OrganizationID" key="_VacationPersonID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 	
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" foreignTable="org" foreignKey="OrganizationID"
+			foreignField="Name" key="_OrganizationID" 
+			phrase="Organization|Name of organization associated with the case owner"/>		
+		<CombinedField name="_PersonOnVacation"  
+			phrase="Person on vacation|Person with accepted vacation request">
+			<CombinedFieldRef name="_VacationPerson"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_LocationID"  key="_VacationPersonID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>
+		
+		<CombinedField name="_SubmittedByOrganization"  
+			phrase="Submitted by|Person who submitted the case to the approval process">
+			<CombinedFieldRef name="_VacationPerson"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<TableField 
+			name="_SubmittedOn" type="datetime" validate="notEmpty"
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>	
+		
+		<TableField 
+			name="_AcceptedByID" type="int" validate="RequireSelection" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedBy" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<LinkField 
+			name="_AcceptedByLink" foreignModuleID="ppl" recordIDField="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedByOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			key="_AcceptedByID" 
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_AcceptedByOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			key="_AcceptedByOrganizationID" 
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_AcceptedByAcceptedByOrganization"  
+			phrase="Accepted by|Person who accepted the case">
+			<CombinedFieldRef name="_AcceptedBy"/>_/_<CombinedFieldRef name="_AcceptedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_AcceptedOn" type="datetime" validate="notEmpty"
+			phrase="Accepted on|Date and time the case has been accepted by the person"/>
+		<TableField 
+			name="_AcceptedRemark" type="varchar(50)" 
+			phrase="Remark for accepted|Remark for accepting the case"/>
+		
+		<TableField 
+			name="_ClosedByID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			validate="RequireSelection" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedBy" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_ClosedByID"	listCondition="PersonStatusID=1"			
+			phrase="Closed by|Person who closed the case"/>
+		<LinkField 
+			name="_ClosedByLink" foreignModuleID="ppl" recordIDField="_ClosedByID" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedByOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 
+			key="_ClosedByID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_ClosedByOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			key="_ClosedByOrganizationID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_ClosedByClosedByOrganization"  
+			phrase="Closed by|Person who closed the case">
+			<CombinedFieldRef name="_ClosedBy"/>_/_<CombinedFieldRef name="_ClosedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_ClosedOn" type="datetime" validate="notEmpty"
+			phrase="Closed on|Date and time the case has been closed"/>
+		<TableField 
+			name="_ClosedRemark" type="varchar(50)" 
+			phrase="Remark for closed|Remark for closing the case"/>
+			
+		<CalculatedField 
+			name="_DaysBetween12" type="int" 
+			calcFunction="datediff" params="_AcceptedOn _SubmittedOn"  
+			phrase="Days between|Number of days between change of the state"/>
+		<CalculatedField 
+			name="_DaysBetween23" type="int" 
+			calcFunction="datediff" params="_ClosedOn _AcceptedOn"  
+			phrase="Days between|Number of days between change of the state"/>	
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_PersonOnVacation"/>_;_<CombinedFieldRef name="_VacationBegin"/><![CDATA[&nbsp\;]]>_<CombinedFieldRef name="_VacationFinish"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_PersonOnVacation"/>_;_<CombinedFieldRef name="_VacationBegin"/><![CDATA[&nbsp\;]]>_<CombinedFieldRef name="_VacationFinish"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_VacationID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xvr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_VacationID"/>
+        </PrimaryKey>
+		<Index name="_OwnedBy_Deleted">
+			<FieldRef name="_OwnedBy"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_VacationID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_PersonOnVacation"/>
+		<ViewField name="_VacationType"/>
+		<ViewField name="_VacationBegin"/>
+		<ViewField name="_VacationFinish"/>
+		<ViewField name="_WorkingdaysCount"/>		
+	</RecordSummaryFields>	
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_VacationID" phrase="ID"/>	
+			<ListField name="_PersonOnVacation"/>
+			<ListField name="_VacationBegin" phrase="Vacation begin"/>			
+			<ListField name="_VacationFinish" phrase="Vacation finish"/>
+			<ListField name="_WorkingdaysCount" align="center" phrase="Working days"/>	
+			
+			<HiddenField name="_SubmittedOn"/>
+			<HiddenField name="_SubmittedByOrganization"/>
+			<HiddenField name="_SubmittedRemark"/>
+			<HiddenField name="_DaysBetween12"/>
+			<HiddenField name="_AcceptedOn"/>
+			<HiddenField name="_AcceptedByAcceptedByOrganization"/>
+			<HiddenField name="_AcceptedRemark"/>
+			<HiddenField name="_DaysBetween23"/>
+			<HiddenField name="_ClosedOn"/>
+			<HiddenField name="_ClosedByClosedByOrganization"/>
+			<HiddenField name="_ClosedRemark"/>
+			
+			<OrderByField name="_VacationID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_VacationID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<DateField name="_VacationBegin"/>
+			<DateField name="_VacationFinish"/>
+			<CodeComboField name="_VacationTypeID" suppressItemAdd="yes"/>
+			<EditField name="_VacationRemarks" size="50" maxLength="50"/>
+			<PersonComboField name="_ReplacementID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="ruler3"/>
+			<DateField name="_SubmittedOn"/>
+			<PersonComboField name="_VacationPersonID" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ViewField name="ruler5"/>
+			<DateField name="_AcceptedOn"/>			
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>	
+			<ViewField name="ruler6"/>			
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler7"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_VacationID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_PersonOnVacation" link="_VacationPersonLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_VacationType"/>
+			<ViewField name="_VacationRemarks"/>
+			<ViewField name="_VacationBegin"/>
+			<ViewField name="_VacationFinish"/>
+			<ViewField name="_WorkingdaysCount"/>			
+			<ViewField name="_ReplacementNameOrganization" link="_ReplacementLink"  goEditScreen="Form"/>
+			<ViewScreenSection name="CaseState" phrase="Case approval history">	
+				<ViewField name="_SubmittedOn"/>
+				<ViewField name="_SubmittedByOrganization" link="_VacationPersonLink"/>
+				<ViewField name="_SubmittedRemark"/>
+				<ViewField name="ruler3"/>				
+				<ViewField name="_AcceptedOn"/>
+				<ViewField name="_AcceptedByAcceptedByOrganization" link="_AcceptedByLink"/>
+				<ViewField name="_AcceptedRemark"/>
+				<ViewField name="ruler4"/>	
+				<ViewField name="_ClosedOn"/>
+				<ViewField name="_ClosedByClosedByOrganization" link="_ClosedByLink"/>
+				<ViewField name="_ClosedRemark" goEditScreen="Form"/>
+			</ViewScreenSection>				
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about vacations">
+			<ViewField name="_VacationID"/>			
+			<ViewField name="ruler1"/>
+			<CodeComboField name="_VacationTypeID" suppressItemAdd="yes"/>						
+			<EditField name="_VacationRemarks" size="50" maxLength="50"/>			
+			<DateField name="_VacationBegin"/>
+			<DateField name="_VacationFinish"/>
+			<EditField name="_WorkingdaysCount" size="3" maxLength="3"/>			
+			<PersonComboField name="_ReplacementID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="ruler3"/>
+			<DateField name="_SubmittedOn"/>
+			<PersonComboField name="_VacationPersonID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_SubmittedRemark" size="50" maxLength="50"/>		
+			<ViewField name="ruler4"/>
+			<DateField name="_AcceptedOn"/>				
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_AcceptedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler5"/>
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ClosedRemark" size="50" maxLength="50"/>			
+        </EditScreen>		
+    </Screens>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	    <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xv">Wnioski urlopowe  (xv)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xv">Wnioski urlopowe  (xv)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

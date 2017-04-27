@@ -1,0 +1,13 @@
+<!-- START xt_xj -->
+   <Row ss:Height="31.5">
+    <Cell ss:Index="8"><Data ss:Type="Number">_TaskID</Data></Cell>
+    <Cell><Data ss:Type="Number">_JobID</Data></Cell>
+	<Cell ss:HRef="_HOSTNAME/frames.php?mdl=xj&amp;rid=_JobID"><Data ss:Type="String">_JobName</Data></Cell>
+    <Cell><Data ss:Type="String">_OwnedOrganization</Data></Cell>
+    <Cell><Data ss:Type="String">_JobStatus</Data></Cell>
+    <Cell><Data ss:Type="String">_JobStartDate</Data></Cell>
+    <Cell><Data ss:Type="String">_JobFinishDate</Data></Cell>
+    <Cell><Data ss:Type="Number">_JobEstimatedWorkload</Data></Cell>
+    <Cell><Data ss:Type="Number">_JobDoneWorkload</Data></Cell>
+   </Row>
+<!-- END xt_xj -->

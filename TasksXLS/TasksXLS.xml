@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Version>11.9999</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>8910</WindowHeight>
+  <WindowWidth>19095</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>45</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font x:CharSet="238"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s46">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"/>
+  </Style>
+  <Style ss:ID="s47">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"/>
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s48">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="s49">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"/>
+  </Style>
+  <Style ss:ID="s56">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"
+    ss:Color="#333333" ss:Bold="1"/>
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s57">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"
+    ss:Color="#333333" ss:Bold="1"/>
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="Short Date"/>
+  </Style>
+  <Style ss:ID="s58">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"
+    ss:Color="#333333" ss:Bold="1"/>
+   <Interior ss:Color="#CCFFFF" ss:Pattern="Solid"/>
+   <NumberFormat ss:Format="0"/>
+  </Style>
+  <Style ss:ID="s71">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Arial Narrow" x:CharSet="238" x:Family="Swiss" ss:Size="12"
+    ss:Color="#333333" ss:Bold="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Zadania i Prace">
+  <Names>
+   <NamedRange ss:Name="Print_Titles" ss:RefersTo="='Zadania i Prace'!R1"/>
+  </Names>
+  <Table ss:ExpandedColumnCount="17" ss:ExpandedRowCount="3" x:FullColumns="1"
+   x:FullRows="1" ss:StyleID="s46" ss:DefaultRowHeight="15.75">
+   <Column ss:StyleID="s46" ss:AutoFitWidth="0" ss:Width="74.25"/>
+   <Column ss:StyleID="s46" ss:AutoFitWidth="0" ss:Width="62.25"/>
+   <Column ss:StyleID="s46" ss:AutoFitWidth="0" ss:Width="75"/>
+   <Column ss:StyleID="s47" ss:AutoFitWidth="0" ss:Width="76.5"/>
+   <Column ss:StyleID="s47" ss:AutoFitWidth="0" ss:Width="82.5"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="90"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="93"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="69.75"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="62.25"/>
+   <Column ss:StyleID="s46" ss:AutoFitWidth="0" ss:Width="80.25"/>
+   <Column ss:StyleID="s46" ss:AutoFitWidth="0" ss:Width="60.75"/>
+   <Column ss:StyleID="s47" ss:AutoFitWidth="0" ss:Width="70.5"/>
+   <Column ss:StyleID="s47" ss:AutoFitWidth="0" ss:Width="79.5"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="87.75"/>
+   <Column ss:StyleID="s48" ss:AutoFitWidth="0" ss:Width="99"/>
+   <Column ss:StyleID="s49" ss:AutoFitWidth="0" ss:Span="1"/>
+   <Row ss:AutoFitHeight="0" ss:Height="57.75" ss:StyleID="s71">
+    <Cell ss:StyleID="s56"><Data ss:Type="String">Projekt</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s56"><Data ss:Type="String">Zadanie</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s56"><Data ss:Type="String">Status zadania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s57"><Data ss:Type="String">Rozpoczęcie zadania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s57"><Data ss:Type="String">Zakończenie zadania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">Szacowana pracochłonność zdania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">Rzeczywista pracochłonność zdania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">ID zadania</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">ID pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s56"><Data ss:Type="String">Wykonawca</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s56"><Data ss:Type="String">Status pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s57"><Data ss:Type="String">Rozpoczęcie pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s57"><Data ss:Type="String">Zakończenie pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">Szacowana pracochłonność pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+    <Cell ss:StyleID="s58"><Data ss:Type="String">Rzeczywista pracochłonność pracy</Data><NamedCell
+      ss:Name="Print_Titles"/></Cell>
+   </Row>
+<!-- END header -->
+<!-- START xt -->
+   <Row ss:Height="31.5">
+    <Cell><Data ss:Type="String">_Project</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskName</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskStatus</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskStartDate</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskFinishDate</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskEstimatedWorkload</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskDoneWorkload</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskID</Data></Cell>
+   </Row>
+<!--  END xt -->
+<!-- START xt_xj -->
+   <Row ss:Height="31.5">
+    <Cell ss:Index="8"><Data ss:Type="String">_TaskID</Data></Cell>
+    <Cell><Data ss:Type="String">_JobID</Data></Cell>
+    <Cell><Data ss:Type="String">_OwnedOrganization</Data></Cell>
+    <Cell><Data ss:Type="String">_JobStatus</Data></Cell>
+    <Cell><Data ss:Type="String">_JobStartDate</Data></Cell>
+    <Cell><Data ss:Type="String">_JobFinishDate</Data></Cell>
+    <Cell><Data ss:Type="String">_JobEstimatedWorkload</Data></Cell>
+    <Cell><Data ss:Type="String">_JobDoneWorkload</Data></Cell>
+   </Row>
+<!-- END xt_xj -->
+<!-- START footer-->
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:Orientation="Landscape"/>
+    <Header x:Data="&amp;LZadania i Prace&amp;R&amp;P/&amp;N"/>
+    <Footer x:Data="&amp;LActive Agenda&amp;R&amp;D"/>
+    <PageMargins x:Bottom="0.984251969" x:Left="0.78740157499999996"
+     x:Right="0.78740157499999996" x:Top="0.984251969"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>8</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+    <Gridlines/>
+   </Print>
+   <Zoom>80</Zoom>
+   <Selected/>
+   <FreezePanes/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>0</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

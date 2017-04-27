@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Fleet management" moduleID="xc" 
+	singularRecordName="Vehicle" pluralRecordName="Vehicles"  
+	defaultMenuPath="Main Menu / Asset management / Fleet management"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_VehicleID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk"	deleteKeys="xcp._VehicleID"		
+			phrase="Vehicle ID|An automatically assigned number used to identify a record"/>
+		
+		<TableField 
+			name="_VehicleMakeTypeModel" type="varchar(50)" validate="notEmpty" 
+			phrase="Make Type Model|Make type and model of the car as in the vehicle registration certificate"/>
+		<TableField 
+			name="_VehicleRegistrationNumber" type="varchar(50)" validate="notEmpty" 
+			phrase="Registration number|Registration number of the car as in the vehicle registration certificate"/>
+		<TableField 
+			name="_VehicleDescription" type="text" 
+			phrase="Description|Addtional vehicle description from the vehicle registration certificate"/>		
+		<TableField 
+			name="_VehicleLocationID" type="int" validate="RequireSelection"
+			phrase="Location|Vehicle assigned to the location as the base"/>			
+		<ForeignField 
+			name="_VehicleLocation"  key="_VehicleLocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Location|Vehicle assigned to the location as the base"/>
+		<LinkField 
+			name="_VehicleLocationLink" foreignModuleID="loc" recordIDField="_VehicleLocationID" 
+			phrase="Location|Vehicle assigned to the location as the base"/>
+		<ForeignField 
+			name="_VehicleLocationOrgFunctionID"  key="_VehicleLocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_VehicleLocationOrgFunction" key="_VehicleLocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_VehicleLocationFunction" 
+			phrase="Location|Vehicle assigned to the location as the base">
+			<CombinedFieldRef name="_VehicleLocationOrgFunction"/>_<CombinedFieldRef name="_VehicleLocation"/>
+		</CombinedField>	
+		
+		<SummaryField 
+			name="_IsAvailable" type="bool" localKey="_VehicleID" summaryKey="_VehicleID" 
+			summaryFunction="is_null" summaryField="_ReturnedOn" summaryModuleID="xcp" 
+			phrase="Is available|if the vehicle is available"/>
+		<CalculatedField 
+			name="_IsAvailableSign" 
+			calcFunction="flipflop" params="_IsAvailable #&#9679; #&#9675;"  
+			phrase="Is available|if the vehicle is available"/>
+		<CombinedField 
+			name="_IsAvailableGraph" 
+			phrase="Is available|if the vehicle is available">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_IsAvailableSign"/><![CDATA[</div>]]>
+		</CombinedField>
+				
+		<StaticField 
+			name="_PersonStatusOne" type="int" content="1" 
+			phrase="Current employee flag|This person is current employe"/>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_VehicleMakeTypeModel"/>_;_<CombinedFieldRef name="_VehicleRegistrationNumber"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_VehicleMakeTypeModel"/>_;_<CombinedFieldRef name="_VehicleRegistrationNumber"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_VehicleID"
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xc'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_VehicleID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules>
+		<SubModule 
+			name="Persons with vehicle"  parentKey="_VehicleID"
+			moduleID="xcp" localKey="_VehicleID"/>
+		<SubModule 
+			name="Handlers" parentKey="_PersonStatusOne" 
+			moduleID="ppl" localKey="PersonStatusID">
+			<SubModuleCondition field="FleetHandler" value="1"/>
+		</SubModule>
+		<SubModule 
+			name="Attachments" parentKey="_VehicleID"
+			moduleID="att" localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="xc"/>
+		</SubModule>
+	</SubModules>	
+	<RecordSummaryFields>
+		<ViewField name="_VehicleID"/>
+		<ViewField name="_VehicleMakeTypeModel"/>
+		<ViewField name="_VehicleRegistrationNumber"/>
+		<ViewField name="_VehicleLocationFunction" link="_VehicleLocationLink"/>
+	</RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_VehicleID" phrase="ID" />
+		<ListField name="_IsAvailableGraph" align="center" phrase="Vehicle available"/>
+			<ListField name="_VehicleMakeTypeModel" phrase="Vehicle"/>
+			<ListField name="_VehicleRegistrationNumber" align="center" phrase="Registration number"/>
+			<ListField name="_VehicleLocation" align="center" phrase="Base location"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_VehicleID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<CheckBoxField name="_IsAvailable"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_VehicleMakeTypeModel" size="50" maxLength="50"/>
+			<EditField name="_VehicleRegistrationNumber" size="50" maxLength="50"/>
+			<ComboField name="_VehicleLocationID" findMode="text" suppressItemAdd="yes"/>
+			<CodeRadioField name="_VehicleLocationOrgFunctionID" orientation="vertical"/>
+			<ViewField name="ruler3"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_VehicleID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_VehicleMakeTypeModel"/>
+			<ViewField name="_VehicleRegistrationNumber"/>			
+			<ViewField name="_VehicleDescription"/>			
+			<ViewField name="ruler2"/>
+			<ViewField name="_IsAvailable"/>
+			<ViewField name="_VehicleLocationFunction" link="_VehicleLocationLink" goEditScreen="Form"/>
+			<ViewGrid moduleID="att"/>
+			<ViewScreenSection name="Associations" phrase="Vehicle assignment to persons">
+				<ViewGrid moduleID="xcp" rowIDon="_VehicleID" goEditScreen="PersonVehicle" />
+				<ViewGrid moduleID="ppl" rowIDon="FleetHandler=1&amp;null" phrase="Fleet handlers"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a vehicle">
+			<ViewField name="_VehicleID"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_VehicleMakeTypeModel" size="50" maxLength="50"/>
+			<EditField name="_VehicleRegistrationNumber" size="50" maxLength="50"/>
+			<MemoField name="_VehicleDescription" rows="5" cols="60"/>	
+			<ViewField name="ruler2"/>
+			<ComboField name="_VehicleLocationID" findMode="text" suppressItemAdd="yes"/>
+        </EditScreen>
+		<EditScreen name="Attachments"  phrase="Attachments|Manage attachments for this record">
+            <RecordSummaryFieldsRef/>
+			<UploadGrid moduleID="att" goViewAnchor="top"/>
+        </EditScreen>
+		<EditScreen 
+			name="PersonVehicle" EditPermission="xcp" 
+			phrase="Persons with vehicle|Persons who have asignned a vehicle">
+			<RecordSummaryFieldsRef/>
+			<EditGrid moduleID="xcp" rowIDon="_VehicleID" goViewAnchor="top"/>
+        </EditScreen>
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xc" phrase="Vehicles">
+			<InvisibleField name="_VehicleID"/>
+			<ViewField name="_VehicleMakeTypeModel"/>
+			<ViewField name="_VehicleRegistrationNumber"/>
+			<ViewField name="_VehicleLocation" phrase="Base location"/>			
+        </ViewGrid>
+	</Exports>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<p>Funkcjonalność procesu ma charakter rejestru danych:</p>
+<ul>
+<li>Wszyscy użytkownicy mają podgląd wszystkich danych.</li>
+<li>Aktualizujący dane mają prawo ich edycji.</li>
+</ul>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+<li>"Lokalizacje" (loc)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Zarządzanie pojazdami" (xc)</li>
+<li>"Użytkownicy pojazdów" (xcp)</li> 
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Zarządzanie pojazdami" (xc): Podgląd wszystkich danych</li>
+<li>"Użytkownicy pojazdów" (xcp): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Grupy użytkowników założone do obsługi uprawnień w modułach realizujących proces:</li>
+<ul>
+<li>*Zarządzanie pojazdami* (cp)</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników 
+*Zarządzanie pojazdami* (cp): </li>
+<ul>
+<li>"Zarządzanie pojazdami" (xc): Edycja wszystkich danych</li>
+<li>"Użytkownicy pojazdów" (xcp): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Zarządza pojazdami#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Zarządzanie pojazdami* (cp)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Zarządzanie pojazdami* (cp)</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

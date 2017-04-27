@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module
+	name="Business trip reimbursable expenses register" moduleID="xbter"
+	allowAddRecord="no"
+	singularRecordName="Approved reimbursable expense" pluralRecordName="Approved reimbursable expenses"
+	defaultMenuPath="Main Menu / Business trips organization / Business trip reimbursable expenses [xbte] / Business trip reimbursable expenses register"> 
+ 
+	<ModuleFields>
+         <TableField 
+			name="_TripexpensesID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Case ID|An automatically assigned number used to identify a record"/>
+		
+		<TableField 
+			name="_BusinesstripDestination" type="varchar(50)" validate="notEmpty"
+			phrase="Destination|Destination of the business trip"/>	
+		<TableField 
+			name="_BusinesstripBegin" type="datetime" validate="notEmpty"
+			phrase="Business trip begin|Date and time of the start of the business trip"/>			
+		<TableField 
+			name="_BusinesstripFinish" type="datetime"
+			validate="notEmpty | eval: NoLaterThanDatetime( $_BusinesstripBegin, $_BusinesstripFinish )"
+			phrase="Business trip finish|Date and time  of the finish of the business trip"/>	
+		<TableField 
+			name="_BusinesstripObjective" type="varchar(50)" validate="notEmpty"
+			phrase="Objective|Objective of the business trip"/>	
+					
+		<TableField 
+			name="_TravelAllowance" type="money" 
+			phrase="Travel allowance|Travel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_TravelAllowanceCount" type="float" validate="notNegative"
+			phrase="Number of travel allowance|Number of eligible travel allowance accounted as law requires"/>
+		<TableField 
+			name="_TravelAllowanceTotal" type="money" 
+			phrase="Total travel allowance|Total of travel allowance accounted as law requires"/>
+		<TableField 
+			name="_TravelAllowanceSubstantiation" type="varchar(50)"
+			phrase="Change substantiation|Why travel allowance has been changed form the default one"/>
+		<CombinedField 
+			name="_TravelAllowanceSubstantiation1" 
+			phrase="Change substantiation|Why travel allowance has been changed form the default one">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>]]>_<CombinedFieldRef name="_TravelAllowanceSubstantiation"/>
+		</CombinedField>
+		<CombinedField 
+			name="_TravelAllowanceCountRemark" 
+			phrase="Number of travel allowance|Number of eligible travel allowance accounted as law requires">
+			<CombinedFieldRef name="_TravelAllowanceCount"/>_<CombinedFieldRef name="_TravelAllowanceSubstantiation1"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_HotelAllowance" type="money" 
+			phrase="Hotel allowance|Hotel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_HotelAllowanceCount" type="int" validate="notNegative"
+			phrase="Number of hotel allowance|Number of eligible hotel allowance accounted as law requires"/>		
+		<TableField 
+			name="_HotelAllowanceTotal" type="money" 
+			phrase="Total hotel allowance|Total hotel allowance accounted as law requires"/>
+		<TableField 
+			name="_HotelAllowanceSubstantiation" type="varchar(50)"
+			phrase="Substantiation|Why hotel allowance is eligible"/>
+		<CombinedField 
+			name="_HotelAllowanceSubstantiation1" 
+			phrase="Substantiation|Why hotel allowance is eligible">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>]]>_<CombinedFieldRef name="_HotelAllowanceSubstantiation"/>
+		</CombinedField>
+		<CombinedField 
+			name="_HotelAllowanceCountRemark" 
+			phrase="Number of hotel allowance|Number of eligible hotel allowance accounted as law requires">
+			<CombinedFieldRef name="_HotelAllowanceCount"/>_<CombinedFieldRef name="_HotelAllowanceSubstantiation1"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_CommutingAllowance" type="money" 
+			phrase="Commuting allowance|Commuting allowance during a business trip as set by law or internal regulations"/>
+		<TableField 
+			name="_CommutingAllowanceCount" type="int" validate="notNegative"
+			phrase="Number of commuting allowance|Number of eligible commuting allowance accounted as law requires"/>
+		<TableField 
+			name="_CommutingAllowanceTotal" type="money" 
+			phrase="Commuting allowance|Total commuting allowance during a business trip accounted as law requires"/>
+		<TableField 
+			name="_CommutingAllowanceSubstantiation" type="varchar(50)"
+			phrase="Substantiation|Why commuting allowance is eligible"/>
+		<CombinedField 
+			name="_CommutingAllowanceSubstantiation1" 
+			phrase="Substantiation|Why commuting allowance is eligible">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>]]>_<CombinedFieldRef name="_CommutingAllowanceSubstantiation"/>
+		</CombinedField>
+		<CombinedField 
+			name="_CommutingAllowanceCountRemark" 
+			phrase="Number of commuting allowance|Number of eligible commuting allowance accounted as law requires">
+			<CombinedFieldRef name="_CommutingAllowanceCount"/>_<CombinedFieldRef name="_CommutingAllowanceSubstantiation1"/>
+		</CombinedField>
+			
+		<TableField 
+			name="_TransportationID" type="int" validate="RequireSelection"
+			phrase="Vehicle|Type of vehicle used during the business trip if done with own one"/>
+		<CodeField 
+			name="_Transportation" key="_TransportationID"  codeTypeID="1014"
+			phrase="Vehicle|Type of vehicle used during the business trip if done with own one"/>
+		<TableField 
+			name="_WayAllowance" type="money" 
+			phrase="Way allowance|Way allowance for business trips withe own vehicle as set by law or internal regulations"/>			
+		<TableField 
+			name="_WayCount" type="int" validate="notNegative"
+			phrase="Number of kilometers|Total number of km done during the business trip done with the own vehicle"/>
+		<TableField 
+			name="_WayTotal" type="money" 
+			phrase="Total way|Total business trip way allowance done with the own vehicle"/>
+		<StaticField 
+			name="_WayDescription" type="text" content="" 
+			phrase="Routes and kilometers with own vehicle |The description of the route and kilometers done withe the own vehicle during the business trip"/>
+		<TableField 
+			name="_RouteDescription1" type="varchar(50)"
+			validate="eval: !empty($_RouteCount1) AND !empty($_RouteDescription1)"
+			phrase="Route 1|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount1" type="int" dbFlags="unsigned" 
+			validate="notNegative | eval: !empty($_RouteDescription1) AND !empty($_RouteCount1)"
+			phrase="Route 1 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription2" type="varchar(50)"
+			validate="eval: !empty($_RouteCount2) AND !empty($_RouteDescription2)"
+			phrase="Route 2|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount2" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription2) AND !empty($_RouteCount2)"
+			phrase="Route 2 kilometers|Number of kilometers done on the route during the business trip"/>	
+		<TableField 
+			name="_RouteDescription3" type="varchar(50)"
+			validate="eval: !empty($_RouteCount3) AND !empty($_RouteDescription3)"
+			phrase="Route3 |Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount3" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription3) AND !empty($_RouteCount3)"
+			phrase="Route 3 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription4" type="varchar(50)"
+			validate="eval: !empty($_RouteCount4) AND !empty($_RouteDescription4)"
+			phrase="Route 4|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount4" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription4) AND !empty($_RouteCount4)"
+			phrase="Route 4 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription5" type="varchar(50)"
+			validate="eval: !empty($_RouteCount5) AND !empty($_RouteDescription5)"
+			phrase="Route 5|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount5" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription5) AND !empty($_RouteCount5)"
+			phrase="Route 5 kilometers|Number of kilometers done on the route during the business trip"/>
+			
+		<TableField 
+			name="_Fullcatering" type="bool" validate="notEmpty"
+			phrase="Full catering|If full catering has been provided during the business trip"/>
+		
+		<TableField 
+			name="_BusinesstripRemarks" type="text"
+			phrase="Remarks|Remarks important for accounting business trip reimbursable expenses"/>
+			
+		<TableField 
+			name="_BusinesstripTotal" type="money" 
+			phrase="Reimbursable expenses|Total of the reimbursable expenses for the business trip"/>
+			
+		<TableField 
+			name="_InvoiceOrganizationID" type="int"  orgListOptions="intpar" 
+			phrase="Organization assignment|Name of organization associated with the business trip expenses"/>	
+		<ForeignField 
+			name="_InvoiceOrganization" key="_InvoiceOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization assignment|Name of organization associated with the business trip expenses"/>
+		<TableField 
+			name="_InvoiceCostCenter" type="varchar(50)" 
+			phrase="Invoice assignment|The description how to assign the business trip expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."/>	
+			
+				
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" validate="RequireSelection"
+			defaultValue="userID" orgListOptions="intpar" 
+			phrase="Person on business trip|Person making the business trip"/>
+		<ForeignField 
+			name="_Owned" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"			
+			phrase="Person on business trip|Person making the business trip"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Person on business trip|Person making the business trip"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"	
+			orgListOptions="intpar"			
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Person on business trip|Person making the business trip">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_LocationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>
+		
+		<CombinedField name="_SubmittedByOrganization"  
+			phrase="Submitted by|Person who submitted the case to the approval process">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<TableField 
+			name="_SubmittedOn" type="datetime" validate="notEmpty"
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>	
+		
+		<TableField 
+			name="_AcceptedByID" type="int" validate="RequireSelection" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedBy" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<LinkField 
+			name="_AcceptedByLink" foreignModuleID="ppl" recordIDField="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedByOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			key="_AcceptedByID" 
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_AcceptedByOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			key="_AcceptedByOrganizationID" 
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_AcceptedByAcceptedByOrganization"  
+			phrase="Accepted by|Person who accepted the case">
+			<CombinedFieldRef name="_AcceptedBy"/>_/_<CombinedFieldRef name="_AcceptedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_AcceptedOn" type="datetime" validate="notEmpty"
+			phrase="Accepted on|Date and time the case has been accepted by the person"/>
+		<TableField 
+			name="_AcceptedRemark" type="varchar(50)" 
+			phrase="Remark for accepted|Remark for accepting the case"/>
+		
+		<TableField 
+			name="_ClosedByID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			validate="RequireSelection" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedBy" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_ClosedByID"	listCondition="PersonStatusID=1"			
+			phrase="Closed by|Person who closed the case"/>
+		<LinkField 
+			name="_ClosedByLink" foreignModuleID="ppl" recordIDField="_ClosedByID" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedByOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 
+			key="_ClosedByID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_ClosedByOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			key="_ClosedByOrganizationID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_ClosedByClosedByOrganization"  
+			phrase="Closed by|Person who closed the case">
+			<CombinedFieldRef name="_ClosedBy"/>_/_<CombinedFieldRef name="_ClosedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_ClosedOn" type="datetime" validate="notEmpty"
+			phrase="Closed on|Date and time the case has been closed"/>
+		<TableField 
+			name="_ClosedRemark" type="varchar(50)" 
+			phrase="Remark for closed|Remark for closing the case"/>
+			
+		<CalculatedField 
+			name="_DaysBetween12" type="int" 
+			calcFunction="datediff" params="_AcceptedOn _SubmittedOn"  
+			phrase="Days between|Number of days between change of the state"/>
+		<CalculatedField 
+			name="_DaysBetween23" type="int" 
+			calcFunction="datediff" params="_ClosedOn _AcceptedOn"  
+			phrase="Days between|Number of days between change of the state"/>
+			
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_BusinesstripBegin"/>_;_<CombinedFieldRef name="_BusinesstripFinish"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_BusinesstripBegin"/>_;_<CombinedFieldRef name="_BusinesstripFinish"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_TripexpensesID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xbter'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler8" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler9" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler10" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler11" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler12" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler13" type="text" content="" phrase=" "/>	
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_TripexpensesID"/>
+        </PrimaryKey>
+		<Index name="_OwnedBy_Deleted">
+			<FieldRef name="_OwnedBy"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_TripexpensesID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+		<ViewField name="_BusinesstripDestination"/>
+		<ViewField name="_BusinesstripObjective"/>
+		<ViewField name="_BusinesstripBegin"/>
+		<ViewField name="_BusinesstripFinish"/>
+		<ViewField name="_BusinesstripRemarks"/>
+		<ViewField name="ruler2"/>
+		<ViewField name="_BusinesstripTotal"/>
+		<ViewField name="ruler3"/>
+		<ViewField name="_InvoiceOrganization"/>
+		<ViewField name="_InvoiceCostCenter"/>	
+	</RecordSummaryFields>	
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_TripexpensesID" phrase="ID"/>	
+			<ListField name="_OwnedOrganization"/>
+			<ListField name="_BusinesstripBegin" phrase="Business trip begin"/>			
+			<ListField name="_BusinesstripFinish" phrase="Business trip finish"/>
+			<ListField name="_BusinesstripTotal" phrase="Reimbursable expenses"/>
+			
+			<HiddenField name="_InvoiceOrganization"/>
+			<HiddenField name="_InvoiceCostCenter"/>
+			
+			<HiddenField name="_SubmittedOn"/>
+			<HiddenField name="_SubmittedByOrganization"/>
+			<HiddenField name="_SubmittedRemark"/>
+			<HiddenField name="_DaysBetween12"/>
+			<HiddenField name="_AcceptedOn"/>
+			<HiddenField name="_AcceptedByAcceptedByOrganization"/>
+			<HiddenField name="_AcceptedRemark"/>
+			<HiddenField name="_DaysBetween23"/>
+			<HiddenField name="_ClosedOn"/>
+			<HiddenField name="_ClosedByClosedByOrganization"/>
+			<HiddenField name="_ClosedRemark"/>
+		
+			<OrderByField name="_TripexpensesID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_TripexpensesID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<EditField name="_BusinesstripDestination" size="50" maxLength="50"/>
+			<EditField name="_BusinesstripObjective" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_BusinesstripBegin"/>
+			<DateField name="_BusinesstripFinish"/>
+			<CheckBoxField name="_Fullcatering"/>
+			<ViewField name="ruler3"/>
+			<CodeComboField name="_TransportationID" suppressItemAdd="yes"/>			
+			<EditField name="_WayCount" size="2" maxLength="9"/>
+			<MoneyField name="_WayAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_WayTotal" size="9" maxLength="9"/>			
+			<ViewField name="ruler4"/>
+			<EditField name="_TravelAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_TravelAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_TravelAllowanceTotal" size="9" maxLength="9"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_HotelAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_HotelAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_HotelAllowanceTotal" size="9" maxLength="9"/>
+			<ViewField name="ruler6"/>
+			<EditField name="_CommutingAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_CommutingAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_CommutingAllowanceTotal" size="9" maxLength="9"/>
+			<ViewField name="ruler7"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>
+			<ViewField name="ruler8"/>
+			<ViewField name="ruler9"/>
+			<DateField name="_SubmittedOn"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text" suppressItemAdd="yes"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler10"/>
+			<DateField name="_AcceptedOn"/>			
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>	
+			<ViewField name="ruler11"/>			
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>			
+			<ViewField name="ruler12"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_TripexpensesID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_BusinesstripDestination"/>
+			<ViewField name="_BusinesstripObjective"/>
+			<ViewField name="_BusinesstripBegin"/>
+			<ViewField name="_BusinesstripFinish"/>
+			<ViewField name="_BusinesstripRemarks"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_BusinesstripTotal"/>
+			<ViewField name="ruler4"/>
+			<ViewField name="_InvoiceOrganization"/>
+			<ViewField name="_InvoiceCostCenter" goEditScreen="Form"/>
+			<ViewScreenSection name="CaseState" phrase="Case approval history">	
+				<ViewField name="_SubmittedOn"/>
+				<ViewField name="_SubmittedByOrganization" link="_OwnedLink"/>
+				<ViewField name="_SubmittedRemark"/>
+				<ViewField name="ruler5"/>		
+				<ViewField name="_AcceptedOn"/>
+				<ViewField name="_AcceptedByAcceptedByOrganization" link="_AcceptedByLink"/>
+				<ViewField name="_AcceptedRemark"/>
+				<ViewField name="ruler6"/>	
+				<ViewField name="_ClosedOn"/>
+				<ViewField name="_ClosedByClosedByOrganization" link="_ClosedByLink"/>
+				<ViewField name="_ClosedRemark" goEditScreen="Form"/>
+			</ViewScreenSection>	
+			<ViewScreenSection name="TravelAccounting" phrase="Reimbursable travel allowance">			
+				<ViewField name="_BusinesstripBegin"/>
+				<ViewField name="_BusinesstripFinish"/>
+				<ViewField name="_Fullcatering"/>
+				<ViewField name="_TravelAllowanceCountRemark"/>				
+				<ViewField name="_TravelAllowance"/>
+				<ViewField name="_TravelAllowanceTotal" goEditScreen="Form"/>				
+			</ViewScreenSection>
+			<ViewScreenSection name="WayAccounting" phrase="Reimbursable transportation">
+				<ViewField name="_Transportation"/>
+				<ViewField name="_WayDescription">
+					<ViewField name="_RouteDescription1" />
+					<ViewField name="_RouteCount1" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription2"/>
+					<ViewField name="_RouteCount2" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription3"/>
+					<ViewField name="_RouteCount3" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription4"/>
+					<ViewField name="_RouteCount4" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription5"/>
+					<ViewField name="_RouteCount5" inlinePostContent="&lt;br/&gt;"/>				
+				</ViewField>
+				<ViewField name="_WayCount"/>
+				<ViewField name="_WayAllowance"/>
+				<ViewField name="_WayTotal" goEditScreen="Form"/>
+			</ViewScreenSection>			
+			<ViewScreenSection name="HotelAccounting" phrase="Reimbursable hotel allowance">
+				<ViewField name="_HotelAllowanceCountRemark"/>
+				<ViewField name="_HotelAllowance"/>
+				<ViewField name="_HotelAllowanceTotal" goEditScreen="Form"/>
+			</ViewScreenSection>
+			<ViewScreenSection name="CommutingAccounting" phrase="Reimbursable commuting allowance">
+				<ViewField name="_CommutingAllowanceCountRemark"/>
+				<ViewField name="_CommutingAllowance"/>
+				<ViewField name="_CommutingAllowanceTotal" goEditScreen="Form"/>
+			</ViewScreenSection>
+					
+        </ViewScreen>
+        <EditScreen
+			name="Form"
+			phrase="Form|Edit summary information about the business trip reimbursable expenses">
+			<ViewField name="_TripexpensesID"/>			
+			<ViewField name="ruler1"/>
+			<EditField name="_BusinesstripDestination" size="50" maxLength="50"/>
+			<EditField name="_BusinesstripObjective" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_BusinesstripBegin"/>
+			<DateField name="_BusinesstripFinish"/>		
+			<CheckBoxField name="_Fullcatering"/>
+			<EditField name="_TravelAllowanceCount" size="2" maxLength="9" inlinePreContent="*"/>
+			<MoneyField name="_TravelAllowanceSubstantiation" size="50" maxLength="50"/>
+			<MoneyField name="_TravelAllowance" size="4" maxLength="9" inlinePreContent="*"/>
+			<ViewField name="ruler3"/>
+			<CodeComboField name="_TransportationID" suppressItemAdd="yes"/>
+			<ViewField name="_WayDescription">
+				<EditField name="_RouteDescription1" size="50" maxLength="50" inlinePreContent=" &lt;br/&gt;&#160; Trasa 1:"/>
+				<EditField name="_RouteCount1" size="3" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription2" size="50" maxLength="50" inlinePreContent="&#160; Trasa 2:"/>
+				<EditField name="_RouteCount2" size="3" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription3" size="50" maxLength="50" inlinePreContent="&#160; Trasa 3:"/>
+				<EditField name="_RouteCount3" size="3" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription4" size="50" maxLength="50" inlinePreContent="&#160; Trasa 4:"/>
+				<EditField name="_RouteCount4" size="3" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription5" size="50" maxLength="50" inlinePreContent="&#160; Trasa 5:"/>
+				<EditField name="_RouteCount5" size="3" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;&#160;"/>
+			</ViewField>
+			<EditField name="_WayAllowance" size="4" maxLength="9" inlinePreContent="*"/>			
+			<ViewField name="ruler4"/>
+			<EditField name="_HotelAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_HotelAllowanceSubstantiation" size="50" maxLength="50"/>
+			<MoneyField name="_HotelAllowance" size="4" maxLength="9" inlinePreContent="*"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_CommutingAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_CommutingAllowanceSubstantiation" size="50" maxLength="50"/>
+			<MoneyField name="_CommutingAllowance" size="4" maxLength="9" inlinePreContent="*"/>
+			<ViewField name="ruler6"/>
+			<MemoField name="_BusinesstripRemarks" rows="5" cols="60"/>
+			<ViewField name="ruler7"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>	
+			<ViewField name="ruler8"/>
+			<ViewField name="ruler9"/>
+			<DateField name="_SubmittedOn"/>	
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_SubmittedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler11"/>
+			<DateField name="_AcceptedOn"/>				
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_AcceptedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler12"/>
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ClosedRemark" size="50" maxLength="50"/>			
+        </EditScreen>		
+    </Screens>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xbte">Akceptacja diet i ryczałtów za delegacje (xbte)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xbte">Akceptacja diet i ryczałtów za delegacje (xbte)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

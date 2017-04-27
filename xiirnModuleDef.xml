@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Invoice approval log" moduleID="xiirn"
+	allowAddRecord="no" 
+	singularRecordName="Invoice approval" pluralRecordName="Invoice approvals">
+	
+	<ModuleFields>
+		<TableField 
+			name="NotificationID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Notification ID|An automatically assigned number used to track notification associated with records throughout the application"/>
+		
+		<TableField 
+			name="_IncomingInvoiceID" type="int" 
+			phrase="Incoming invoice register ID|Record ID used to identify the invoice in the incoming invoice register"/>		
+		<TableField 
+			name="Remark" type="varchar(50)" 
+			phrase="Remark|Remark attached to the action"/>	
+		<RecordMetaField 
+			name="SentDate" type="datetime" lookupType="created" returnType="date" 
+			phrase="Done on|Automatic entry of the date the action was taken"/>
+		<RecordMetaField 
+			name="SenderID" type="int" lookupType="created" returnType="userID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="Sender" key="SenderID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" joinType="left" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<LinkField 
+			name="SenderLink" foreignModuleID="ppl" recordIDField="SenderID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="SenderOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="SenderID" 
+			phrase="Organization|Name of organization associated with the action taker"/>		
+		<ForeignField 
+			name="SenderOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="SenderOrganizationID" 
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="SenderAndOrganization"  
+			phrase="Action taker|Displays action takers name and his organisation name">
+			<CombinedFieldRef name="Sender"/>_/_<CombinedFieldRef name="SenderOrganization"/>
+		</CombinedField>	
+
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0"
+			validate="RequireSelection" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_Owned" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Case owner|Displays case owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Submitter|Person submitting the invoice for approval">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>		
+		
+		<!-- Process state -->
+		<TableField 
+			name="ActionID" type="int"
+			phrase="Incoming invoice assignment|Case ID in the Incoming invoice assignment module"/>
+		<LinkField 
+			name="ActionLink" foreignModuleID="xii" recordIDField="ActionID" 
+			phrase="Incoming invoice assignment|Case ID in the Incoming invoice assignment module"/>
+		<TableField 
+			name="ProcessStateID" type="int" validate="RequireSelection"
+			phrase="Case state|State of the business process for this case"/>		
+		<CodeField 
+			name="ProcessState" key="ProcessStateID"  codeTypeID="312" 
+			phrase="Case state|State of the business process for this case"/>		
+			
+		<CombinedField 
+			name="RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="ProcessState"/>;_<CombinedFieldRef name="SentDate"/>
+		</CombinedField>
+		<CombinedField 
+			name="Notification" 
+			phrase="Notification|A combined field used to describe this notification when associating it with other records">
+			<CombinedFieldRef name="ProcessState"/>;_<CombinedFieldRef name="SentDate"/>
+		</CombinedField>
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+	</ModuleFields>
+	<ModuleInfo>
+		<PrimaryKey>
+			<FieldRef name="NotificationID"/>
+		</PrimaryKey>
+		<OwnerField name="_OrganizationID"/> 
+		<RecordDescriptionField name="Notification"/>
+		<RecordLabelField name="RecordLabel"/>
+	</ModuleInfo>
+	<Screens>
+		<ListScreen name="List" allowDelete="no">
+			<ListField name="NotificationID" phrase="ID"/>
+			<ListField name="_OwnedOrganization"/>			
+			<ListField name="ProcessState"/>
+			<ListField name="SenderAndOrganization"/>
+			<ListField name="Remark"/>
+		</ListScreen>
+		<SearchScreen name="Search" >
+			<EditField name="NotificationID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<InvisibleField name="_IncomingInvoiceID"/>
+			<EditField name="Remark" size="50" maxLength="50"/>	
+			<DateField name="SentDate"/>
+			<PersonComboField name="SenderID" findMode="alpha"/>
+			<ViewField name="ruler2"/>			
+			<CodeComboField name="ProcessStateID" suppressItemAdd="yes"/>	
+		</SearchScreen>
+		<ViewScreen name="View">
+			<ViewField name="NotificationID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="ActionID" link="ActionLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="ProcessState"/>
+			<ViewField name="SenderAndOrganization" link="SenderLink"/>			
+			<ViewField name="Remark"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="SentDate"/>
+		</ViewScreen>		
+	</Screens>
+	<Exports>
+		<ViewGrid moduleID="ntf" phrase="Invoice approval log" >
+			<InvisibleField name="NotificationID"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="SentDate" phrase="State changed on"/>
+			<ViewField name="ProcessState"/>
+			<ViewField name="SenderAndOrganization" link="SenderLink"/>
+			<ViewField name="Remark"/>			
+			<OrderByField name="NotificationID" direction="desc"/>
+		</ViewGrid>		
+	</Exports>	
+	<Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xii">Akceptacja faktur wchodzących (xii)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xii">Akceptacja faktur wchodzących (xii)</a>.</p>
+]]>		
+		</DocumentationSection>				
+	</Documentation>
+	<Revision author="$Author: jwach $" id="1.1" date="$Date: 2011-09-25 $"/>
+</Module>

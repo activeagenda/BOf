@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Internal magazines releases" moduleID="xim" 
+	singularRecordName="Internal magazine" pluralRecordName="Internal magazines"
+	defaultMenuPath="Main Menu / Marketing / Internal magazines releases">
+ 
+	<ModuleFields>
+        <TableField 
+			name="_InternalmagazineID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk"
+			phrase="Internal magazine ID|An automatically assigned number used to identify a record"/>
+		
+		<TableField 
+			name="_InternalmagazineRelease" type="varchar(50)" validate="notEmpty" 
+			phrase="Release|Release header of the internal magazine"/>
+		<TableField 
+			name="_PublishedOn" type="date" validate="notEmpty" defaultValue="today"
+			phrase="Published on|Date the internal magazine has been published"/>
+		<TableField 
+			name="_InternalmagazineContent" type="text" 
+			phrase="Table of contents|Table of contents for the released magazine"/>
+		<TableField 
+			name="_PersonID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			phrase="Publisher|Person responsible for the magazine release"/>
+		<ForeignField 
+			name="_Person"  key="_PersonID"
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" listCondition="PersonStatusID=1"
+			phrase="Publisher|Person responsible for the magazine release"/>
+		<LinkField 
+			name="_PersonLink" foreignModuleID="ppl" recordIDField="_PersonID" 
+			phrase="Publisher|Person responsible for the magazine release"/>
+		<TableField 
+			name="_InternalmagazineCount" type="int" validate="notNegative" 
+			phrase="Number of magazines|Number of magazines printed"/>
+		
+		
+		<TableField 
+			name="_CollateralStatusID" type="int"  defaultValue="#1" validate="RequireSelection"
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>			
+		<CodeField 
+			name="_CollateralStatus" key="_CollateralStatusID"  codeTypeID="1009" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		<CalculatedField 
+			name="_CollateralStatusSign" calcFunction="flipflop" params="_CollateralStatusID #&#9679; #&#9675;"  
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		<CombinedField 
+			name="_CollateralStatusGraph" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_CollateralStatusSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		<CodeField 
+			name="_CollateralStatus1" key="_CollateralStatusID"  codeTypeID="299" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		
+		<StaticField 
+			name="_PersonStatusOne" type="int" content="1" 
+			phrase="Current employee flag|This person is current employe"/>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_CollateralStatus1"/>
+			<CombinedFieldRef name="_PublishedOn"/>;_<CombinedFieldRef name="_InternalmagazineRelease"/>
+			<![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_PublishedOn"/>;_<CombinedFieldRef name="_InternalmagazineRelease"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_InternalmagazineID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xim'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_InternalmagazineID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules>
+		<SubModule 
+			name="Attachments" parentKey="_InternalmagazineID"
+			moduleID="att" localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="xim"/>
+		</SubModule>
+		<SubModule 
+			name="Handler" parentKey="_PersonStatusOne" 
+			moduleID="ppl" localKey="PersonStatusID">
+			<SubModuleCondition field="CollateralHandler" value="1"/>
+		</SubModule>
+	</SubModules>
+	<RecordSummaryFields>
+		<ViewField name="_InternalmagazineID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_InternalmagazineRelease"/>
+		<ViewField name="_PublishedOn"/>
+		<ViewField name="_CollateralStatus"/> 
+	</RecordSummaryFields>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_InternalmagazineID" phrase="ID"/>	
+			<ListField name="_InternalmagazineRelease"/>			
+			<ListField name="_PublishedOn"/>		
+			<ListField name="_CollateralStatusGraph" align="center" phrase="Collateral status"/>
+			<OrderByField name="_PublishedOn" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_InternalmagazineID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<EditField name="_InternalmagazineRelease" size="50" maxLength="50"/>
+			<DateField name="_PublishedOn"/>
+			<EditField name="_InternalmagazineCount" size="10" maxLength="10"/>
+			<PersonComboField name="_PersonID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_InternalmagazineContent" size="50" maxLength="50"/>
+			<CodeRadioField name="_CollateralStatusID" orientation="vertical"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>				
+        </SearchScreen>
+        <ViewScreen name="View">		
+			<ViewField name="_InternalmagazineID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_InternalmagazineRelease"/>
+			<ViewField name="_PublishedOn"/>
+			<ViewField name="_InternalmagazineCount"/>			
+			<ViewField name="_Person" link="_PersonLink"/>
+			<ViewField name="_InternalmagazineContent"/>
+			<ViewField name="_CollateralStatus"  goEditScreen="Form"/>
+			<ViewGrid moduleID="att"/> 
+			<ViewScreenSection name="Handlers">
+				<ViewGrid 
+						moduleID="ppl" akaID="ppl" rowIDon="CollateralHandler=1&amp;null"
+						phrase="Marketing collateral order handlers"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen 
+			name="Form" onOkGoViewScreen="View" 
+			phrase="Form|Edit summary information about an internal magazine">
+            <ViewField name="_InternalmagazineID"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_InternalmagazineRelease" size="50" maxLength="50"/>
+			<DateField name="_PublishedOn"/>
+			<EditField name="_InternalmagazineCount" size="10" maxLength="10"/>
+			<PersonComboField name="_PersonID" findMode="text" suppressItemAdd="yes"/>
+			<MemoField name="_InternalmagazineContent" rows="5" cols="60"/>	
+			<CodeRadioField name="_CollateralStatusID" orientation="vertical"/>
+        </EditScreen>
+		<EditScreen name="Attachments"  phrase="Attachments|Manage attachments for this record">
+            <RecordSummaryFieldsRef/>
+			<UploadGrid moduleID="att" goViewAnchor="top"/>
+        </EditScreen>		
+    </Screens>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-14"/>
+</Module>

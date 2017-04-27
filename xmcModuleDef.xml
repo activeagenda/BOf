@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module
+	name="Marketing collateral" moduleID="xmc" 
+	singularRecordName="Marketing collateral item" pluralRecordName="Marketing collateral items"  
+	defaultMenuPath="Main Menu / Marketing / Marketing collateral ordering [xmo] / Marketing collateral"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_CollateralID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk"	deleteKeys="xmcs._CollateralID"		
+			phrase="Marketing collateral ID|An automatically assigned number used to identify a record"/>		
+		
+		<TableField 
+			name="_CollateralTitle" type="varchar(50)" validate="notEmpty" 
+			phrase="Marketing collateral|Title of the  marketing collateral item for fast identification"/>		
+		<TableField 
+			name="_CollateralDescription" type="text" 
+			phrase="Description|Short description of marketing collateral item"/>
+		
+		<SummaryField 
+			name="_StockIncome" localKey="_CollateralID" summaryKey="_CollateralID" 
+			summaryFunction="sum" summaryField="_StockitemCount" summaryModuleID="xmcs" 
+			phrase="Stock income|Number of marketing collateral items delivered to the stock"/>	
+		
+		<TableField 
+			name="_CollateralStatusID" type="int"  defaultValue="#1" validate="RequireSelection"
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>			
+		<CodeField 
+			name="_CollateralStatus" key="_CollateralStatusID"  codeTypeID="1009" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		<CalculatedField 
+			name="_CollateralStatusSign" calcFunction="flipflop" params="_CollateralStatusID #&#9679; #&#9675;"  
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		<CombinedField 
+			name="_CollateralStatusGraph" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_CollateralStatusSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		<CodeField 
+			name="_CollateralStatus1" key="_CollateralStatusID"  codeTypeID="299" 
+			phrase="Marketing collateral status|Status shows if marketing collateral can be ordered"/>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_CollateralStatus1"/>
+			<CombinedFieldRef name="_CollateralTitle"/>
+			<![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_CollateralTitle"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_CollateralID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xmc'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_CollateralID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules> 
+		<SubModule 
+			name="Marketing collateral income" parentKey="_CollateralID" 
+			moduleID="xmcs" localKey="_CollateralID"/>
+		<SubModule 
+			name="Marketing collateral outcome" parentKey="_CollateralID"
+			moduleID="xmor" localKey="_CollateralID"/>
+		<SubModule 
+			name="Attachments" parentKey="_CollateralID"
+			moduleID="att" localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="xmc"/>
+		</SubModule>
+	</SubModules>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_CollateralID" phrase="ID" />
+			<ListField name="_CollateralTitle" phrase="Marketing collateral item"/>						
+			<ListField name="_CollateralStatusGraph" align="center" phrase="Collateral status"/>
+			<OrderByField name="_CollateralTitle"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_CollateralID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_CollateralTitle" size="50" maxLength="50"/>
+			<EditField name="_CollateralDescription" size="50" maxLength="50"/>
+			<!-- _CollateralCount -->
+			<CodeRadioField name="_CollateralStatusID" orientation="vertical"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_CollateralID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_CollateralTitle"/>
+			<ViewField name="_CollateralDescription"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_StockIncome"/>
+			<ViewField name="ruler3"/>			
+			<ViewField name="_CollateralStatus"  goEditScreen="Form"/> 
+			<ViewGrid moduleID="att"/>			
+			<ViewScreenSection name="Associations" phrase="Stock operations">
+			<ViewGrid moduleID="xmcs" rowIDon="_CollateralID" goEditScreen="CollateralStock"/>
+			<ViewGrid moduleID="xmor" rowIDon="_CollateralID"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a marketing collateral">
+			<ViewField name="_CollateralID"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_CollateralTitle" size="50" maxLength="50"/>
+			<MemoField name="_CollateralDescription" rows="5" cols="60"/>
+			<CodeRadioField name="_CollateralStatusID" orientation="vertical"/>
+        </EditScreen>
+		<EditScreen name="Attachments"  phrase="Attachments|Manage attachments for this record">
+            <RecordSummaryFieldsRef/>
+			<UploadGrid moduleID="att" goViewAnchor="top"/>
+        </EditScreen>
+		<EditScreen name="CollateralStock" EditPermission="xmcs"
+		 phrase="Marketing collateral stock|Adding, updating, deleting marketing collateral stock">
+			<RecordSummaryFieldsRef/>
+			<EditGrid moduleID="xmcs" rowIDon="_CollateralID" goViewAnchor="top"/>
+        </EditScreen>
+    </Screens>
+	<RecordSummaryFields>
+		<ViewField name="_CollateralID"/>
+			<ViewField name="_CollateralTitle"/>
+			<ViewField name="_CollateralDescription"/>			
+			<ViewField name="ruler2"/>
+			<ViewField name="_StockIncome"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_CollateralStatus"/>
+	</RecordSummaryFields>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>		
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

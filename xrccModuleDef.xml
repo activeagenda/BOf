@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Conference room and time orders" moduleID="xrcc" 
+	allowAddRecord="no"
+	singularRecordName="Room and time order" pluralRecordName="Room and time orders" 
+	defaultMenuPath="Main Menu / Meetings organization / Conference rooms calendar [xrc] / Conference room and time orders">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_RoomorderID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Room order ID|An automatically assigned number used to identify a record"/>
+		
+		<!-- Avaiable -->	
+		<TableField 
+			name="_RoomDayID" type="int" validate="notEmpty"
+			phrase="Room nad day ID|An automatically assigned number used to identify a record"/>
+		<ForeignField 
+			name="_BookingDate"  key="_RoomDayID" 
+			foreignTable="xrc" foreignKey="_RoomDayID" foreignField="_BookingDate"
+			phrase="Booking date|Date for which the conference room can be booked"/>
+		<CalculatedField 
+			name="_BookingDateDayID"  type="int"  
+			calcFunction="day_of_week" params="_BookingDate"  
+			phrase="Booking day|Day name of the booking date"/>
+		<CodeField 
+			name="_BookingDateDay" key="_BookingDateDayID"  codeTypeID="310" 
+			phrase="Show only day|Day name of the booking date"/>
+		<CodeField 
+			name="_BookingDateDay1" key="_BookingDateDayID"  codeTypeID="311" 
+			phrase="Booking day|Day name of the booking date"/>
+		<CalculatedField 
+			name="_BookingDateNoSat"  type="bool"  
+			calcFunction="not_saturday" params="_BookingDate"  
+			phrase="No saturdays|Exclude saturdays from booking dates"/>
+		<CalculatedField 
+			name="_BookingDateNoSun"  type="bool"  
+			calcFunction="not_sunday" params="_BookingDate"  
+			phrase="No sundays|Exclude sundays from booking dates"/>	
+			
+		<CalculatedField 
+			name="_BookingDateTodTom"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #1"  
+			phrase="Today, tomorrow|Show the conference room orders today, tomorrow"/>
+		<CalculatedField 
+			name="_BookingDateWeek"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #7"  
+			phrase="Week ahead|Show the conference room orders the week from today"/>
+		
+		<ForeignField 
+			name="_RoomID"  key="_RoomDayID" 
+			foreignTable="xrc" foreignKey="_RoomDayID" foreignField="_RoomID"
+			phrase="Room ID|An automatically assigned number used to identify a record"/>				
+		<ForeignField 
+			name="_UnavailableBegin"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_UnavailableBegin"
+			phrase="Unavailable from|Date of the start of the room beeing unavailable"/>		
+		<ForeignField 
+			name="_UnavailableFinish"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_UnavailableFinish"
+			phrase="Unavailable to|Date of the finish of the room beeing unavailable"/>
+		<CalculatedField 
+			name="_UnavailableOnBookingID"  type="int"  
+			calcFunction="date_outside_interval12" params="_BookingDate _UnavailableBegin _UnavailableFinish"  
+			phrase="Available on date|Is the conference room available on booking date"/>
+		<CodeField 
+			name="_UnavailableOnBooking" key="_UnavailableOnBookingID"  codeTypeID="1019" 
+			phrase="Available on date|Is the conference room available on booking date"/>
+		<CalculatedField 
+			name="_UnavailableOnBookingColor1" 
+			calcFunction="flipflop" params="_UnavailableOnBookingID #000000 #E42217"  
+			phrase="Available on date|Is the conference room available on booking date"/>
+		<CombinedField 
+			name="_BookingDateColor" 
+			phrase="Booking date|Date for which the conference room can be booked">
+			<![CDATA[<span style="color:#]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_BookingDate"/><![CDATA[</span>]]>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_AvailableTodTom"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #1"  
+			phrase="Today, tomorrow|Is the conference room available today, tomorrow"/>
+		<CalculatedField 
+			name="_AvailableWeek"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #7"  
+			phrase="Week ahead|Is the conference room available the week from today"/>
+		
+		<ForeignField 
+			name="_RoomLocationID"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_RoomLocationID"
+			phrase="Location|Name used to identify the location in the organization"/>			
+		<ForeignField 
+			name="_RoomLocation"  key="_RoomLocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Location|Name used to identify the location in the organization"/>
+		<LinkField 
+			name="_RoomLocationLink" foreignModuleID="loc" recordIDField="_RoomLocationID" 
+			phrase="Location|Name used to identify the location in the organization"/>	
+		<ForeignField 
+			name="_RoomLocationOrgFunctionID"  key="_RoomLocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_RoomLocationOrgFunction" key="_RoomLocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_RoomLocationFunction" 
+			phrase="Location|Function and name used to identify the location in the organization">
+			<CombinedFieldRef name="_RoomLocationOrgFunction"/>_<CombinedFieldRef name="_RoomLocation"/>
+		</CombinedField>	
+			
+			
+		<ForeignField 
+			name="_RoomBuildingID"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_RoomBuildingID"
+			phrase="Building|Building where the conference room is situated"/>		
+		<ForeignField 
+			name="_RoomBuilding"  key="_RoomBuildingID" 
+			foreignTable="locb" foreignKey="BuildingID" foreignField="Name"
+			phrase="Building|Building where the conference room is situated"/>
+		<LinkField 
+			name="_RoomBuildingLink" foreignModuleID="loc" recordIDField="_RoomBuildingID" 
+			phrase="Building|Building where the conference room is situated"/>	
+		<ForeignField 
+			name="_RoomNumber"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_RoomNumber"
+			phrase="Conference room number|Conference room number in the building"/>		
+		<ForeignField 
+			name="_RoomKeyStore"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_RoomKeyStore"
+			phrase="Key store|Place, where the conference room key is stored"/>
+		<ForeignField 
+			name="_RoomName"  key="_RoomID" 
+			foreignTable="xr" foreignKey="_RoomID" foreignField="_RoomName"
+			phrase="Room name|Unique name of the room in the organization"/>		
+		<CombinedField 
+			name="_RoomNameColor" 
+			phrase="Room name|Unique name of the room in the organization">
+			<![CDATA[<span style="color:#]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_RoomName"/><![CDATA[</span>]]>
+		</CombinedField>			
+		
+		<TableField 
+			name="_RoomorderTimeID" type="int" dbFlags="unsigned" validate="RequireSelection"
+			phrase="Delivery time|Time of the order delivery to the room"/>
+		<CodeField 
+			name="_RoomorderTime" key="_RoomorderTimeID"  codeTypeID="1020"
+			phrase="Delivery time|Time of the order delivery to the room"/>		
+		<CombinedField 
+			name="_RoomorderTimeColor" 
+			phrase="Delivery time|Time of the order delivery to the room">
+			<![CDATA[<span style="color:#]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_RoomorderTime"/><![CDATA[</span>]]>
+		</CombinedField>
+		<TableField 
+			name="_RoomorderDescription" type="varchar(50)" validate="notEmpty"
+			phrase="Order|Description what should be delivered on time to the room"/>
+		<CombinedField 
+			name="_RoomorderDescriptionColor" 
+			phrase="Order|Description what should be delivered on time to the room">
+			<![CDATA[<span style="color:#]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_RoomorderDescription"/><![CDATA[</span>]]>
+		</CombinedField>
+		
+				
+		<!-- Owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Order maker|Displays the name of the ordering person"/>
+		<ForeignField 
+			name="_Owned" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_OwnedBy" 
+			phrase="Order maker|Displays the name of the ordering person"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Order maker|Displays the name of the ordering person"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Organization|Name of organization associated with the order maker"/>
+		<ForeignField 
+			name="_Organization"  key="_OrganizationID"
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			phrase="Organization|Name of organization associated with the order maker"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Order maker|Displays the name of the ordering person">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_BookingDateColor"/>
+			_;_<CombinedFieldRef name="_RoomNameColor"/>
+			_;_<CombinedFieldRef name="_RoomorderTimeColor"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_BookingDateColor"/>
+			_;_<CombinedFieldRef name="_RoomNameColor"/>
+			_;_<CombinedFieldRef name="_RoomorderTimeColor"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_RoomorderID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xrcc'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- beautyfiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_RoomorderID"/>
+        </PrimaryKey>
+		<Index name="_RoomDayID">
+			<FieldRef name="_RoomDayID"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_BookingDate"/>
+		<ViewField name="ruler1"/>		
+		<ViewField name="_RoomName"  phrase="Conference Room"/>
+		<ViewField name="ruler2"/>
+		<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+		<ViewField name="_RoomorderTime"/>
+		<ViewField name="_RoomorderDescription"/>
+	</RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_RoomorderID" phrase="ID" />			
+			<ListField name="_BookingDate"/>
+			<ListField name="_BookingDateDay1" align="center" phrase="Day"/>
+			<ListField name="_RoomNameColor"/>
+			<ListField name="_RoomorderTimeColor" align="center"/>
+			<ListField name="_RoomorderDescriptionColor"/>			
+			<InvisibleField name="_RoomorderTimeID"/>
+			<OrderByField name="_BookingDate"/>
+			<OrderByField name="_RoomorderTimeID"/>		
+        </ListScreen>
+        <SearchScreen name="Search">
+			<InvisibleField name="_RoomDayID"/>
+			<EditField name="_RoomorderID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_RoomName" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>			
+			<ComboField name="_RoomLocationID" findMode="text" suppressItemAdd="yes">
+				<UpdateFieldRef name="_RoomBuildingID"/>
+			</ComboField>
+			<ComboField name="_RoomBuildingID" parentField="_RoomLocationID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_RoomNumber" size="10" maxLength="10"/>
+			<ViewField name="ruler3"/>
+			<CheckBoxField name="_BookingDateTodTom" onlyTrue="yes"/>
+			<CheckBoxField name="_BookingDateWeek" onlyTrue="yes"/>
+			<DateField name="_BookingDate"/>
+			<CheckBoxField name="_BookingDateNoSat" onlyTrue="yes"/>
+			<CheckBoxField name="_BookingDateNoSun" onlyTrue="yes"/>
+			<CodeComboField name="_BookingDateDayID" suppressItemAdd="yes"/>
+			<ViewField name="ruler4"/>
+			<CodeRadioField name="_UnavailableOnBookingID" orientation="vertical"/>						
+			<ViewField name="ruler5"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_RoomorderTimeID" suppressItemAdd="yes"/>
+			<EditField name="_RoomorderDescription" size="50" maxLength="50"/>
+			<ViewField name="ruler6"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_RoomorderID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_BookingDate"/>
+			<ViewField name="_RoomName"/>		
+			<ViewField name="_UnavailableOnBooking"/>
+			<ViewField name="ruler2"/>			
+			<ViewField name="_RoomLocationFunction" link="_RoomLocationLink"/>
+			<ViewField name="_RoomBuilding" link="_RoomBuildingLink"/>
+			<ViewField name="_RoomNumber"/>		
+			<ViewField name="_RoomKeyStore"/>	
+			<ViewField name="ruler3"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_RoomorderTime"/>
+			<ViewField name="_RoomorderDescription"  goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the room delivery order">
+			<ViewField name="_RoomorderID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_RoomLocationFunction" link="_RoomLocationLink"/>
+			<ViewField name="_RoomBuilding" link="_RoomBuildingLink"/>
+			<ViewField name="_RoomNumber"/>		
+			<ViewField name="_RoomKeyStore"/>
+			<ViewField name="ruler2"/>
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_BookingDate"/>
+			<ViewField name="ruler4"/>
+			<CodeComboField name="_RoomorderTimeID" suppressItemAdd="yes"/>
+			<EditField name="_RoomorderDescription" size="50" maxLength="50"/>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xrcc" phrase="Room delivery orders">
+			<InvisibleField name="_RoomorderID"/>
+			<ViewField name="_RoomorderTime" align="center"/>
+			<ViewField name="_RoomorderDescription"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<OrderByField name="_RoomorderTime"/>
+        </ViewGrid>
+        <EditGrid moduleID="xrcc" allowEditOn="_OwnedBy" phrase="Room delivery orders">
+			<InvisibleField name="_OwnedBy"/>
+			<InvisibleField name="_RoomorderID"/>
+			<ViewField name="_RoomorderTime" align="center"/>
+			<ViewField name="_RoomorderDescription"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<OrderByField name="_RoomorderTime"/>
+			<GridForm>
+				<InvisibleField name="_RoomorderID"/>				
+				<CodeComboField name="_RoomorderTimeID" suppressItemAdd="yes"/>
+				<EditField name="_RoomorderDescription" size="50" maxLength="50"/>
+				<HiddenField name="_OwnedBy"/>								
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xrc">Rezerwacje sal konferencyjnych  (xrc)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xrc">Rezerwacje sal konferencyjnych  (xrc)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

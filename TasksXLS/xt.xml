@@ -1,0 +1,12 @@
+<!-- START xt -->
+   <Row ss:Height="31.5">
+    <Cell><Data ss:Type="String">_Project</Data></Cell>
+    <Cell ss:HRef="_HOSTNAME/frames.php?mdl=xt&amp;rid=_TaskID"><Data  ss:Type="String">_TaskName</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskStatus</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskStartDate</Data></Cell>
+    <Cell><Data ss:Type="String">_TaskFinishDate</Data></Cell>
+    <Cell><Data ss:Type="Number">_TaskEstimatedWorkload</Data></Cell>
+    <Cell><Data ss:Type="Number">_TaskDoneWorkload</Data></Cell>
+    <Cell><Data ss:Type="Number">_TaskID</Data></Cell>
+   </Row>
+<!--  END xt -->

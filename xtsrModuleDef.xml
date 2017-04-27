@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Work timesheet rows" moduleID="xtsr"
+	allowAddRecord="no"
+	singularRecordName="Timesheet row" pluralRecordName="Timesheet rows"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_TimesheetRowID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk"
+			phrase="Timesheet row ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Key -->
+		<TableField 
+			name="_TimesheetID" type="int" 
+			phrase="Timesheet ID|An automatically assigned number used to identify a record"/>		
+		
+		<!-- Person -->		
+		
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_Owned" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Case owner|Displays case owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_PersonInternalNumber" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="InternalNumber"
+			phrase="Internal number|Internal number of a person in the organization"/>	
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Case owner|Displays case owners name and his organisation name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<CombinedField name="_TimesheetPerson"  
+			phrase="Submitting person|Person submitting the timesheet">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+			
+			
+		<TableField 
+			name="_Remarks" type="varchar(50)" 
+			phrase="Remarks|Time entry and work remarks"/>
+			
+		<!-- Dates -->
+		<TableField 
+			name="_WorkDate" type="date" validate="notEmpty" defaultValue="today"
+			phrase="Date|Date for which the time is accounted in the timesheet"/>
+			
+		<CalculatedField 
+			name="_WorkDateDayID"  type="int"  
+			calcFunction="day_of_week" params="_WorkDate"  
+			phrase="Day|Day name of the work date"/>
+		<CodeField 
+			name="_WorkDateDay" key="_WorkDateDayID"  codeTypeID="311" 
+			phrase="Day|Day name of the work date"/>
+			
+		<TableField 
+			name="_WorkStart" type="time"  
+			validate="notEmpty" 
+			phrase="Begin|The time the work started"/>
+		<TableField 
+			name="_WorkEnd" type="time"  
+			validate="eval: LaterThanTime($_WorkStart, $_WorkEnd)"
+			phrase="End|The time the work ended"/>
+		<CalculatedField 
+			name="_WorkTime" 
+			calcFunction="hhmm_timediff" params="_WorkEnd _WorkStart"  
+			phrase="Time|The time spent in the work"/>
+		<TableField 
+			name="_WorkTimeSec" type="int" 
+			phrase="Time in sec|The time spent in the work in seconds"/>				
+			
+			
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_WorkDate"/>_;_
+			<CombinedFieldRef name="_WorkStart"/>_<CombinedFieldRef name="_WorkEnd"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_WorkDate"/>_;_
+			<CombinedFieldRef name="_WorkStart"/>_<CombinedFieldRef name="_WorkEnd"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_TimesheetRowID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xtsr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_TimesheetRowID"/>
+        </PrimaryKey>
+		<Index name="_TimesheetID_Deleted">
+			<FieldRef name="_TimesheetID"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_TimesheetRowID" phrase="ID" />
+			<InvisibleField name="_PersonInternalNumber"/>
+			<ListField name="_TimesheetPerson" phrase="Coworker"/>			
+			<ListField name="_WorkDate" phrase="Data"/>
+			<ListField name="_WorkDateDay" align="center"/>
+			<ListField name="_WorkStart" phrase="Work begin"/>
+			<ListField name="_WorkEnd" phrase="Work end"/>
+			<ListField name="_WorkTime" phrase="Work time" align="center"/>
+			<OrderByField name="_WorkDate" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_TimesheetRowID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>	
+			<ViewField name="ruler2"/>			
+			<InvisibleField name="_TimesheetID"/>			
+			<DateField name="_WorkDate"/>
+			<TimeField name="_WorkStart" inlinePostContent="[ hh:mm ]"/>
+			<TimeField name="_WorkEnd" inlinePostContent="[ hh:mm ]"/>
+			<ViewField name="ruler3"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_TimesheetRowID"/>
+			<ViewField name="ruler1"/>	
+			<ViewField name="_TimesheetPerson" link="_OwnedLink"/>
+			<ViewField name="_WorkDate"/>
+			<ViewField name="_WorkStart"/>			
+			<ViewField name="_WorkEnd"/>			
+			<ViewField name="_WorkTime"/>
+			<ViewField name="_Remarks" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the timesheet entry">
+			<ViewField name="_TimesheetRowID"/>
+			<ViewField name="ruler1"/>
+			<DateField name="_WorkDate"/>
+			<TimeField name="_WorkStart" inlinePostContent="[ hh:mm ]"/>
+			<TimeField name="_WorkEnd" inlinePostContent="[ hh:mm ]"/>
+			<EditField name="_Remarks" size="50" maxLength="50"/>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xtsr" perPage="50" phrase="Work timesheet entries">
+			<InvisibleField name="_TimesheetRowID"/>
+			<ViewField name="_WorkDate" phrase="Data"/>
+			<ViewField name="_WorkDateDay" align="center"/>			
+			<ViewField name="_WorkStart" phrase="Work begin"/>
+			<ViewField name="_WorkEnd" phrase="Work end"/>
+			<ViewField name="_WorkTime" align="center"/>
+			<ViewField name="_Remarks"/>
+			<OrderByField name="_WorkDate"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xtsr" perPage="50" phrase="Work timesheet entries">
+			<InvisibleField name="_TimesheetRowID"/>
+			<ViewField name="_WorkDate" phrase="Data"/>
+			<ViewField name="_WorkDateDay" align="center"/>				
+			<ViewField name="_WorkStart" phrase="Work begin"/>
+			<ViewField name="_WorkEnd" phrase="Work end"/>
+			<ViewField name="_WorkTime" align="center"/>
+			<ViewField name="_Remarks"/>
+			<OrderByField name="_WorkDate" direction="desc"/>
+			<GridForm>
+				<InvisibleField name="_TimesheetRowID"/>
+				<DateField name="_WorkDate"/>
+				<TimeField name="_WorkStart" inlinePostContent="[ hh:mm ]"/>
+				<TimeField name="_WorkEnd" inlinePostContent="[ hh:mm ]"/>			
+				<EditField name="_Remarks" size="50" maxLength="50"/>
+			</GridForm>			
+		</EditGrid>
+    </Exports> 
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	    <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xts">Rozliczanie czasu pracy  (xts)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xts">Rozliczanie czasu pracy  (xts)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

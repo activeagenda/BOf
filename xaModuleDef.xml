@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Meetings scheduling" moduleID="xa" 
+	singularRecordName="Meeting scheduling" pluralRecordName="Meetings scheduling"  
+	defaultMenuPath="Main Menu / Meetings organization / Meetings scheduling">
+ 
+	<ModuleFields>
+        <TableField 
+			name="_ScheduleID" type="int" dbFlags="unsigned auto_increment not null" 
+			deleteKeys="xar._ScheduleID" deleteOnIdGlobals="att nts cos lnk rmd"
+			phrase="Schedule ID|An automatically assigned number used to identify a record"/>
+		<TableField 
+			name="_ScheduleName" type="varchar(30)" validate="notEmpty" 
+			phrase="Name|Name of the scheduled meeting"/>
+		<TableField 
+			name="_ScheduleDescription" type="text" 
+			phrase="Agenda|Description of the meeting agenda"/>
+		<TableField 
+			name="_ScheduleProposal1" type="varchar(50)" 
+			phrase="Proposal 1|The first proposal of date, time and meeting place"/>
+		<SummaryField 
+			name="_ScheduleProposal1Votes" localKey="_ScheduleID" summaryKey="_ScheduleID" 
+			summaryFunction="sum" summaryField="_Proposal1Vote" summaryModuleID="xar" 
+			phrase="Votes 1|Votes for the Proposal 1"/>		
+		<TableField 
+			name="_ScheduleProposal2" type="varchar(50)" 
+			phrase="Proposal 2|The second proposal of date, time and meeting place"/>
+		<SummaryField 
+			name="_ScheduleProposal2Votes" localKey="_ScheduleID" summaryKey="_ScheduleID" 
+			summaryFunction="sum" summaryField="_Proposal2Vote" summaryModuleID="xar" 
+			phrase="Votes 2|Votes for the Proposal 2"/>
+		<TableField 
+			name="_ScheduleProposal3" type="varchar(50)" 
+			phrase="Proposal 3|The third proposal of date, time and meeting place"/>
+		<SummaryField 
+			name="_ScheduleProposal3Votes" localKey="_ScheduleID" summaryKey="_ScheduleID" 
+			summaryFunction="sum" summaryField="_Proposal3Vote" summaryModuleID="xar" 
+			phrase="Votes 3|Votes for the Proposal 3"/>
+		<TableField 
+			name="_ScheduleStatusID" type="int"  defaultValue="#1" validate="RequireSelection"
+			phrase="Schedule status|If status closed no schedule editing possible"/>			
+		<CodeField 
+			name="_ScheduleStatus" key="_ScheduleStatusID"  codeTypeID="1001" 
+			phrase="Schedule status|If status closed no schedule editing possible"/>
+		<CalculatedField 
+			name="_ScheduleStatusSign" calcFunction="flipflop" params="_ScheduleStatusID #&#9679; #&#9675;"  
+			phrase="Schedule status|If status closed no schedule editing possible"/>
+		<CombinedField 
+			name="_ScheduleStatusGraph" 
+			phrase="Schedule status|If status closed no schedule editing possible">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_ScheduleStatusSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		<CodeField 
+			name="_ScheduleStatus1" key="_ScheduleStatusID"  codeTypeID="299" 
+			phrase="Schedule status|If status closed no schedule editing possible"/>
+		
+			
+		<!-- Record owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Scheduling person|Displays name of the person responsible for scheduling the meeting"/>
+		<ForeignField 
+			name="_Owned" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_OwnedBy" 
+			phrase="Scheduling person|Displays name of the person responsible for scheduling the meeting"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Scheduling person|Displays name of the person responsible for scheduling the meeting"/>
+		<ForeignField 
+			name="_OrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="_OwnedBy" 
+			phrase="Organization|Name of organization associated with the scheduling person"/>
+		<ForeignField 
+			name="_Organization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_OrganizationID" 
+			phrase="Organization|Name of organization associated with the scheduling person"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Scheduling person|Displays name of the person responsible for scheduling the meeting">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_ScheduleID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xa'" 			
+			phrase="Tag|A tag that classifies the record"/>
+		
+		<!-- beautyfiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler8" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler9" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler10" type="text" content="" phrase=" "/>
+			
+		<!-- Record description  -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_ScheduleStatus1"/>
+			<CombinedFieldRef name="_ScheduleName"/>
+			<![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_ScheduleName"/>_;_<CombinedFieldRef name="_ScheduleStatus"/>
+		</CombinedField>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_ScheduleID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules>
+		<SubModule name="Schedule rows" moduleID="xar"  parentKey="_ScheduleID" localKey="_ScheduleID"/>
+	</SubModules> 
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_ScheduleID" phrase="ID" />
+			<ListField name="_ScheduleStatusGraph" align="center" phrase="Status"/>	
+			<ListField name="_ScheduleName" phrase="Scheduled meeting"/>		
+			<ListField name="_OwnedOrganization"/>
+			<OrderByField name="_ScheduleID" direction="desc"/>	
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_ScheduleID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<EditField name="_ScheduleName" size="30" maxLength="30"/>
+			<EditField name="_ScheduleDescription" size="50" maxLength="50"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<EditField name="_ScheduleProposal1" size="50" maxLength="50"/>
+			<EditField name="_ScheduleProposal2" size="50" maxLength="50"/>
+			<EditField name="_ScheduleProposal3" size="50" maxLength="50"/>			
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<CodeRadioField name="_ScheduleStatusID" orientation="vertical"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_ScheduleID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ScheduleName"/>
+			<ViewField name="_ScheduleDescription"/>
+			<ViewField name="ruler2"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_ScheduleStatus" goEditScreen="Form"/>
+			<ViewScreenSection name="Associations" phrase="Meeting voting">
+				<ViewField name="_ScheduleProposal1"/>
+				<ViewField name="_ScheduleProposal1Votes"/>
+				<ViewField name="ruler3"/>
+				<ViewField name="_ScheduleProposal2"/>
+				<ViewField name="_ScheduleProposal2Votes"/>
+				<ViewField name="ruler4"/>
+				<ViewField name="_ScheduleProposal3"/>
+				<ViewField name="_ScheduleProposal3Votes"/>
+				<ViewGrid moduleID="xar" rowIDon="_ScheduleID" goEditScreen="ScheduleRows" /> 
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen 
+			name="Form" onOkGoViewScreen="View" 
+			phrase="Form|Edit summary information about the meeting scheduling">
+			<ViewField name="_ScheduleID"/>
+			<ViewField name="ruler1"/>	
+			<EditField name="_ScheduleName" size="30" maxLength="30"/>
+			<MemoField name="_ScheduleDescription" rows="5" cols="60"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_ScheduleProposal1" size="50" maxLength="50"/>
+			<EditField name="_ScheduleProposal2" size="50" maxLength="50"/>
+			<EditField name="_ScheduleProposal3" size="50" maxLength="50"/>
+			<ViewField name="ruler3"/>		
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<CodeRadioField name="_ScheduleStatusID" orientation="vertical"/>			
+        </EditScreen>
+		<EditScreen name="ScheduleRows" phrase="Votes|Add, update and delete votes for meeting scheduling">
+			<RecordSummaryFieldsRef/>
+			<EditGrid moduleID="xar" rowIDon="_ScheduleID" goViewAnchor="top"/> 
+        </EditScreen>
+    </Screens>
+	<RecordSummaryFields>		
+		<ViewField name="_ScheduleProposal1"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_ScheduleProposal2"/>
+		<ViewField name="ruler2"/>
+		<ViewField name="_ScheduleProposal3"/>	
+	</RecordSummaryFields>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<ol>
+<li><b>Odpowiedzialny za uzgodnienie</b> zakłada propozycje terminów spotkań w ekranie 'Nowy wiersz' dostępnym w zakładkach listy. Tylko <b>Odpowiedzialny za uzgodnienie</b> może zmieniać dane podstawowe.</li>
+<br/>
+<li><b>Odpowiedzialny za uzgodnienie</b> kopiuje link do strony z pola edycyjnego znajdujący się po prawej poniżej zakładek nawigacyjnych i wysła go emailem do <b>Zaproszonych</b>.</li>
+<br/>
+<li><b>Zaproszeni</b> klikają na link do strony w emailu i oddają głos na propozycję w ekranie 'Głosowanie' dostępnym w zakładkach widoku szczegółów wiersza. Tylko <b>Zaproszony</b> może zmieniać wprowadzone przez siebie dane.</li>
+<br/>
+<li><b>Odpowiedzialny za uzgodnienie</b> zamyka głosowanie zmieniając status uzgodnienia na wartość: zamknięte, która uniemożliwia <b>Zaproszonym</b> dalsze oddawanie głosu.</li>
+</ol>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Uzgodnienie terminu spotkania" (xa)</li>
+<li>"Głosowanie na propozycje" (xar)</li>
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Uzgodnienie terminu spotkania" (xa): Edycja wszystkich danych</li>
+<li>"Głosowanie na propozycje" (xar): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Opiekuje się systemem#: </li>
+<ul>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów wchodzących w skład procesu</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

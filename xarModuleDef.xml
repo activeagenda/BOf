@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Scheduling votes" moduleID="xar" 
+	allowAddRecord="no"
+	singularRecordName="Scheduling vote" pluralRecordName="Scheduling votes">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_VoteID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Vote ID|An automatically assigned number used to identify a record"/>		
+		<!-- Key -->
+		<TableField 
+			name="_ScheduleID" type="int" dbFlags="unsigned default 0" validate="notEmpty" 
+			phrase="Schedule ID|An automatically assigned number used to identify a record"/>
+		<ForeignField
+			name="_ScheduleName" foreignTable="xa" 
+			foreignKey="_ScheduleID" foreignField="_ScheduleName" key="_ScheduleID" 
+			phrase="Name|Name of the scheduled meeting"/>
+		<ForeignField
+			name="_ScheduleDescription" foreignTable="xa" 
+			foreignKey="_ScheduleID" foreignField="_ScheduleDescription" key="_ScheduleID"
+			phrase="Agenda|Description of the meeting agenda"/>
+		
+		<TableField 
+			name="_Proposal1Vote" type="bool" defaultValue="#0" validate="RequireSelection"
+			phrase="Proposal 1|Voting for the first proposal"/>
+		<CalculatedField 
+			name="_Proposal1VoteSign" calcFunction="flipflop" params="_Proposal1Vote #&#9679; #&#9675;"  
+			phrase="Proposal 1|Voting for the first proposal"/>
+		<CombinedField 
+			name="_Proposal1VoteGraph" 
+			phrase="Proposal 1|Voting for the first proposal">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_Proposal1VoteSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<TableField 
+			name="_Proposal2Vote" type="bool" defaultValue="#0" validate="RequireSelection"
+			phrase="Proposal 2|Voting for the second proposal"/>
+		<CalculatedField 
+			name="_Proposal2VoteSign" calcFunction="flipflop" params="_Proposal2Vote #&#9679; #&#9675;"  
+			phrase="Proposal 2|Voting for the second proposal"/>
+		<CombinedField 
+			name="_Proposal2VoteGraph" 
+			phrase="Proposal 2|Voting for the second proposal">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_Proposal2VoteSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<TableField 
+			name="_Proposal3Vote" type="bool" defaultValue="#0" validate="RequireSelection"
+			phrase="Proposal 3|Voting for the third proposal"/>
+		<CalculatedField 
+			name="_Proposal3VoteSign" calcFunction="flipflop" params="_Proposal3Vote #&#9679; #&#9675;"  
+			phrase="Proposal 3|Voting for the third proposal"/>
+		<CombinedField 
+			name="_Proposal3VoteGraph" 
+			phrase="Proposal 3|Voting for the third proposal">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_Proposal3VoteSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<TableField 
+			name="_ProposalsRemarks" type="varchar(50)" 
+			phrase="Remarks|Remarks to the date, time and meeting place"/>
+		
+				
+		<!-- Owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Vote owner|Displays vote owners name"/>
+		<ForeignField 
+			name="_Owned" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_OwnedBy" 
+			phrase="Vote owner|Displays vote owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Vote owner|Displays vote owners name"/>
+		<ForeignField 
+			name="_OrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="_OwnedBy" 
+			phrase="Organization|Name of organization associated with the vote owner"/>
+		<ForeignField 
+			name="_Organization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_OrganizationID" 
+			phrase="Organization|Name of organization associated with the vote owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Meeting participant|Displays vote of the prospective meeting particpant">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_ScheduleName"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_ScheduleName"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_VoteID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xar'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- beautyfiers -->
+		<TableField 
+			name="BlankField" type="varchar(10)"
+			phrase="Blank field|Hack for the IE8 one submit field problem" />
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_VoteID"/>
+        </PrimaryKey>
+		<Index name="Scheduling">
+			<FieldRef name="_ScheduleID"/>
+		</Index>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_VoteID" phrase="ID" />
+			<ListField name="_ScheduleName"/>
+			<ListField name="_OwnedOrganization"/>
+			<ListField name="_Proposal1Vote"/>
+			<ListField name="_Proposal2Vote"/>
+			<ListField name="_Proposal3Vote"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_VoteID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<InvisibleField name="_ScheduleID"/>
+			<EditField name="_ScheduleName" size="50" maxLength="50"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>			
+			<CheckBoxField name="_Proposal1Vote"/>
+			<CheckBoxField name="_Proposal2Vote"/>
+			<CheckBoxField name="_Proposal3Vote"/>
+			<EditField name="_ProposalsRemarks" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_VoteID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ScheduleName"/>
+			<ViewField name="_ScheduleDescription"/>			
+			<ViewField name="ruler2"/>
+			<ViewField name="_Proposal1Vote"/>
+			<ViewField name="_Proposal2Vote"/>
+			<ViewField name="_Proposal3Vote"/>
+			<ViewField name="_ProposalsRemarks"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the vote">
+			<ViewField name="_VoteID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ScheduleName"/>
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="ruler2"/>
+			<CheckBoxField name="_Proposal1Vote"/>
+			<CheckBoxField name="_Proposal2Vote"/>
+			<CheckBoxField name="_Proposal3Vote"/>
+			<EditField name="_ProposalsRemarks" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+			</EditField>	
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xar" phrase="Voting result">
+			<InvisibleField name="_VoteID"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_Proposal1VoteGraph" align="center"/>
+			<ViewField name="_Proposal2VoteGraph" align="center"/>
+			<ViewField name="_Proposal3VoteGraph" align="center"/>
+			<ViewField name="_ProposalsRemarks"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xar" allowEditOn="_OwnedBy" phrase="Voting result">
+			<InvisibleField name="_OwnedBy"/>
+			<InvisibleField name="_VoteID"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="_Proposal1VoteGraph" align="center"/>
+			<ViewField name="_Proposal2VoteGraph" align="center"/>
+			<ViewField name="_Proposal3VoteGraph" align="center"/>
+			<ViewField name="_ProposalsRemarks"/>
+			<GridForm>
+				<InvisibleField name="_VoteID"/>				
+				<CheckBoxField name="_Proposal1Vote"/>
+				<CheckBoxField name="_Proposal2Vote"/>
+				<CheckBoxField name="_Proposal3Vote"/>
+				<EditField name="_ProposalsRemarks" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+				</EditField>			
+				<HiddenField name="_OwnedBy"/>								
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xa">Uzgodnienie terminu spotkania (xa)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xa">Uzgodnienie terminu spotkania (xa)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

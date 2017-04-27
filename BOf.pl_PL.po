@@ -1,0 +1,3038 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jerzy Wachowiak\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+### BOf ###
+#xbp
+msgid "Persons with books"
+msgstr "Osoby z książkami"
+
+msgid "Person with book"
+msgstr "Osoba z książką"
+
+msgid "Person with book ID|An automatically assigned number used to identify a record"
+msgstr "ID wypożyczenia|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Remarks|Person and book remarks"
+msgstr "Uwagi|Uwagi do książki i osoby"
+
+msgid "Borrower|Person who borrowed the book"
+msgstr "Wypożyczający|Osoba, która wypożyczyła książkę"
+
+msgid "Returned on|Date the book has been returned"
+msgstr "Zwrócona|Data zwrotu książki do biblioteki"
+
+msgid "Form|Edit summary information about a borrower"
+msgstr "Dane podstawowe|Edycja podstawowych informacji o wypożyczającym"
+
+msgid "Borrowed on|Date the book has been borrowed"
+msgstr "Wypożyczona|Data wypożyczenia książki z biblioteki"
+
+msgid "Is assigned now|If the book is assigned now to the person"
+msgstr "Jest teraz wypożyczona|Czy jakaś osoba jest teraz w posiadaniu książki"
+
+# xb
+msgid "Library handlers"
+msgstr "Wypożyczają książki z biblioteki"
+
+msgid "Library"
+msgstr "Biblioteka"
+
+msgid "Book"
+msgstr "Książka"
+
+msgid "Books"
+msgstr "Książki"
+
+msgid "Book ID|An automatically assigned number used to identify a record"
+msgstr "ID książki|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Authors|One or many authors of the book in the library"
+msgstr "Autorzy|Nazwiska i inicjały jednego lub wielu autorów danej ksiązki"
+
+msgid "Title|Title of the book in the library"
+msgstr "Tytuł|Tytuł danej książki według jak na obwolucie"
+
+msgid "Year|Year of the book publishing"
+msgstr "Rok publikacji|Rok publikacji danej książki przez wydawcę"
+
+msgid "Publisher|Publisher of the book"
+msgstr "Wydawca|Wydawca książki jak na obwolucie"
+
+msgid "ISBN|International Standard Book Number"
+msgstr "ISBN|Numer ISBN nadany i wydrukowany na książce"
+
+msgid "Language|Language the book is written in"
+msgstr "Język książki|Język w jakim jest napisana książka"
+
+msgid "Short description|Short description of the book content"
+msgstr "Krótki opis zawartości|Krótki opis zawartości książki"
+
+msgid "Number of books|Number of book copies"
+msgstr "Ilość książek|Ilość egzemplarzy danej książki w bibliotece"
+
+msgid "Store|Place, where the book is stored"
+msgstr "Miejsce przechowywania|Miejsce w którym stoi książka"
+
+msgid "Persons with book"
+msgstr "Wypożyczenia książki"
+
+msgid "Book lending"
+msgstr "Wypożyczenia książki z biblioteki"
+
+msgid "Form|Edit summary information about a book"
+msgstr "Dane podstawowe|Edycja podstawowych informacji o książce"
+
+msgid "Persons with book|Persons who borrowed a book"
+msgstr "Wypożyczanie książki|Rejesterowanie wypożyczeń książki"
+
+msgid "Book count"
+msgstr "Ilość"
+
+msgid "Book available"
+msgstr "Wolna"
+
+msgid "Is available|if the book is available"
+msgstr "Jest wolna|Czy książka jest wolna i może zostać wypożyczona osobie"
+
+#xic
+msgid "ID cards handlers"
+msgstr "Zarządzają kartami identyfikacyjnymi"
+
+msgid "ID cards"
+msgstr "Karty identyfikacyjne"
+
+msgid "ID card"
+msgstr "Karta identyfikacyjna"
+
+msgid "Identification card ID|An automatically assigned number used to identify a record"
+msgstr "ID karty identyfikacyjnej|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Serial number|Identification serial card number"
+msgstr "Numer seryjny|Numer seryjny karty identyfikacyjnej"
+
+msgid "Identification card owner|Person assigned the identification card"
+msgstr "Kartę identyfikacyjną przydzielono|Osoba, która otrzymała daną kartę identyfikacyjną i się nią posługuje"
+
+msgid "Form|Edit summary information about a identification card"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o karcie identyfikacyjnej"
+
+msgid "Organization|Name of organization associated the identification card"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej osoby, która otrzymała daną kartę identyfikacyjną"
+
+msgid "Description|Description of the assigned identification card"
+msgstr "Przeznaczenie karty|Opis przeznaczenia i możliwości przydzielonej karty identyfikacyjnej"
+
+msgid "ID card assigned"
+msgstr "Przydzielono"
+
+#xpp
+msgid "Parking place handlers"
+msgstr "Zarządzają miejscami parkingowymi"
+
+msgid "Parking places"
+msgstr "Miejsca parkingowe"
+
+msgid "Parking place"
+msgstr "Miejsce parkingowe"
+
+msgid "Parking place ID|An automatically assigned number used to identify a record"
+msgstr "ID miejsca parkingowego|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Parking place number|Number of the parking place"
+msgstr "Oznaczenie|Oznaczenie miejsca parkingowego widocznego na miejscu parkingowym w danej lokalizacji"
+
+msgid "Parking place localization|Description where is the parking place"
+msgstr "Umiejscowienie|Opis miejsca gdzie znajduje się miejsce parkingowe"
+
+msgid "Parking place owner|Person allowed to take the parking place"
+msgstr "Z miejsca korzysta|Osoba, która otrzymała prawo do parkowania pojazdu na danym miejscu parkingowym"
+
+msgid "Number plates|Number plates of the car allowed to park"
+msgstr "Numery rejestracyjne pojazdów|Numery rejestracyjne pojazdów, które mają prawo parkować na danym miejscu parkingowym"
+
+msgid "Car type|Type of the car allowed to park for easy indentification"
+msgstr "Marka pojazdu|Marki pojazdów, które mają prawo parkować na danym miejscu parkingowym"
+
+msgid "Form|Edit summary information about a parking place"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o miejscu parkingowym"
+
+#xk
+msgid "Key handlers"
+msgstr "Zarządzają kluczami do pomieszczeń"
+
+msgid "Keys"
+msgstr "Klucze do pomieszczeń"
+
+msgid "Key"
+msgstr "Klucz do pomieszczenia"
+
+msgid "Key ID|An automatically assigned number used to identify a record"
+msgstr "ID klucza|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Building|Building where the key works"
+msgstr "Budynek|Budynek, w którym znajduje się pomieszczenie do którego pasuje klucz"
+
+msgid "Floor|Floor of the room where the key works"
+msgstr "Piętro|Piętro, na którym znajduje się pomieszczenie do którego pasuje klucz"
+
+msgid "Key room number|Room where the key works"
+msgstr "Oznaczenie pomieszczenia|Oznaczenie pomieszczenia do którego pasuje klucz"
+
+msgid "Form|Edit summary information about a key"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o kluczu do pomieszczenia"
+
+msgid "Persons with key|Persons assigned a key"
+msgstr "Posiadacze klucza|Osoby, które posiadają klucz do pomieszczenia"
+
+msgid "Key serial number|Serial number visble on the key"
+msgstr "Numery seryjne kluczy|Numery seryjne, który są wyryte na kluczach do pomieszczenia"
+
+msgid "Number of keys|Number of key copies"
+msgstr "Ilość kluczy|Ilość kluczy, które pasują do danego pomieszczenia"
+
+msgid "Key store|Place, where the key is stored"
+msgstr "Miejsce przechowywania|Miejsce przechowywania kluczy do pomieszczenia"
+
+msgid "Persons assigned a key"
+msgstr "Osoby posiadające klucz do pomieszczenia"
+
+msgid "Room"
+msgstr "Pomieszczenie"
+
+msgid "Key available"
+msgstr "Wolny"
+
+msgid "Is available|if the key is available"
+msgstr "Jest wolny|Czy klucz jest wolny i może zostać przydzieleny osobie"
+
+#xkp
+msgid "Persons with keys"
+msgstr "Posiadacze kluczy"
+
+msgid "Person with key"
+msgstr "Posiadacz klucza"
+
+msgid "Person with key ID|An automatically assigned number used to identify a record"
+msgstr "ID przydziału|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Key owner|Person which has the key assigned"
+msgstr "Posiadacz klucza|Osoba, która posiada klucz do danego pomieszczeni"
+
+msgid "Form|Edit summary information about a person with the key"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o posiadaczu klucza"
+
+msgid "Persons with key"
+msgstr "Posiadacze klucza"
+
+msgid "Remarks|Person and key assignement remarks"
+msgstr "Uwagi|Uwagi dotyczące klucza i jego posiadaczy"
+
+msgid "Borrowed on|Date the key has been borrwed"
+msgstr "Wypożyczono|Data, kiedy klucz została wypożyczony"
+
+msgid "Returned on|Date the key has been returned"
+msgstr "Zwrócono|Data, kiedy zwrócono klucz"
+
+msgid " NoLaterThan( $_BorrowedOn, $_ReturnedOn )"
+msgstr "musi mieć datę taką samą lub późniejszą niż \"Wypożyczono\""
+
+msgid "Is assigned now|If the key is assigned now to the person"
+msgstr "Jest teraz wypożyczony|Czy jakaś osoba jest teraz w posiadaniu klucza"
+
+#xbcr
+msgid "Business card order register"
+msgstr "Rejestr zamówionych wizytówek"
+
+msgid "Business card order"
+msgstr "Zamówienie wizytówki"
+
+msgid "Business card orders"
+msgstr "Zamówienia wizytówek"
+
+msgid "Ordering person|Person ordering the business card"
+msgstr "Zamawiający|Pracownik zamawiający wizytówki"
+
+#xbc
+msgid "Business card decision makers"
+msgstr "Przyjmują zamówienia na wizytówki"
+
+msgid "Business card handlers"
+msgstr "Realizują druk wizytówek"
+
+msgid "Business cards"
+msgstr "Zamówienia wizytówek"
+
+msgid "Ordering person"
+msgstr "Zamawiający"
+
+msgid "Business card"
+msgstr "Zamówienie wizytówki"
+
+msgid "Title|Title printed on the business card"
+msgstr "Tytuł|Tytuł drukowany przed nazwiskiem na wizytówce"
+
+msgid "First Name|First name printed on the business card"
+msgstr "Imiona|Imię i drugię imię jeżeli jest drukowane na wizytówce"
+
+msgid "Family Name|Family name printed on the business card"
+msgstr "Nazwisko|Nazwisko drukowane na wizytówce"
+
+msgid "Position in the organization|Position in the organization printed on the business card"
+msgstr "Rola w organizacji|Rola osoby w organizacji jaka ma być prezentowana na wizytówce"
+
+msgid "Address|Address printed on the business card"
+msgstr "Adres|Adres drukowany na wizytówce"
+
+msgid "Phone|Phone printed on the business card"
+msgstr "Telefon stacjonarny|Numer telefonu stacjonarnego drukowanego na wizytówce"
+
+msgid "Fax|Fax printed on the business card"
+msgstr "Faks|Numer telefoniczny fasku drukowany na wizytówce"
+
+msgid "Mobile|Mobile phone printed on the business card"
+msgstr "Telefon komórkowy|Numer telefonu komórkowego osoby drukowany na wizytówce"
+
+msgid "Email|Email printed on the business card"
+msgstr "Email|Email osoby drukowany na wizytówce"
+
+msgid "Homepage|Homepage printed on the business card"
+msgstr "Adres internetowy|Adress http strony organizacji drukowany na wizytówce"
+
+msgid "Number of entities|Number of business card entities, which should be printed and delivered"
+msgstr "Ilość opakowań wizytówek|Ilość opakowań wizytówek do wydrukowania i dostarczenia osobie zamawiającej"
+
+msgid "Form|Edit summary information about a business card"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o wizytówce do dostarczenia"
+
+msgid "Actions|Decison taking for the Bussines card case"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie realizacji wizytówek"
+
+msgid "Businesscard count"
+msgstr "Opakowań"
+
+msgid "Organization assignment|Name of organization associated with the business card expenses"
+msgstr "Koszt dla jednostki organizacyjnej|Nazwa jednostki organizacyjnej do której należy przypisać koszt z faktury, paragonu lub rachunku za wizytówki"
+
+msgid "Invoice assignment|The description how to assign the business card expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."
+msgstr "Przypisanie kosztu do|Opis jak należy dekretować koszt wizytówek np oznaczenie kontraktu, delegacja, ..."
+
+#xim
+msgid "Internal magazines releases"
+msgstr "Broszury i czasopisma firmowe"
+
+msgid "Internal magazines"
+msgstr "Publikacje"
+
+msgid "Internal magazine"
+msgstr "Publikacja"
+
+msgid "Internal magazine ID|An automatically assigned number used to identify a record"
+msgstr "ID publikacji|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Release|Release header of the internal magazine"
+msgstr "Tytuł|Oznaczenie wydania jak wydrukowane na okładce"
+
+msgid "Year|Release year of the internal magazine"
+msgstr "Rok wydania|Rok wydania czasopisma firmowego"
+
+msgid "Published on|Date the internal magazine has been published"
+msgstr "Opublikowano|Data udostępnienia klientom zawartości publikacji"
+
+msgid "Table of contents|Table of contents for the released magazine"
+msgstr "Spis treści|Spis treści publikacji"
+
+msgid "Publisher|Person responsible for the magazine release"
+msgstr "Wydawca|Osoba odpowiedzialna za wydanie publikacji"
+
+msgid "Form|Edit summary information about an internal magazine"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o publikacji"
+
+msgid "Number of magazines|Number of magazines printed"
+msgstr "Nakład|Ilość sztuk publikacji wydrukowanych na potrzeby organizacji"
+
+#xs
+msgid "microSpreadsheets"
+msgstr "microArkusze"
+
+msgid "microSpreadsheet"
+msgstr "microArkusz"
+
+msgid "Spreadsheet ID|An automatically assigned number used to identify a record"
+msgstr "ID arkusza|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Name|Name of the spreadsheet"
+msgstr "Nazwa|Nazwa arkusza"
+
+msgid "Description|Description of the spreadsheet aim and filling"
+msgstr "Opis|Opis celu utworzenia arkusza i sposobu jego wypełniania"
+
+msgid "- A - |What should be put into column A"
+msgstr "- A - |Co ma zostać wpisane w kolumnie A"
+
+msgid "- B - |What should be put into column B"
+msgstr "- B - |Co ma zostać wpisane w kolumnie B"
+
+msgid "- C - |What should be put into column C"
+msgstr "- C - |Co ma zostać wpisane w kolumnie C"
+
+msgid "- D - |What should be put into column D"
+msgstr "- D - |Co ma zostać wpisane w kolumnie D"
+
+msgid "- E - |What should be put into column E"
+msgstr "- E - |Co ma zostać wpisane w kolumnie E"
+
+msgid "Spreadsheet owner|Displays spreadsheet owners name"
+msgstr "Właściciel arkusza|Wyświetla imię i nazwisko właściciela arkusza"
+
+msgid "Organization|Name of organization associated with the spreadsheet owner"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej właściciela arkusza"
+
+msgid "Spreadsheet owner|Displays spreadsheet owners name and his organisation name"
+msgstr "Właściciel arkusza|Wyświetla imię i nazwisko oraz jednostkę organizacyjną właściciela arkusza"
+
+msgid "Form|Edit summary information about the microSpreadsheet"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o arkuszu"
+
+msgid "Rows|Add, update and delete rows belonging to the spreadsheet"
+msgstr "Edycja wierszy arkusza|Dodawaj, aktualizuj i usuwaj wiersze arkusza"
+
+msgid "Spreadsheet status|If status closed no spreadsheet row editing possible"
+msgstr "Status arkusza|Jeżeli arkusz jest zamknięty nie można edytować jego wierszy"
+
+#xsr
+msgid "Error 3011"
+msgstr "microArkusz jest zamknięty"
+
+msgid "microSpreadsheet rows"
+msgstr "Wiersze microArkusza"
+
+msgid "microSpreadsheet row"
+msgstr "Wiersz microArkusza"
+
+msgid "Spreadsheet row ID|An automatically assigned number used to identify a record"
+msgstr "ID wiersz|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "- A - |Cell in the column A"
+msgstr "- A - |Komórka w kolumnie A"
+
+msgid "- B - |Cell in the column B"
+msgstr "- B - |Komórka w kolumnie B"
+
+msgid "- C - |Cell in the column C"
+msgstr "- C - |Komórka w kolumnie C"
+
+msgid "- D - |Cell in the column D"
+msgstr "- D - |Komórka w kolumnie D"
+
+msgid "- E - |Cell in the column E"
+msgstr "- E - |Komórka w kolumnie E"
+
+msgid "Row owner|Displays row owners name"
+msgstr "Właściciel wiersza|Wyświetla imię i nazwisko właściciela wiersza danego arkusza"
+
+msgid "Organization|Name of organization associated with the row owner"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej właściciela wiersza danego arkusza"
+
+msgid "Row owner|Displays spreadsheet owners name and his organisation name"
+msgstr "Właściciel wiersza|Wyświetla imię i nazwisko oraz jednostkę organizacyjną właściciela wiersza danego arkusza"
+
+msgid "Form|Edit summary information about the microSpreadsheet row"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o wierszu arkusza"
+
+msgid "Rows"
+msgstr "Wiersze arkusza"
+
+msgid "Spreadsheet name|Name of the spreadsheet"
+msgstr "Nazwa arkusza|Nazwa arkusza pod którym zbierane są wiersze"
+
+msgid "Spreadsheet description|Description of the spreadsheet aim and filling"
+msgstr "Opis arkusza|Opis celu utworzenia arkusza i sposobu jego wypełniania"
+
+#xhr
+msgid "Booked on person|Displays name of the person the hotel is booked on"
+msgstr "Rezerwacja noclegu na|Imię i nazwisko na którą jest robiona rezerwacja w hotelu"
+
+msgid "Hotel country|The country where the hotel should be booked"
+msgstr "Kraj|Państwo w którym ma być hotel"
+
+msgid "Place|Hints for the place where the hotel should be booked"
+msgstr "Miejscowość|Miejścowość, w której lub koło której ma znajdować się hotel"
+
+msgid "Date of the arrival|Date of the arrival to the hotel"
+msgstr "Data przyjazdu|Data przyjazdu do hotelu na nocleg"
+
+msgid "Date of the departure|Date of the departure from the hotel"
+msgstr "Data wyjazdu|Data wyjazdu z hotelu po zakończeniu noclegu"
+
+msgid "Room type|Number of persons and beds in the room"
+msgstr "Rodzaj pokoju|Ile osób ma spać w jakich łóżkach"
+
+msgid "Number of rooms|Number of rooms booked"
+msgstr "Ilość pokoi|Ilość rezerwowanych pokoi w hotelu na nocleg"
+
+msgid "Remarks to the reservation|Remarks e.g. very late arrival after reservation time"
+msgstr "Uwagi do rezerwacji|Uwagi takie jak: preferowany hotel, odległość od centrum, godzina przyjazdu po granicy czasu rezerwacji"
+
+msgid "Hotel reservations"
+msgstr "Rezerwacje noclegów"
+
+msgid "Hotel reservation"
+msgstr "Rezerwacja noclegu"
+
+msgid "Hotel reservation decision makers"
+msgstr "Przyjmują zapotrzebowanie noclegu"
+
+msgid "Hotel reservation handlers"
+msgstr "Rezerwują noclegi"
+
+msgid "Actions|Decison taking for the hotel reservation"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie rezerwacji noclegu"
+
+msgid " LaterThan( $_HotelArrival, $_HotelDeparture )"
+msgstr "musi mieć datę późniejszą niż \"Data przyjazdu\""
+
+msgid " NoLaterThan( $_HotelreservationEntered, $_HotelArrival )"
+msgstr "musi mieć dzisiejszą datę lub datę późniejszą"
+
+msgid " $_HotelRoomCount > 0"
+msgstr "musi być większa od zera"
+
+msgid "Breakfest|Should the room be booked with breakfest"
+msgstr "Śniadanie|Czy nocleg jest zamawiany ze śniadaniem"
+
+msgid "Form|Edit summary information about a hotel reservation"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu noclegu"
+
+msgid "Parking|Should the room be booked with the parking place"
+msgstr "Parking|Czy nocleg jest zamawiany z parkingiem hotelowym"
+
+msgid "Hotel arrival"
+msgstr "Przyjazd"
+
+msgid "Hotel departure"
+msgstr "Wyjazd"
+
+#xtt
+msgid "Train tickets"
+msgstr "Zamówienia biletów kolejowych"
+
+msgid "Train ticket"
+msgstr "Zamówienie biletu kolejowego"
+
+msgid "Departure station|Departure station or stop of the train"
+msgstr "Stacja wyjazdu|Przystanek lub stacja od której ma być kupiony bilet"
+
+msgid "Departure station"
+msgstr "Wyjazd"
+
+msgid "Arrival station|Arrival station or stop of the train"
+msgstr "Stacja przyjazdu|Przystanek lub stacja do której ma być kupiony bilet"
+
+msgid "Arrival station"
+msgstr "Przyjazd"
+
+msgid "Train departure date|Date of the train departure from the departure station"
+msgstr "Data wyjazdu|Data wyjazdu pociągu ze stacji wyjazdu"
+
+msgid "Train departure time|Time of the train departure from the departure station at the departure date"
+msgstr "Czas wyjazdu|Czas wyjazdu pociągu ze stacji wyjazdu"
+
+msgid "Train type|Type of the train, which should be booked"
+msgstr "Rodzaj pociągu|Nazwa rodzaju pociągu według terminologii przewoźnika"
+
+msgid "Class|The class of the seat in the train"
+msgstr "Klasa wagonu|Klasa wagonu do zakupu biletu"
+
+msgid "Reservation ticket|Should the reservation ticket be bought"
+msgstr "Miejscówka|Czy na pociąg ma zostać kupiona miejscówka"
+
+msgid "Wagoon type|Type of the wagoon the seat shouled be reserved"
+msgstr "Rodzaj wagonu|Preferowany rodzaj wagonu w którym ma być kupiona miejscówka"
+
+msgid "Number of tickets|Number of tickets to buy for the train"
+msgstr "Ilość biletów|Ilość biletów jaka ma być zakupiona na dany pociąg"
+
+msgid "Remarks to the ticket|Remarks e.g. special place, sleeping wagoon, seat at window"
+msgstr "Uwagi do biletu|Uwagi do zamówinia jak: przedział sypialny, miejsce przy oknie, etc"
+
+msgid "Form|Edit summary information about a train ticket"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu biletu kolejowego"
+
+msgid "Actions|Decison taking for the train ticket"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zamówienia biletu kolejowego"
+
+msgid "Train ticket decision makers"
+msgstr "Przyjmują zamówienia na bilety kolejowe"
+
+msgid "Train ticket handlers"
+msgstr "Zamawiają i wydają bilety kolejowe"
+
+msgid "Ticket type|Type of the ticket for the train"
+msgstr "Rodzaj biletu|Rodzaj biletu jaki ma być zakupiony na pociąg"
+
+msgid "Description of type|Description of the ticket type for the train, which should be booked"
+msgstr "Ulga|Jeżeli bilet ma być ulgowy opis ulgi do podania przewoźnikowi przy zakupie biletu "
+
+#xv
+msgid "Case actions history"
+msgstr "Działania w sprawie"
+
+msgid "Vacation requests"
+msgstr "Wnioski urlopowe"
+
+msgid "Vacation request"
+msgstr "Wniosek urlopowy"
+
+msgid "Replacement|Person replacing the person making holidays"
+msgstr "Zastępstwo w trakcie urlopu przez|Osoba zastępująca pracownika w trakcie zakceptowanego urlopu"
+
+msgid "Accepting supervisor|Person accepting vacation request"
+msgstr "Wniosek do akceptacji przez|Przełożony akceptujący wniosek urlopowy pracownika"
+
+msgid "Vacation type|Type of the holiday as law requires"
+msgstr "Rodzaj urlopu|Rodzaj urlopu według klasyfikacji prawnej"
+
+msgid " NoLaterThan( $_VacationEntered, $_VacationBegin )"
+msgstr "nie może być wcześniejsze niż dzisiejsza data"
+
+msgid "Vacation begin|Date of the start of holidays"
+msgstr "Data rozpoczęcia|Data rozpoczęcia urlopu włącznie z dniem daty"
+
+msgid " NoLaterThan( $_VacationBegin, $_VacationFinish )"
+msgstr "nie może być wcześniejsze niż pole 'Data rozpoczęcia'"
+
+msgid "Vacation finish|Date of the finish of holidays"
+msgstr "Data zakończnia|Data zakończenia urlopu włącznie z dniem daty"
+
+msgid "Number of working days|Number of working days for vacation accounting"
+msgstr "Ilość dni roboczych w urlopie|Ilość dni roboczych obliczona według kalendarza, regulacji zewnętrznych i wewnętrznych do naliczania urlopu"
+
+msgid "Remarks to the vacation|Remarks important for accepting the request"
+msgstr "Wyjaśnienie do rodzaju urlopu|Uwagi ważne do podjęcia deczyji o akceptacji wniosku urlopowego"
+
+msgid "Form|Edit summary information about vacations"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu biletu kolejowego"
+
+msgid "Actions|Decison taking for accepting vacations"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie wniosku urlopowego"
+
+msgid "Vacations handlers"
+msgstr "Obsługują wnioski urlopowe"
+
+msgid "Person on vacation|Person making vaction request"
+msgstr "Wnioskujący o urlop|Osoba wnioskująca o udzielenie urlopu"
+
+msgid " DaysBetween( $_VacationBegin, $_VacationFinish)+1 >= $_WorkingdaysCount"
+msgstr "musi być mniejsze od lub równe ilości dni między początkiem a końcem urlopu"
+
+#xvr
+msgid "Vacation register"
+msgstr "Rejestr urlopów"
+
+msgid "Vacation entry"
+msgstr "Urlop"
+
+msgid "Vacation entries"
+msgstr "Urlopy"
+
+msgid "Vacation ID|An automatically assigned number used to identify a record"
+msgstr "ID urlopu|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Accepted by|Person who accepted the case"
+msgstr "Zaakceptował|Imię i nazwisko osoby, która dokonała akceptacji sprawy"
+
+msgid "Person on vacation|Person with accepted vacation request"
+msgstr "Osoba na urlopie|Pracownik, która zaakceptowany urlop przez przełożonego"
+
+msgid "Working days"
+msgstr "Dni roboczych"
+
+msgid "Replacement"
+msgstr "Zastępstwo"
+
+msgid "Accepted on|Date and time the case has been accepted by the person"
+msgstr "Zaakceptowano|Data i czas akceptacji sprawy przez uprawnioną osobę"
+
+msgid "Remark for accepted|Remark for accepting the case"
+msgstr "Uwagi do akceptacji|Uwagi dodane podczas akceptacji sprawy"
+
+msgid "Remark for closed|Remark for closing the case"
+msgstr "Uwagi do zamknięcia|Uwagi dodane podczas zamykania sprawy"
+
+msgid "Closed on|Date and time the case has been closed"
+msgstr "Zamknięto|Data i czas zamknięcia sprawy"
+
+msgid "Closed by|Person who closed the case"
+msgstr "Zamknął|Imię i nazwisko osoby, która dokonała zamknięcia sprawy"
+
+#ppl
+msgid "Equipment handler|This person handles the equipment in the organization"
+msgstr "Zarządza wyposażeniem|Ta osoba zarządza wyposażeniem w organizacji"
+
+msgid "Fleet handler|This person handles the vehicle fleet in the organization"
+msgstr "Zarządza pojazdami|Ta osoba zarządza pojazdami w organizacji"
+
+msgid "System handler|This person handles this system in the organization"
+msgstr "Opiekuje się systemem|Ta osoba opiekuje się tym systemem informatycznym w organizacji"
+
+msgid "Library handler|This person handles the library in the organization"
+msgstr "Wypożycza książki z biblioteki|Ta osoba jest bibliotekarzem w organizacji"
+
+msgid "ID card handler|This person handles ID cards in the organization"
+msgstr "Zarządza kartami identyfikacyjnymi|Ta osoba zarządza kartami identyfikacyjnymi w organizacji"
+
+msgid "Parking handler|This person handles parking places in the organization"
+msgstr "Zarządza miejscami parkingowymi|Ta osoba zarządza miejscami parkingowymi w organizacji"
+
+msgid "Key handler|This person handles keys in the organization"
+msgstr "Zarządza kluczami do pomieszczeń|Ta osoba zarządza kluczami do pomieszczeń w organizacji"
+
+msgid "Location handler|This person handles location and building data"
+msgstr "Aktualizuje dane lokalizacji i budynków|Ta osoba aktualizuje w systemie dane lokalizacji i budynków"
+
+msgid "Organization handler|This person handles organization data"
+msgstr "Aktualizuje dane jednostek organizacyjnych|Ta osoba aktualizuje w systemie dane jednostek organizacyjnych"
+
+msgid "Person handler|This person handles person data"
+msgstr "Aktualizuje dane osób|Ta osoba aktualizuje w systemie dane osób"
+
+msgid "Timesheet handler|This person is a timesheet handler"
+msgstr "Obsługuje rozliczenia godzin pracy|Ta osoba obsługuje w organizacji rozliczenia godzin pracy"
+
+msgid "Timesheet decision maker|This person is timesheet decision maker"
+msgstr "Akceptuje rozliczenia godzin pracy|Ta osoba jest uprawniona w organizacji do akceptacji rozliczenia godzin pracy"
+
+msgid "Conference orders handler|This person is a conference support orders handler"
+msgstr "Realizuje zamówienia uzupełniające do rezerwacji sali|Ta osoba realizuje zamówienia uzupełniające do rezerwacji sali konferencyjnych na spotkanie"
+
+msgid "Conference resource handler|This person is a conference resource handler"
+msgstr "Zarządza zasobami pomocniczymi do spotkań|Ta osoba zarządza w organizacji zasobami pomocniczymi do spotkań"
+
+msgid "Conference room handler|This person is a conference room handler"
+msgstr "Zarządza salami konferencyjnymi|Ta osoba zarządza salami konferencyjnymi w organizacji"
+
+msgid "Project manager|This person is project manager"
+msgstr "Zarządza projektami|Ta osoba zarządza projektami"
+
+msgid "Task manager|This person is task manager"
+msgstr "Zarządza zadaniami w projektach|Ta osoba zarządza zadaniami w projektach"
+
+msgid "Flight booking handler|This person is a flight booking handler"
+msgstr "Zamawia bilety lotnicze|Ta osoba realizuje w organizacji zamówienia biletów lotniczych"
+
+msgid "Flight booking decision maker|This person is flight booking decision maker"
+msgstr "Przyjmuje zamówienia biletów lotniczych|Ta osoba jest uprawniona w organizacji do przyjmowania zamówień na bilety lotnicze"
+
+msgid "Business trip expenses handler|This person is a business trip reimbursable expenses handler"
+msgstr "Rozlicza diety za delegacje|Ta osoba rozlicza zwrot diet za delegację w organizacji"
+
+msgid "Business trip expenses approver|This person is a business trip reimbursable expenses decision approver"
+msgstr "Zatwierdza naliczenie diety za delegacje|Ta osoba jest uprawniona w organizacji do zatwierdzania akceptacji zwrotu diet za delegację"
+
+msgid "Business trip expenses decision maker|This person is business trip reimbursable expenses decision maker"
+msgstr "Akceptuje naliczenie diety za delegacje|Ta osoba jest uprawniona w organizacji do akceptacji zwrotu diet za delegację"
+
+msgid "Business trip handler|This person is a business trip handler"
+msgstr "Obsługuje polecenia wyjazdu służbowego|Ta osoba obsługuje polecenia wyjazdu służbowego w organizacji"
+
+msgid "Business trip decision maker|This person is business trip decision maker"
+msgstr "Akceptuje polecenia wyjazdu służbowego|Ta osoba jest uprawniona w organizacji do akceptowania poleceń wyjazdu służbowego"
+
+msgid "Invoice handler|This person is a invoice handler"
+msgstr "Rozlicza faktury delegacyjne|Ta osoba rozlicza faktury zakupowe z delegacji"
+
+msgid "Invoice decision maker|This person is invoice decision maker"
+msgstr "Akceptuje faktury delegacyjne|Ta osoba jest uprawniona w organizacji do akceptowania faktur zakupowych z delegacji"
+
+msgid "Invoice approver|This person is a invoice decision approver"
+msgstr "Zatwierdza faktury delegacyjne|Ta osoba jest uprawniona w organizacji do zatwierdzania akceptacji przełożonego faktury zakupowe z delegacji"
+
+msgid "Incoming invoice registrar|This person is a incomingi invoice registrar"
+msgstr "Rejestruje faktury kosztowe|Ta osoba rejestruje faktury zakupowe wchodzące do organizacji"
+
+msgid "Incoming invoice handler|This person is a incomingi invoice handler"
+msgstr "Rozlicza faktury kosztowe|Ta osoba rozlicza faktury zakupowe wchodzące do organizacji"
+
+msgid "Incoming invoice decision maker|This person is incoming invoice decision maker"
+msgstr "Akceptuje faktury kosztowe|Ta osoba jest uprawniona w organizacji do akceptowania faktury zakupowej wchodzącej do organizacji"
+
+msgid "Incoming invoice approver|This person is a incoming invoice decision approver"
+msgstr "Zatwierdza faktury kosztowe|Ta osoba jest uprawniona w organizacji do zatwierdzania akceptacji przełożonego faktury zakupowej wchodzącej do organizacji"
+
+msgid "Marketing collateral handler|This person is a marketing collateral handler"
+msgstr "Realizuje zamówienia materiałów marketingowych|Ta osoba realizuje zamówienia materiałów marketingowych"
+
+msgid "Marketing collateral  decision maker|This person is marketing collateral  decision maker"
+msgstr "Przyjmuje zamówienia materiałów marketingowych|Ta osoba jest uprawniona w organizacji do akceptowania zamówień materiałów marketingowych"
+
+msgid "Advance decision maker|This person is a advance decision maker"
+msgstr "Akceptuje wnioski o zaliczkę|Ta osoba jest uprawniona w organizacji do akceptowania wniosków o zaliczkę"
+
+msgid "Advance approver|This person is a advance decision approver"
+msgstr "Zatwierdza wnioski o zaliczkę|Ta osoba jest uprawniona w organizacji do zatwierdzania akceptacji przełożonego wniosków o zaliczkę"
+
+msgid "Advance handler|This person is a advance handler"
+msgstr "Realizuje wnioski o zaliczkę|Ta osoba realizuje wnioski o zaliczkę"
+
+msgid "Expense decision maker|This person is a expense in spe decision maker"
+msgstr "Akceptuje koszty in spe|Ta osoba jest uprawniona w organizacji do akceptowania kosztów, które powstaną w przyszłości"
+
+msgid "Expense approver|This person is a expense in spe decision approver"
+msgstr "Zatwierdza koszty in spe|Ta osoba jest uprawniona w organizacji do zatwierdzania akceptacji przełożonego kosztów, które powstaną w przyszłości"
+
+msgid "Expense handler|This person is a expense in spe handler"
+msgstr "Wspiera zarządzanie kosztami in spe|Ta osoba opiekuje się zarządzaniem kosztami, które powstaną w przyszłości"
+
+msgid "Internal order decision maker|This person is a internal order decision maker"
+msgstr "Akceptuje zamówienia wewnętrzne|Ta osoba jest uprawniona w organizacji do akceptowania zamówień wewnętrznych"
+
+msgid "Internal order handler|This person is a internal order handler"
+msgstr "Realizuje zamówienia wewnętrzne|Ta osoba realizuje zamówienia wewnętrzne"
+
+msgid "Help desk decision maker|This person is a help desk decision maker"
+msgstr "Przyjmuje zgłoszenia problemów do help desku|Ta osoba jest uprawniona w organizacji do przyjmowania zgłoszeń problemów w ramach help desk"
+
+msgid "Help desk handler|This person is a help desk handler"
+msgstr "Obsługuje rozwiązanie zgłoszeń w help desku|Ta osoba obługuje rozwiązanie problemów zgłoszonych w ramach help desk"
+
+msgid "Repair order decision maker|This person is a repair order decision maker"
+msgstr "Przyjmuje zgłoszenia napraw inwentarza|Ta osoba jest uprawniona w organizacji do przyjmowania zgłoszeń napraw inwentarza organizacji"
+
+msgid "Repair order handler|This person is a repair order handler"
+msgstr "Obsługuje zgłoszenia napraw inwentarza|Ta osoba obługuje zgłoszenia napraw inwentarza organizacji"
+
+msgid "Vacation handler|This person is a vacation handler"
+msgstr "Obsługuje wnioski urlopowe|Ta osoba obługuje w dziale kadr wnioski urlopowe"
+
+msgid "Vacation decision maker|This person is a vacation decision maker"
+msgstr "Akceptuje wnioski urlopowe|Ta osoba jest uprawniona w organizacji do akceptacji wniosków urlopowych pracowników"
+
+msgid "Business card handler|This person is a business card handler"
+msgstr "Realizuje druk wizytówek|Osoba realizuje zamówienia na dostawę wizytówek"
+
+msgid "Business card decision maker|This person is a business card decision maker"
+msgstr "Przyjmuje zamówienia na wizytówki|Ta osoba jest uprawniona w organizacji do akceptacji zamówień na wizytówki"
+
+msgid "Hotel reservation decision maker|This person is a hotel reservation decision maker"
+msgstr "Przyjmuje rezerwacje noclegów|Ta osoba jest uprawniona w organizacji do akceptacji wykonania rezerwacji noclegu"
+
+msgid "Hotel reservation handler|This person is a hotel reservation handler"
+msgstr "Rezerwuje noclegi|Osoba wykonuje rezerwacje noclegów w hotelach"
+
+msgid "Train ticket handler|This person is a train ticket handler"
+msgstr "Zamawia bilety kolejowe|Osoba zamawia i kupuje bilety kolejowe"
+
+msgid "Train ticket decision maker|This person is a train ticket decision maker"
+msgstr "Przyjmuje zamówienia biletów kolejowych|Ta osoba jest uprawniona w organizacji do akceptacji zamówień na bilety kolejowe"
+
+msgid "Manager|This person is a manager in the organization"
+msgstr "Jest kierownikiem|Ta osoba jest kierownikiem w organizacji i ma specjalne prawa wglądu w dane pracowników"
+
+msgid "People By Buildings"
+msgstr "Osoby po Budynkach"
+
+msgid "People By Locations"
+msgstr "Osoby po Lokalizacjach"
+
+#xa
+msgid "Schedule status|If status closed no schedule editing possible"
+msgstr "Status uzgodnienia|Jeżeli uzgodnienie jest zamknięte nie można edytować głosów"
+
+msgid "Schedule ID|An automatically assigned number used to identify a record"
+msgstr "ID uzgodnienia|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Name|Name of the scheduled meeting"
+msgstr "Temat spotkania|Tekst charakteryzujący cel spotkanie"
+
+msgid "Agenda|Description of the meeting agenda"
+msgstr "Agenda spotkania|Krótki opis przebiegu spotkania"
+
+msgid "Proposal 1|The first proposal of date, time and meeting place"
+msgstr "Propozycja terminu spotkania 1|Pierwsza propozycja daty, godziny i miejsca spotkania"
+
+msgid "Votes 1|Votes for the Proposal 1"
+msgstr "Ilość głosów|Ilość głosów oddanych na Propozycję terminu spotkania 1"
+
+msgid "Proposal 2|The second proposal of date, time and meeting place"
+msgstr "Propozycja terminu spotkania 2|Druga propozycja daty, godziny i miejsca spotkania"
+
+msgid "Votes 2|Votes for the Proposal 2"
+msgstr "Ilość głosów|Ilość głosów oddanych na Propozycję terminu spotkania 2"
+
+msgid "Proposal 3|The third proposal of date, time and meeting place"
+msgstr "Propozycja terminu spotkania 3|Trzecia propozycja daty, godziny i miejsca spotkania"
+
+msgid "Votes 3|Votes for the Proposal 3"
+msgstr "Ilość głosów|Ilość głosów oddanych na Propozycję terminu spotkania 3"
+
+msgid "Scheduling person|Displays name of the person responsible for scheduling the meeting"
+msgstr "Odpowiedzialny za uzgodnienie|Imię i nazwisko osoby odpowiedzialnej za uzgodnienie terminu spotkania"
+
+msgid "Meeting voting"
+msgstr "Głosowanie na terminy spotkania"
+
+msgid "Form|Edit summary information about the meeting scheduling"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o terminie spotkania"
+
+msgid "Votes|Add, update and delete votes for meeting scheduling"
+msgstr "Głosowanie|Oddawanie głosów na propozycje terminów spotkania"
+
+msgid "Meetings scheduling"
+msgstr "Uzgodnienia terminów spotkań"
+
+msgid "Meeting scheduling"
+msgstr "Uzgodnienie terminu spotkania"
+
+msgid "Organization|Name of organization associated with the scheduling person"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej osoby odpowiedzialnej za uzgodnienie terminu spotkania"
+
+msgid "Scheduled meeting"
+msgstr "Spotkanie"
+
+#xar
+msgid "Error 3010"
+msgstr "Uzgodnienie terminu spotkania jest zamknięte"
+
+msgid "Scheduling votes"
+msgstr "Głosowanie na propozycje"
+
+msgid "Scheduling vote"
+msgstr "Głosowanie na propozycje"
+
+msgid "Vote ID|An automatically assigned number used to identify a record"
+msgstr "ID głosu|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Proposal 1|Voting for the first proposal"
+msgstr "Propozycja 1|Głosowanie na pierwszą propozycję"
+
+msgid "Proposal 2|Voting for the second proposal"
+msgstr "Propozycja 2|Głosowanie na drugą propozycję"
+
+msgid "Proposal 3|Voting for the third proposal"
+msgstr "Propozycja 3|Głosowanie na tzrecią propozycję"
+
+msgid "Remarks|Remarks to the date, time and meeting place"
+msgstr "Uwagi do propozycji|Uwagi propozycji daty, czasu i miejsca spotkania"
+
+msgid "Meeting participant|Displays vote of the prospective meeting particpant"
+msgstr "Uczestnik spotkania|Wyświetla imię i nazwisko uczestnika in spe spotkania"
+
+msgid "Form|Edit summary information about the vote"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o głosowaniu"
+
+msgid "Voting result"
+msgstr "Wynik głosowania"
+
+msgid "Vote owner|Displays vote owners name"
+msgstr "Głosujący|Imię i nazwisko głosującego na propozycje"
+
+msgid "Organization|Name of organization associated with the vote owner"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej głosującego na propozycje"
+
+#xttr
+msgid "Ordering person|Person ordering the train ticket"
+msgstr "Zamawiający|Osoba zamawiająca biletu kolejowy"
+
+msgid "Train tickets register"
+msgstr "Rejestr biletów kolejowych"
+
+msgid "Train ticket entry"
+msgstr "Bilet kolejowy"
+
+msgid "Train ticket entries"
+msgstr "Bilety kolejowe"
+
+#xhrr
+msgid "Hotel reservations register"
+msgstr "Rejestr rezerwacji noclegów"
+
+msgid "Hotel reservation entry"
+msgstr "Nocleg"
+
+msgid "Hotel reservations entries"
+msgstr "Noclegi"
+
+msgid "Ordering person|Person ordering the hotel reservation"
+msgstr "Zamawiający|Osoba zamawiająca dokonanie rezerwacji noclegu"
+
+#xro
+msgid "Item repair orders"
+msgstr "Zgłoszenia naprawy inwentarza"
+
+msgid "Repair orders"
+msgstr "Zgłoszenia naprawy"
+
+msgid "Repair order"
+msgstr "Zgłoszenie naprawy"
+
+msgid "Broken thing place|Description of the place where the broken thing is"
+msgstr "Miejsce stania inwentarza|Dokładny opis miejsca, pomieszczenia, budynku gdzie znajduje się inwentarz do naprawy"
+
+msgid "Broken thing name|Name of the broken thing"
+msgstr "Nazwa inwentarza|Nazwa inwentarza przyjęta oficjalnie lub potocznie w organizacji"
+
+msgid "Broken thing descrition|Description, what is broken"
+msgstr "Opis usterki|Opis usterki ztwierdzonej w inwentarzu"
+
+msgid "Form|Edit summary information about a repair order"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zgłoszeniu naprawy"
+
+msgid "Actions|Decison taking for the repair order"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zgłoszenia naprawy"
+
+msgid "Repair order decision makers"
+msgstr "Przyjmują zgłoszenia napraw"
+
+msgid "Repair order handlers"
+msgstr "Obsługują naprawy"
+
+msgid "Repair location|Name used to identify the location in the organization"
+msgstr "Lokalizacja naprawy|Nazwa lokalizacji, w której znajduje się inwentarz do naprawy"
+
+msgid "Repair level|Function in the organization like: headquarters, department, branch, section, etc"
+msgstr "Poziom naprawy|Poziom lokalizacji, w której znajduje się inwentarz do naprawy"
+
+msgid "Repair level and location|Name used to identify the location and level in the organization"
+msgstr "Poziom i lokalizacja naprawy|Poziom i lokalizacja, w której znajduje się inwentarz do naprawy"
+
+msgid "Repair building|Name used to identify the building in the organization"
+msgstr "Inwentarz w budynku|Nazwa budynku, w którym znajduje się inwentarz do naprawy"
+
+msgid "Broken thing"
+msgstr "Inwentarz"
+
+msgid "Broken"
+msgstr "Usterka"
+
+#xror
+msgid "Repair orders register"
+msgstr "Rejestr zgłoszeń napraw"
+
+msgid "Repair order entry"
+msgstr "Zgłoszenie naprawy"
+
+msgid "Repair orders entries"
+msgstr "Zgłoszenia naprawy"
+
+msgid "Ordering person|Person ordering item repair"
+msgstr "Zgłaszający|Osoba zgłaszająca potrzebę naprawy inwentarza"
+
+#xhd
+msgid "Help desk"
+msgstr "Help desk"
+
+msgid "Help ticket"
+msgstr "Problem"
+
+msgid "Help tickets"
+msgstr "Problemy"
+
+msgid "Subject|Short descrition of the request subject"
+msgstr "Problem|Temat prośbt do help desku"
+
+msgid "Description|Description of the problem and needed help"
+msgstr "Opis problemu|Opis napotkanego problemu i sugestie co do oczekiwanej pomocy od help desku"
+
+msgid "Help desk decision makers"
+msgstr "Przyjmują zgłoszenia problemów"
+
+msgid "Help desk handlers"
+msgstr "Rozwiązują problemy"
+
+msgid "Form|Edit summary information about a help request"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o prośbie o pomoc"
+
+msgid "Actions|Decison taking for the help request"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie prośby o pomoc"
+
+msgid "Help ordering person"
+msgstr "Zgłaszający"
+
+msgid "Owners level and location|The name of case owners location and level in the organization"
+msgstr "Poziom i lokalizacja zgłaszającego|Nazwa lokalizacji w której rezyduje zgłaszający"
+
+msgid "Owners location|The name of case owners location"
+msgstr "Lokalizacja zgłaszającego|Nazwa lokalizacji w której rezyduje zgłaszający"
+
+msgid "Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"
+msgstr "Poziom zgłaszającego|Poziom lokalizacji zgłaszającego w hierachi pionowej organizacji"
+
+#xhdr
+msgid "Help desk register"
+msgstr "Rejestr help desku"
+
+msgid "Help ticket entry"
+msgstr "Prośba o pomoc"
+
+msgid "Help tickets entries"
+msgstr "Prośby o pomoc"
+
+msgid "Requesting person|Person requesting help from help desk"
+msgstr "Zgłaszający|Osoba prosząca o pomoc help desk w danej sprawie"
+
+#xio
+msgid "Internal orders"
+msgstr "Zamówienia wewnętrzne"
+
+msgid "Internal order"
+msgstr "Zamówienie wewnętrzne"
+
+msgid "Accepting supervisor|Person accepting internal order"
+msgstr "Zamówienie do akceptacji przez|Przełożony akceptujący zamówienie wewnętrzne pracownika"
+
+msgid "Item|Description and source of the item for the purchase people"
+msgstr "Przedmiot zamówienia|Nazwa przedmiotu według dostawcy, identyfikator i wskazanie dostawcy np. katalog"
+
+msgid "Amount|The amount of item to buy"
+msgstr "Ilość jednostek|Ilość jednostek zamawianego przedmiotu tak jak jest on sprzedawany przez dostawcę"
+
+msgid "Price|The price of a single item to buy"
+msgstr "Cena jednostkowa|Cena jednostkowa zamawianego przedmiotu"
+
+msgid "Order total|The money to be paid for the whole order"
+msgstr "Sumaryczna wartość|Sumaryczna wartość zamówienia wynikająca z przemnożenia ilości przez cenę jednostkową"
+
+msgid "Internal order handlers"
+msgstr "Realizują zamówienia wewnętrzne"
+
+msgid "Form|Edit summary information about internal order"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu wewnętrznym"
+
+msgid "Actions|Decison taking for internal orders"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zamówienia wewnętrznego"
+
+msgid "Ordering person|Person making the internal order"
+msgstr "Zamawiający|Osoba składająca zamówienie wewnętrzne"
+
+msgid " $_InternalorderItemCount > 0"
+msgstr "musi mieć wartość większą od zera"
+
+msgid "Unit|Unit for buing the item amount for the purchase people"
+msgstr "Jednostka zakupowa|Opis jednostki zakupowej przedmiotu tak jak jest on sprzedawany przez dostawcę"
+
+msgid "Organization assignment|Name of organization associated with the order expenses"
+msgstr "Koszt dla jednostki organizacyjnej|Nazwa jednostki organizacyjnej do której należy przypisać koszt z faktury, paragonu lub rachunku za zamówienie wewnętrzne"
+
+msgid "Invoice assignment|The description how to assign the order expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."
+msgstr "Przypisanie kosztu do|Opis jak należy dekretować koszt zamówienia wewnętrznego np oznaczenie kontraktu, delegacja, ..."
+
+#xior
+msgid "Internal orders register"
+msgstr "Rejestr zamówień wewnętrznych"
+
+msgid "Internal order entry"
+msgstr "Zamówienie wewnętrzne"
+
+msgid "Internal order entries"
+msgstr "Zamówienia wewnętrzne"
+
+msgid "Organization|Organization making the internal order"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej zamawiającego"
+
+#xap
+msgid "Advance payments"
+msgstr "Wnioski o zaliczkę"
+
+msgid "Advance payment"
+msgstr "Wniosek o zaliczkę"
+
+msgid "Subject|Short descrition of the advance request reason"
+msgstr "Przeznaczenie|Krótki opis przeznaczenia zaliczki na którą składany jest wniosek"
+
+msgid "Description|Detailed description of the advance aim"
+msgstr "Szczegółowe wydatkowanie zaliczki|Szczegółowy opis wydatkowania pieniędzy otrzymanych w ramach zaliczki"
+
+msgid "Total|Total value of the requested advance"
+msgstr "Wartość zaliczki|Sumaryczna wartość wnioskowanej zaliczki"
+
+msgid "Requesting person|Person making advance request"
+msgstr "Wnioskujący o zaliczkę|Osoba składająca wniosek o otrzymanie zaliczki"
+
+msgid "Advance approvers"
+msgstr "Zatwierdzają akceptację"
+
+msgid "Advance handlers"
+msgstr "Realizują wnioski o zaliczkę"
+
+msgid "Form|Edit summary information about a advance request"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o wniosku o zaliczkę"
+
+msgid "Actions|Decison taking for the advance request"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie wniosku o zaliczkę"
+
+msgid "Accepting supervisor|Person accepting advance request"
+msgstr "Wniosek do akceptacji przez|Przełożony akceptujący wniosek pracownika o zaliczkę"
+
+#xapr
+msgid "Advance payment register"
+msgstr "Rejestr zaliczek"
+
+msgid "Advance payment entry"
+msgstr "Zaliczka"
+
+msgid "Advance payment entries"
+msgstr "Zaliczki"
+
+#xet
+msgid "Events booking"
+msgstr "Zamówienia biletów na imprezy"
+
+msgid "Event booking"
+msgstr "Impreza"
+
+msgid "Events bookings"
+msgstr "Imprezy"
+
+msgid "Event booking ID|An automatically assigned number used to identify a record"
+msgstr "ID imprezy|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Name|Name of the event"
+msgstr "Nazwa imprezy|Nazwa imprezy na którą zbierane są zamówienia od ludzi"
+
+msgid "Description|Description of the event and ticket booking"
+msgstr "Opis szczegółów imprezy|Opis rodzaju imprezy, miejsca, daty i godziny, warunków zakupu biletów oraz uwagi do sposobu zgłaszania zamówień"
+
+msgid "Number of tickets|Number of tickets to be bought or reserved for all the people"
+msgstr "Ilość zamówionych biletów|Sumaryczna ilość biletów do kupienia lub rezerwacji dla wsystkich zgłoszonych"
+
+msgid "Event status|If status closed no event booking possible"
+msgstr "Status zamawiania|Jeżeli status jest zamknięty nie można zgłosić zamówienia na bilety"
+
+msgid "Responsible person|Displays name of the person responsible for booking the event tickets"
+msgstr "Organizator|Imię i nazwisko osoby odpowiedzialnej za organizację zbierania zamówień na bilety"
+
+msgid "Organization|Name of organization associated with the person responsible for booking tickest"
+msgstr "Jednostka organizacyjna|Jednostka organizacyjna osoby odpowiedzialnej za organizację zbierania zamówień na bilety"
+
+msgid "Event tickets booking"
+msgstr "Zamówienia biletów na imprezę"
+
+msgid "Form|Edit summary information about the event"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o imprezie"
+
+msgid "Tickets booking|Add, update and delete ticket booking for the event"
+msgstr "Zamawianie biletów na imprezę|Dodawanie, aktualizacja i usuwanie zamówień na bilety na imprezę"
+
+msgid "Number of tickets"
+msgstr "Ilość biletów"
+
+#xetr
+msgid "Tickets booking"
+msgstr "Zamówione bilety"
+
+msgid "Event tickets"
+msgstr "Bilety na imprezę"
+
+msgid "Events tickets"
+msgstr "Bilety na imprezę"
+
+msgid "Tickets ID|An automatically assigned number used to identify a record"
+msgstr "ID biletu|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Number of tickets|Number of tickets to be bought or reserved for the person"
+msgstr "Ilość biletów|Ilość biletów zamawianych przez daną osobę"
+
+msgid " $_TicketsNumber>0"
+msgstr "musi być większe od zera"
+
+msgid "Remarks|Remarks to the ticket booking"
+msgstr "Uwagi|Uwagi do zamówienia biletów"
+
+msgid "Booking person|Displays the name of person booking tickets"
+msgstr "Zamawiający|Wyświetla imię i nazwisko zamawiającego bilety"
+
+msgid "Error 3012"
+msgstr "Zamawianie biletów jest zamknięte"
+
+msgid "Tickets owner|Displays tickets owners name"
+msgstr "Zamawiający|Wyświetla imię i nazwisko zamawiającego bilety"
+
+msgid "Organization|Name of organization associated with the tickets owner"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej zamawiającego bilety"
+
+msgid "Form|Edit summary information about the tickets booking"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu biletów"
+
+#xal
+msgid "Attendance lists"
+msgstr "Listy osób"
+
+msgid "Attendance list"
+msgstr "Lista osób"
+
+msgid "Attendance list ID|An automatically assigned number used to identify a record"
+msgstr "ID listy osób|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Name|Name of the attendance list"
+msgstr "Przedsięwziecie|Nazwa przedsięwzięcia pod które zbierana jest lista osób"
+
+msgid "Description|Description of the objectives for the attendance list"
+msgstr "Szczegółowy opis przedsięwzięcia|Opis celów przedsięwziecia i zbierania listy osób"
+
+msgid "Number of persons|Number of persons in the attendance list"
+msgstr "Ilość osób na liście|Ilość osób które wpisały się na listę"
+
+msgid "Number of persons"
+msgstr "Ilość osób"
+
+msgid "Attendance status|If status closed no entering attendance list possible"
+msgstr "Status listy|Jeżeli lista jest zamknieta nie można się wpisać na listę"
+
+msgid "Responsible person|Displays name of the person responsible for the attendance list"
+msgstr "Odpowiedzialny za listę|Imię i nazwisko osoby odpowiedzialnej za zestawienie listy osób"
+
+msgid "Organization|Name of organization associated with the person responsible for attendance list"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej osoby odpowiedzialnej za zestawienie listy osób"
+
+msgid "People joining the list"
+msgstr "Osoby które wpisały się na listę"
+
+msgid "Form|Edit summary information about the attendance list"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o liście osób"
+
+msgid "Joining the list|Add, update and delete an entry in the attendance list"
+msgstr "Wpisywanie się na listę|Dodaj, zaktualizuj lub usuń swój wpis na liście"
+
+#xalr
+msgid "Attendance list rows"
+msgstr "Osoby na liście"
+
+msgid "Attendance list entry"
+msgstr "Wpis osoby"
+
+msgid "Attendance list entries"
+msgstr "Wpisy osób"
+
+msgid "Attendee ID|An automatically assigned number used to identify a record"
+msgstr "ID osoby|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Remarks|Remarks to the attendance entry"
+msgstr "Uwagi|Uwagi do wpisu na listę"
+
+msgid "Attendee|Displays attendee name"
+msgstr "Osoba|Wyświetla imię i nazwisko osoby na liście"
+
+msgid "Form|Edit summary information about the attendence list entry"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o wpisie na listę"
+
+msgid "People list entries"
+msgstr "Wpisy na listę"
+
+msgid "Error 3013"
+msgstr "Lista osób jest zamknięta"
+
+#xmc
+msgid "Marketing collateral"
+msgstr "Materiały marketingowe"
+
+msgid "Marketing collateral item"
+msgstr "Materiał marketingowy"
+
+msgid "Marketing collateral items"
+msgstr "Materiały marketingowe"
+
+msgid "Marketing collateral ID|An automatically assigned number used to identify a record"
+msgstr "ID materiału marketingowego|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Marketing collateral|Title of the  marketing collateral item for fast identification"
+msgstr "Nazwa|Nazwa materiału marketingowego umożliwiająca jego szybką i jednoznaczną identyfikację"
+
+msgid "Description|Short description of marketing collateral item"
+msgstr "Opis materiału marketingowego|Szczegółowy opis cech materiału marketingowego umożliwiający ocenę jego przydatności dla danego klienta"
+
+msgid "Stock income|Number of marketing collateral items delivered to the stock"
+msgstr "Przyjęto na magazyn|Ilość sztuk materiałów marketingowych przyjętych na magazyn"
+
+msgid "Marketing collateral status|Status shows if marketing collateral can be ordered"
+msgstr "Status materiału marketingowego|Status pokazuje czy można zamawiać dany materiał marketingowy"
+
+msgid "Collateral status"
+msgstr "Dostępność"
+
+msgid "Form|Edit summary information about a marketing collateral"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o materiale marketingowym"
+
+msgid "Marketing collateral stock|Adding, updating, deleting marketing collateral stock"
+msgstr "Przyjęcia na magazyn|Dodawanie, aktualizacja przyjęcia materiału marketingowego na magazyn"
+
+msgid "Stock operations"
+msgstr "Ruchy magazynowe"
+
+#xmcs
+msgid "Marketing collateral stock income"
+msgstr "Przyjęcia materiału marketingowego na magazyn"
+
+msgid "Stock item"
+msgstr "Przyjęcie na magazyn"
+
+msgid "Stock items"
+msgstr "Przyjęcia na magazyn"
+
+msgid "Stock item ID|An automatically assigned number used to identify a record"
+msgstr "ID przyjęcia na magazyn|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Number of items|Number of marketing collateral stocked in the stock"
+msgstr "Ilość opakowań|Ilość sztuk lub opakowań handlwoych materiału marketingowego przyjętego na magazyn w tym ruchu"
+
+msgid "Remarks|Remarks to the stock operation"
+msgstr "Uwagi|Uwagi do przyjęcia materiału marketingowegona magazyn"
+
+msgid "Form|Edit summary information about a stock item"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o przyjęciu na magazyn"
+
+msgid "Stock income"
+msgstr "Przyjęcia na magazyn"
+
+msgid "Stock entry on|Date the marketing collateral item entered the stock"
+msgstr "Data przyjęcia|Data przyjęcia materiału marketingowego na magazyn"
+
+#xmo
+msgid "Marketing collateral ordering"
+msgstr "Zamówienia materiałów marketingowych"
+
+msgid "Marketing collateral order"
+msgstr "Zamówienie materiału marketingowego"
+
+msgid "Marketing collateral orders"
+msgstr "Zamówienia materiałów marketingowych"
+
+msgid "Number of items|Number of marketing collateral ordered"
+msgstr "Ilość opakowań|Ilość zamawianych sztuk lub opakowań handlowych materiału marketingowego"
+
+msgid "Customers|List of customers for marketing collateral"
+msgstr "Klienci|Lista klientów lub grupy klientów dla których zmawiane są materiały marketingowe"
+
+msgid "Ordering person|Person ordering the marketing collateral"
+msgstr "Zamawiający|Osoba zamawiająca materiały marketingowe"
+
+msgid "Marketing collateral order decision makers"
+msgstr "Przyjmują zamówienia na materiały"
+
+msgid "Marketing collateral order handlers"
+msgstr "Wydają materiały marketingowe"
+
+msgid "Form|Edit summary information about the marketing collateral order"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu materiału marketingowego"
+
+msgid "Actions|Decison taking for the marketing collateral order"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zamówienia materiału marketingowego"
+
+#xmor
+msgid "Out of stock on"
+msgstr "Data wydania"
+
+msgid "Marketing collateral taken by"
+msgstr "Materiał pobrał"
+
+msgid "Marketing collateral register"
+msgstr "Rejestr pobrań materiałów marketingowych"
+
+msgid "Marketing collateral entry"
+msgstr "Pobranie materiału marketingowego"
+
+msgid "Marketing collateral entries"
+msgstr "Pobrania materiałów marketingowych"
+
+msgid "Stock outcome"
+msgstr "Wydania z magazynu"
+
+#xi
+msgid "Invoice assignment"
+msgstr "Akceptacja faktur z delegacji"
+
+msgid "Purchase invoices"
+msgstr "Faktury z delegacji"
+
+msgid "Purchase invoice"
+msgstr "Faktura z delegacji"
+
+msgid "Invoice number|Invoice number as requiered by tax law"
+msgstr "Numer dokumentu|Numer faktury, rachunku lub paragonu zgodny z przepisami skarbowymi"
+
+msgid "Netto amount|Netto amount as stated on the invoice total"
+msgstr "Wartość netto|Symaryczna wartość netto faktury, paragonu lub wartość rachunku określona zgodnie z przepisami skarbowymi"
+
+msgid "Brutto amount|Brutto amount as stated on the invoice total"
+msgstr "Wartość brutto|Sumaryczna wartość brutto faktury, paragonu lub wartość rachunku określona zgodnie z przepisami skarbowymi"
+
+msgid "Money amount|Amount of money which has been payed or to be payed"
+msgstr "Do rozliczenia wewnętrznego|Wydana przez Zgłaszającego wartość środków pieniężnych wynikająca z brutto faktury, paragonu lub wartość rachunku do rozliczenia wewnętrznego i ewentualnie zwrotu"
+
+msgid "Issued on|The date the invoice has been issued"
+msgstr "Data wystawienia|Data wystawienia podana na fakturze, paragonie lub rachunku"
+
+msgid " NoLaterThan( $_InvoiceIssuedOn, $_InvoiceReceivedOn )"
+msgstr "nie może być wcześniejsze niż pole 'Data wystawienia'"
+
+msgid "Received on|The date the invoice has been received"
+msgstr "Data otrzymania|Data otrzymania faktury, paragonu lub rachunku"
+
+msgid " NoLaterThan( $_InvoiceIssuedOn, $_InvoicePaymentOn )"
+msgstr "nie może być wcześniejsze niż pole 'Data wystawienia'"
+
+msgid "Payment on|The date the invoice should be paid"
+msgstr "Data płatności|Data w której zapłocono lub do której należy zapłacić za fakturę lub rachunek"
+
+msgid "Payment|The way the invoice has been paid or has to be paid"
+msgstr "Płatność|Sposób w jaki zapłacono lub należy zapłacić za fakturę, paragon lub rachunek"
+
+msgid " NIPIsValid( $_InvoiceSellersNumber )"
+msgstr " nie jest prawidłowym numerem NIP"
+
+msgid "Sellers tax number|Sellers registration number as issued by the tax authority"
+msgstr "NIP sprzedawcy|NIP sprzedawcy podany na fakturze lub rachunku"
+
+msgid "Invoice description|Description of puchased goods and services"
+msgstr "Towar lub usługa|Opis sprzedającego oraz zakupionych dóbr i usług, które rozliczane są fakturą, paragonem lub rachunkiem"
+
+msgid "Organization assignment|Name of organization associated with the invoice bookkeeping"
+msgstr "Koszt dla jednostki organizacyjnej|Nazwa jednostki organizacyjnej do której należy przypisać koszt z faktury, paragonu lub rachunku"
+
+msgid "Invoice assignment|The description how to assign the invoice in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."
+msgstr "Przypisanie kosztu do|Opis jak należy dekretować koszt z faktury, paragonu lub rachunku np oznaczenie kontraktu, delegacja, ..."
+
+msgid "Cost Center|The description of the cost center associated with the invoice"
+msgstr "MPK|Miejsce powstawania kosztu do którego należy przypisać fakturę, paragon lub rachunek"
+
+msgid "Accepting supervisor|Person accepting purchase invoices"
+msgstr "Dokument do akceptacji przez|Przełożony akceptujący przedłożoną fakturę, paragon lub rachunek wraz z opisem"
+
+msgid "Submitter|Person submitting the invoice for approval"
+msgstr "Opisuje i przedkłada fakturę|Pracownik opisujący i przedkładający fakturę, paragon lub rachunek do akceptacji"
+
+msgid "Form|Edit summary information about the invoice"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o dokumencie fiskalnym"
+
+msgid "Actions|Decision taking for the invoice"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie akceptacji dokumentu fiskalnego"
+
+msgid "Invoice handlers"
+msgstr "Rozliczają faktury delegacyjne"
+
+msgid "Invoice approvers"
+msgstr "Zatwierdzają akceptację"
+
+msgid "Invoice tax number"
+msgstr "Numer"
+
+msgid "Type of invoice|Type of invoice according to the tax law"
+msgstr "Rodzaj dokumentu|Rodzaj dokumentu według klasyfikacji przepisów skarbowych"
+
+msgid "Sellers tax number"
+msgstr "NIP"
+
+msgid "Issued on"
+msgstr "Wystawiono"
+
+msgid "Invoice submitter"
+msgstr "Fakturę przedkłada"
+
+msgid "Invoice value"
+msgstr "Wartość"
+
+msgid "Purchase on invoice"
+msgstr "Towar/usługa"
+
+#xir
+msgid "Invoice assignment register"
+msgstr "Rejestr faktur z delegacji"
+
+msgid "Invoice assignment entry"
+msgstr "Faktura z delegacji"
+
+msgid "Invoice assignment entries"
+msgstr "Faktury z delegacji"
+
+#xiir
+msgid "Incoming invoice registration"
+msgstr "Rejestracja wejścia faktury"
+
+msgid "Incoming invoice"
+msgstr "Faktura kosztowa"
+
+msgid "Incoming invoices"
+msgstr "Faktury kosztowe"
+
+msgid "Invoice organization"
+msgstr "Jednostka organizacyjna"
+
+msgid "Approved|The invoice has been approved"
+msgstr "Zaaprobowana|Faktuar została zaakceptowana, zamknięta i wprowadzona do Rejestru faktur zakupowych"
+
+msgid "Organization|Organization submitting the invoice for approval"
+msgstr "Jednostka organizacyjna|Jednostka organizacyjna pracownika przedkładającego fakturę"
+
+msgid "Invoice status|Current status of invoice processing"
+msgstr "Stan faktury|Stan faktury w procesie jej opisu i aprobaty"
+
+msgid "Error 3024"
+msgstr "faktura jest już przydzielona innej osobie do opisu"
+
+msgid "Incoming invoice register ID|Record ID used to identify the invoice in the incoming invoice register"
+msgstr "Rejestracja faktur kosztowych|ID sprawy do jego identyfikacji w Rejestracji faktur wchodzących"
+
+#xiirr
+msgid "Incoming invoice register"
+msgstr "Rejestr faktur kosztowych"
+
+msgid "Invoice submitted by"
+msgstr "Fakturę przedłożył"
+
+#xii
+msgid "Incoming invoice assignment"
+msgstr "Akceptacja faktur kosztowych"
+
+msgid "Incoming invoice approver"
+msgstr "Zatwierdzają akceptację"
+
+msgid "Incoming invoice handlers"
+msgstr "Rozliczają faktury kosztowe"
+
+msgid "Form|Edit summary information about the purchse invoice"
+msgstr "Dokument do akceptacji przez|Edycja kto akceptuje koszt i do czego ma być on przypisany"
+
+#xiirn
+msgid "Invoice approval log"
+msgstr "Historia aprobaty"
+
+msgid "Invoice approval"
+msgstr "Aprobata faktury"
+
+msgid "Invoice approvals"
+msgstr "Aprobaty faktury"
+
+msgid "Incoming invoice assignment|Case ID in the Incoming invoice assignment module"
+msgstr "Akceptacja faktur kosztowych|ID sprawy do jego identyfikacji w module Akceptacja faktur wchodzących"
+
+#xbto
+msgid "Business trips approval"
+msgstr "Polecenia wyjazdu służbowego"
+
+msgid "Business trip"
+msgstr "Polecenie wyjazdu służbowego"
+
+msgid "Business trips"
+msgstr "Polecenia wyjazdów służbowych"
+
+msgid "Accepting supervisor|Person accepting business trip order"
+msgstr "Wniosek do akceptacji przez|Przełożony akceptujący polecenie wyjazdu służbowego"
+
+msgid "Destination|Destination of the business trip"
+msgstr "Wyjazd do|Miejscowość bedąca celem wyjazdu służbowego delegowanego"
+
+msgid " NoLaterThan( $_BusinesstripEntered, $_BusinesstripBegin )"
+msgstr "nie może być wcześniejsze niż dzisiejsza data"
+
+msgid "Business trip begin|Date of the start of the business trip"
+msgstr "Data rozpoczęcia|Data rozpoczęcia przez delegowanego wyjazdu służbowego"
+
+msgid " NoLaterThan( $_BusinesstripBegin, $_BusinesstripFinish )"
+msgstr "nie może być wcześniejsze niż pole 'Data rozpoczęcia'"
+
+msgid "Business trip finish|Date of the finish of the business trip"
+msgstr "Data zakończenia|Data zakończenia przez delegowanego wyjazdu służbowego"
+
+msgid "Objective|Objective of the business trip"
+msgstr "W celu|Cele wyjazdu służbowego delegowanego do wskazanej miejscowości"
+
+msgid "Transportation|Means of transportation during the business trip"
+msgstr "Środki lokomocji|Środki lokomocji używane przez delegowanego w trakcie wyjazdu służbowego np: Ekspres, IC, pośpieszny, sypialny, autobus, samolot, samochód"
+
+msgid "Person on business trip|Person making the business trip"
+msgstr "Delegowany|Pracownik udający się na wyjazd służbowy do wskazanej miejscowości"
+
+msgid "Form|Edit summary information about the business trip"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o poleceniu wyjazdu służbowego"
+
+msgid "Actions|Decison taking for accepting business trips"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie polecenia wyjazdu służbowego"
+
+msgid "Business trip handlers"
+msgstr "Obsługują polecenia wyjazdu służbowego"
+
+msgid "Business trip begin"
+msgstr "Rozpoczęcie"
+
+msgid "Business trip finish"
+msgstr "Zakończenie"
+
+msgid "Business trip destination"
+msgstr "Wyjazd"
+
+#xbtor
+msgid "Business trip order register"
+msgstr "Rejestr poleceń wyjazdu służbowego"
+
+msgid "Business trip order"
+msgstr "Polecenie wyjazdu służbowego"
+
+msgid "Business trip orders"
+msgstr "Polecenia wyjazdów służbowych"
+
+msgid "Business trip ID|An automatically assigned number used to identify a record"
+msgstr "ID polecenia wyjazdu służbowego|Automatycznie przydzielany numer do śledzenia polcenia wyjazdu służbowego w systemie i na wydrukacha"
+
+#xbte
+msgid "Business trip reimbursable expenses"
+msgstr "Akceptacja diet i ryczałtów za delegacje"
+
+msgid "Business trip expense"
+msgstr "Należna dieta i ryczałty"
+
+msgid "Business trip expenses"
+msgstr "Należne diety i ryczałty"
+
+msgid "Accepting supervisor|Person accepting business trip expenses"
+msgstr "Wniosek do akceptacji przez|Przełożony akceptujący rozliczenie diet i ryczałtów za delegację krajową"
+
+msgid "Business trip begin|Date and time of the start of the business trip"
+msgstr "Data i godzina rozpoczęcia|Data i godzina rozpoczęcia przez delegowanego wyjazdu służbowego"
+
+msgid "Business trip finish|Date and time  of the finish of the business trip"
+msgstr "Data i godzina zakończenia|Data i godzina zakończenia przez delegowanego wyjazdu służbowego"
+
+msgid " NoLaterThanDatetime( $_BusinesstripBegin, $_BusinesstripFinish )"
+msgstr "nie może być wcześniejsze niż pole 'Data i godzina rozpoczęcia'"
+
+msgid "Travel allowance|Travel allowance as set by law or internal regulations"
+msgstr "Stawka diety|Stawka diety krajowej za dobę podróży służbowej zgodnie z prawę i regulaminem organizacji"
+
+msgid "Number of travel allowance|Number of eligible travel allowance accounted as law requires"
+msgstr "Ilość diet|Ilość diet naliczona zgodnie z obowiązującym prawem i regulaminem organizacji"
+
+msgid "Total travel allowance|Total of travel allowance accounted as law requires"
+msgstr "Należna dieta|Należna wartość wynikająca ze stawki diety i ilości diet"
+
+msgid "Hotel allowance|Hotel allowance as set by law or internal regulations"
+msgstr "Stawka ryczałtu za nocleg|Stawka ryczałtu za własny nocleg zgodnie z prawę i regulaminem organizacji"
+
+msgid "Number of hotel allowance|Number of eligible hotel allowance accounted as law requires"
+msgstr "Ilość ryczałtów za nocleg|Ilość ryczałtów za nocleg zgodnie z przebiegiem podróży służbowej"
+
+msgid "Total hotel allowance|Total hotel allowance accounted as law requires"
+msgstr "Należny ryczałt za nocleg|Naliczona wartość wynikająca ze stawki ryczaltu za nocleg i ilości ryczałtów za nocleg"
+
+msgid "Substantiation|Why hotel allowance is eligible"
+msgstr "Uzasadnienie|Uzasadnienie wnioskowania o ryczałty za nocleg"
+
+msgid "Commuting allowance|Commuting allowance during a business trip as set by law or internal regulations"
+msgstr "Stawka ryczałtu za dojazdy|Stawka ryczałtu za własne dojazdy zgodnie z prawę i regulaminem organizacji"
+
+msgid "Number of commuting allowance|Number of eligible commuting allowance accounted as law requires"
+msgstr "Ilość ryczałtów za dojazd|Ilość ryczałtów za dojazd zgodnie z przebiegiem podróży służbowej"
+
+msgid "Commuting allowance|Total commuting allowance during a business trip accounted as law requires"
+msgstr "Należny ryczałt za dojazd|Naliczona wartość wynikająca ze stawki ryczaltu za dojazd i ilości ryczałtów za dojazd"
+
+msgid "Substantiation|Why commuting allowance is eligible"
+msgstr "Uzasadnienie|Uzasadnienie wnioskowania o ryczałty za dojazd"
+
+msgid "Vehicle|Type of vehicle used during the business trip if done with own one"
+msgstr "Środek lokomocji|Rodzaj własnego pojazdu użytego w trakcie wyjazdu służbowego"
+
+msgid "Way allowance|Way allowance for business trips withe own vehicle as set by law or internal regulations"
+msgstr "Stawka kilometrówki|Stawka ryczałtu za kilometr jazdy w trakcie wyjazdu służbowego własnym pojazdem zgodnie z prawę i regulaminem organizacji"
+
+msgid "Number of kilometers|Total number of km done during the business trip done with the own vehicle"
+msgstr "Sumaryczna ilość kilometrów|Sumaryczna ilość kilometrów wykonanych własnym pojazdem podczas podróży służbowej"
+
+msgid "Total way|Total business trip way allowance done with the own vehicle"
+msgstr "Należna kilometrówka|Należena wartość kilometrówki wynikająca ze stawki kilometrówki i przejechanej podczas podróży ilości kilometrów"
+
+msgid "Routes and kilometers with own vehicle |The description of the route and kilometers done withe the own vehicle during the business trip"
+msgstr "Trasy i kilometry własnym pojazdem|Opis tras i kilometrów wykonanych własnym pojazdem podczas podróży służbowej"
+
+msgid " !empty($_RouteCount1) AND !empty($_RouteDescription1)"
+msgstr "posiada opis trasy przejazdu ale brak jest wypełnionego pola kilometrów"
+
+msgid "Route 1|Description of the route during the business trip"
+msgstr "Trasa 1|Opis skąd i dokąd prowadziła trasa przejazdu własnym pojazdem"
+
+msgid " !empty($_RouteDescription1) AND !empty($_RouteCount1)"
+msgstr "posiada wypełnione kilometry ale brak jest wypełnionego pola 'Trasa 1'"
+
+msgid "Route 1 kilometers|Number of kilometers done on the route during the business trip"
+msgstr "km Trasy 1|Długość trasy w kilometrach"
+
+msgid " !empty($_RouteCount2) AND !empty($_RouteDescription2)"
+msgstr "posiada opis trasy przejazdu ale brak jest wypełnionego pola kilometrów"
+
+msgid "Route 2|Description of the route during the business trip"
+msgstr "Trasa 2|Opis skąd i dokąd prowadziła trasa przejazdu własnym pojazdem"
+
+msgid " !empty($_RouteDescription2) AND !empty($_RouteCount2)"
+msgstr "posiada wypełnione kilometry ale brak jest wypełnionego pola 'Trasa 2'"
+
+msgid "Route 2 kilometers|Number of kilometers done on the route during the business trip"
+msgstr "km Trasy 2|Długość trasy w kilometrach"
+
+msgid " !empty($_RouteCount3) AND !empty($_RouteDescription3)"
+msgstr "posiada opis trasy przejazdu ale brak jest wypełnionego pola kilometrów"
+
+msgid "Route3 |Description of the route during the business trip"
+msgstr "Trasa 3|Opis skąd i dokąd prowadziła trasa przejazdu własnym pojazdem"
+
+msgid " !empty($_RouteDescription3) AND !empty($_RouteCount3)"
+msgstr "posiada wypełnione kilometry ale brak jest wypełnionego pola 'Trasa 3'"
+
+msgid "Route 3 kilometers|Number of kilometers done on the route during the business trip"
+msgstr "km Trasy 3|Długość trasy w kilometrach"
+
+msgid " !empty($_RouteCount4) AND !empty($_RouteDescription4)"
+msgstr "posiada opis trasy przejazdu ale brak jest wypełnionego pola kilometrów"
+
+msgid "Route 4|Description of the route during the business trip"
+msgstr "Trasa 4|Opis skąd i dokąd prowadziła trasa przejazdu własnym pojazdem"
+
+msgid " !empty($_RouteDescription4) AND !empty($_RouteCount4)"
+msgstr "posiada wypełnione kilometry ale brak jest wypełnionego pola 'Trasa 4'"
+
+msgid "Route 4 kilometers|Number of kilometers done on the route during the business trip"
+msgstr "km Trasy 4|Długość trasy w kilometrach"
+
+msgid " !empty($_RouteCount5) AND !empty($_RouteDescription5)"
+msgstr "posiada opis trasy przejazdu ale brak jest wypełnionego pola kilometrów"
+
+msgid "Route 5|Description of the route during the business trip"
+msgstr "Trasa 5|Opis skąd i dokąd prowadziła trasa przejazdu własnym pojazdem"
+
+msgid " !empty($_RouteDescription5) AND !empty($_RouteCount5)"
+msgstr "posiada wypełnione kilometry ale brak jest wypełnionego pola 'Trasa 5'"
+
+msgid "Route 5 kilometers|Number of kilometers done on the route during the business trip"
+msgstr "km Trasy 5|Długość trasy w kilometrach"
+
+msgid "Full catering|If full catering has been provided during the business trip"
+msgstr "Pełne wyżywienie na wyjeździe|Czy w trakcie wyjazdu służbowego zapewnione było pełne wyżywienie"
+
+msgid "Remarks|Remarks important for accounting business trip reimbursable expenses"
+msgstr "Uwagi|Uwagi istotne dla naliczanie diet i ryczałtów za wyjazdu służbowy"
+
+msgid "Reimbursable expenses|Total of the reimbursable expenses for the business trip"
+msgstr "Należna dieta i ryczałty|Suma diety i ryczałtów naliczonych za wyjazd służbowy"
+
+msgid "Reimbursable travel allowance"
+msgstr "Diety"
+
+msgid "Reimbursable transportation"
+msgstr "Kilometrówka"
+
+msgid "Reimbursable hotel allowance"
+msgstr "Ryczałty za nocleg"
+
+msgid "Reimbursable commuting allowance"
+msgstr "Ryczałty za dojazd"
+
+msgid "Business trip reimbursable expenses approver"
+msgstr "Zatwierdzają akceptację"
+
+msgid "Business trip reimbursable expenses handlers"
+msgstr "Rozliczają diety za delegacje"
+
+msgid "Form|Edit summary information about the business trip reimbursable expenses"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o dietach i ryczałtach za wyjazd służbowy"
+
+msgid "Actions|Decison taking for accepting business trip reimbursable expenses"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie rozliczenia diet i ryczałtów za wyjazd służbowy"
+
+msgid "Reimbursable expenses"
+msgstr "Diety i ryczałty"
+
+msgid "Organization assignment|Name of organization associated with the business trip expenses"
+msgstr "Koszt dla jednostki organizacyjnej|Nazwa jednostki organizacyjnej do której należy przypisać koszt diet i ryczałtów z wyjazdu służbowego"
+
+msgid "Invoice assignment|The description how to assign the business trip expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."
+msgstr "Przypisanie kosztu do|Opis jak należy dekretować koszt diet i ryczałtów z wyjazdu służbowego np oznaczenie kontraktu, delegacja, ..."
+
+msgid "Cost Center|The description of the cost center associated with the business trip expenses"
+msgstr "MPK|Miejsce powstawania kosztu do którego należy przypisać diety i ryczałty z wyjazdu służbowego"
+
+msgid "Change substantiation|Why travel allowance has been changed form the default one"
+msgstr "Zmiana naliczenia diety|Uzasadnienie dlaczego zmienione zostało domyślne naliczenie diety za wyjazd służbowy"
+
+#xbtea
+msgid "Business trip allowance configuration"
+msgstr "Stawki ryczałtów i diety"
+
+msgid "Business trip allowance set"
+msgstr "Zestaw stawek ryczałtów i diety"
+
+msgid "Business trip allowance sets"
+msgstr "Zestawy stawek ryczałtów i diety"
+
+msgid "Business trip allowance set ID|An automatically assigned number used to identify a record"
+msgstr "ID zestawu ryczałtów i diety|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Valid from|The date business trip allowance set is valid from"
+msgstr "Zestaw obowiązuje od|Data od której włącznie jest ważny zestaw stawek ryczałtów i diety"
+
+msgid "Valid from"
+msgstr "Obowiązuje od"
+
+msgid "Remarks|Remarks to the business trip allowance set"
+msgstr "Uwagi|Uwagi do zestawu stawek ryczałtów i diety"
+
+msgid "Form|Edit summary information about the business trip allowance set"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o stawkach ryczałtów i diecie w zestawie"
+
+#xbtev
+msgid "Business trip transportation configuration"
+msgstr "Stawki kilometrówki dla pojazdów własnych"
+
+msgid "Business trip vehicle allowance"
+msgstr "Stawka kilometrówki"
+
+msgid "Business trip vehicle allowances"
+msgstr "Stawki kilometrówek"
+
+msgid "Business trip vehicle allowance ID|An automatically assigned number used to identify a record"
+msgstr "ID stawki kilometrówki|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Valid from|The date business trip vehicle allowance is valid from"
+msgstr "Stawka obowiązuje od|Data od której włącznie jest ważna stawka kilometrówki"
+
+msgid "Remarks|Remarks to the  business trip vehicle allowance"
+msgstr "Uwagi|Uwagi do stawki kilometrówki"
+
+msgid "Form|Edit summary information about the vehicle allowance"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o stawce kilometrówki"
+
+#xbter
+msgid "Business trip reimbursable expenses register"
+msgstr "Rejestr diet i ryczałtów za delegacje krajowe"
+
+msgid "Approved reimbursable expense"
+msgstr "Diety i ryczałty"
+
+msgid "Approved reimbursable expenses"
+msgstr "Diety i ryczałty"
+
+#xad
+msgid "Absent days from work register"
+msgstr "Nieobecności w pracy"
+
+msgid "Absent days entry"
+msgstr "Nieobecność w pracy"
+
+msgid "Absent days entries"
+msgstr "Nieobecności w pracy"
+
+msgid "Absent days ID|An automatically assigned number used to identify a record"
+msgstr "ID nieobecności w pracy|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Absent days begin|Date of the start of the absent days"
+msgstr "Początek nieobecności|Data perwszego dnia nieobecności w pracy"
+
+msgid "Absent days finish|Date of the finish of the absent days"
+msgstr "Koniec nieobecności|Data ostatniego dnia nieobecności w pracy"
+
+msgid " NoLaterThan( $_AbsentdaysBegin, $_AbsentdaysFinish )"
+msgstr "nie może być wcześniejsze niż pole 'Początek nieobecności'"
+
+msgid "Absent days description|What the absent person does during absent days"
+msgstr "Przyczyna nieobecności|Opis przyczyny nieobecności w pracy np urlop, szkolenie, chorobowe, delegacja, ..."
+
+msgid "Call me allowed|If the person may be called by phone during absent days"
+msgstr "Można dzwonić|Czy wolno dzwonić do nieobecnego w trakcie trwania nieobecności w pracy"
+
+msgid "Absent days owner|Displays absent days owners name"
+msgstr "Nieobecna osoba|Imie i nazwisko nieobecnego pracownika"
+
+msgid "Organization|Name of organization associated with the absent days owner"
+msgstr "Jednostka organizacyjna|nazwa jednostki organizacyjnej nieobecnego pracownika"
+
+msgid "Form|Edit summary information about the absent days"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o stawce kilometrówki"
+
+msgid "Absent days from work"
+msgstr "Nieobecność osoby w pracy"
+
+msgid "Absent days beginn"
+msgstr "Początek"
+
+msgid "Absent days finish"
+msgstr "Koniec"
+
+msgid "Absent days"
+msgstr "Nieobecny w pracy"
+
+msgid "Absent today|If the person will be absent today"
+msgstr "Pokazuj tylko nieobecności dzisiaj|Czy osoba jest dzisiaj nieobecna w pracy"
+
+msgid "Absent this week|If the person will be absent this week"
+msgstr "Pokazuj tylko nieobecności w tym tygodniu|Czy osoba jest w tym tygodniu nieobecna w pracy w jakiś dzień"
+
+msgid "Absent this and next week|If the person will be absent someday this week and next week"
+msgstr "Pokazuj tylko nieobecności w tym lub następnym tygodniu|Czy osoba jest w tym lub następnym tygodniu nieobecna w pracy w jakiś dzień"
+
+#xat
+msgid "Airline tickets booking"
+msgstr "Zamówienia biletów lotniczych"
+
+msgid "Flight booking"
+msgstr "Przelot"
+
+msgid "Flight bookings"
+msgstr "Przeloty"
+
+msgid "From|Airport or city where the flight starts"
+msgstr "Wylot z|Lotnisko albo miasto wylotu samolotu"
+
+msgid "To|Airport or city where the flight ends"
+msgstr "Przylot do|Lotnisko albo miasto do którego przylatuje samolot"
+
+msgid "Depart|The date of the depart from the airport or city where the flight starts"
+msgstr "Data wylotu|Data wylotu samolotu z lotniska lub miasta"
+
+msgid "Depart time|The time of the depart from the airport or city where the flight starts"
+msgstr "Orientacyjny czas wylotu|Orientacyjny czas wylotu samolotu"
+
+msgid "Remarks to the depart time|Remarks to the airplane depart time"
+msgstr "Uwagi do czasu wylotu|Uwagi do pożadanego dokładnego czasu wylotu samolotu z lotniska"
+
+msgid "Non stops only|Only non stops flights should be booked"
+msgstr "Przelot non stop|Czy zamawiany przelot ma się odbyć bez międzylądowań"
+
+msgid "Flight class|The class of the seat in the airplane"
+msgstr "Klasa|Klasa siedzenia w samolocie"
+
+msgid "Adult tickets|Number of the adults tickets ordered"
+msgstr "Ilość dorosłych|Ilość zamawianych biletów lotniczych według taryfy dla dorosłych"
+
+msgid "Price limit|Upper price limit for the airline ticktes"
+msgstr "Limit ceny za przelot|Górny granica kosztu przelotu samolotem na zamawianej trasie"
+
+msgid "Remarks|Remarks to the flight and airline tickets"
+msgstr "Uwagi do przelotów|Uwagi ważne dla realizacji zamówienia biletów lotniczych"
+
+msgid "Ordering person|Person requesting booking of the airline tickets"
+msgstr "Zamawiający|Osoba zamawiająca bilety lotnicze"
+
+msgid "Flight booking decision makers"
+msgstr "Przyjmują zamówienia na bilety lotnicze"
+
+msgid "Flight booking handlers"
+msgstr "Zamawiają i wydają bilety lotnicze"
+
+msgid "Form|Edit summary information about a flight booking request"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zamówieniu biletów na przelot samolotem"
+
+msgid "Actions|Decison taking for the flight booking request"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zamówienia biletów na przelot samolotem"
+
+msgid "Flight from"
+msgstr "Wylot"
+
+msgid "Flight to"
+msgstr "Przylot"
+
+#xatr
+msgid "Airline tickets register"
+msgstr "Rejestr biletów lotniczych"
+
+msgid "Flight bookings entries"
+msgstr "Bilety lotnicze"
+
+msgid "Flight booking entry"
+msgstr "Bilet lotniczy"
+
+#xkl
+msgid "Kitty lists"
+msgstr "Zbiórki pieniędzy"
+
+msgid "Kitty list"
+msgstr "Zbiórka pieniędzy"
+
+msgid "Kitty list ID|An automatically assigned number used to identify a record"
+msgstr "ID zbiórki|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Name|Name of the kitty list"
+msgstr "Przeznaczenie zbiórki|Przedsięwzięcie pod które robiona jest zbiórka pieniędzy"
+
+msgid "Description|Description of the objectives for the kitty list"
+msgstr "Szczegóły przedsięwzięcia|Szczegółowy opis celów przedsięwziecia i celu zbiórki pieniedzy od osób"
+
+msgid "Number of entries|Number of entries in the kitty list"
+msgstr "Ilość wpisów na liście|Ilość wpisów listście wpłaconych pieniędzy"
+
+msgid "Total of the kitty|Total money collected in the kitty"
+msgstr "Zebrane pieniądze|Suma pieniędzy zgromadzonych w trakcie zbiórki"
+
+msgid "Kitty status|If status closed no entering kitty list possible"
+msgstr "Status zbiórki|Jeżeli zbiórka jest zamknieta nie można się wpisać na listę"
+
+msgid "Responsible person|Displays name of the person responsible for the kitty list"
+msgstr "Zbiórkę prowadzi|Imię i nazwisko osoby odpowiedzialnej za zestawienie listy osób"
+
+msgid "Organization|Name of organization associated with the person responsible for kitty list"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej osoby odpowiedzialnej za zbiórkę"
+
+msgid "People joining the kitty"
+msgstr "Pieniądze zebrane podczas zbiórki"
+
+msgid "Form|Edit summary information about the kitty list"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o zrzutce pieniędzy"
+
+msgid "Joining the kitty|Add, update and delete an entry in the kitty list"
+msgstr "Wpłata pieniędzy|Dodaj, zaktualizuj lub usuń informację o wpłacie pieniędzy przez osobę"
+
+#xklr
+msgid "Peoples kitty payments"
+msgstr "Wpłaty pieniędzy"
+
+msgid "Kitty list rows"
+msgstr "Wpłacający na liście"
+
+msgid "Kitty list entry"
+msgstr "Wpłata osoby"
+
+msgid "Kitty list entries"
+msgstr "Wpłaty osób"
+
+msgid "Kitty member ID|An automatically assigned number used to identify a record"
+msgstr "ID osoby|Automatycznie przydzielany numer do śledzenia wiersza"
+
+msgid "Remarks|Remarks to the kitty entry"
+msgstr "Uwagi|Uwagi do wpłaty dokonanej przez wpłacającego"
+
+msgid "Money|Money paid to the kitty by the person"
+msgstr "Wpłata|Ilość pieniędzy wpłacona do pobierającego w ramach zbiórki"
+
+msgid "Payer|Displays payer name"
+msgstr "Wpłacający|Wyświetla imię i nazwisko osoby wpłacającej pieniądze u pobierającego"
+
+msgid "Form|Edit summary information about the kitty list entry"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o wpłacie pieniędzy w ramach zbiórki"
+
+msgid "Teller|Displays teller name"
+msgstr "Pobrał|Wyświetla imię i nazwisko osoby która pobrała pieniądze od wpłacającego"
+
+msgid "Error 3014"
+msgstr "zbiórka pieniędzy jest zakończona"
+
+msgid "Entry created"
+msgstr "Wpisano"
+
+#xp
+msgid "Project coordination"
+msgstr "Zarządzanie projektami"
+
+msgid "Labour units|Labour units used in the project"
+msgstr "Jednostka nakładu pracy|Jednostka nakładu pracy używana do rozliczania w pracach i zadaniach"
+
+msgid "Tasks connected with the project"
+msgstr "Zadania założone w projekcie"
+
+msgid "Supervisor|Person supervising project execution"
+msgstr "Kierownik projektu|Osoba nadzorująca realizację projektu"
+
+msgid "Projects"
+msgstr "Projekty"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Project ID|An automatically assigned number used to identify a project"
+msgstr "ID projektu|Automatycznie przydzielany numer do identyfikacji wiersza"
+
+msgid "Project|User defined project name"
+msgstr "Projekt|Nazwa projektu określona przez użytkownika"
+
+msgid "Description|Description of the project"
+msgstr "Opis|Krótki opis projektu"
+
+msgid "Start date|Start date of the project"
+msgstr "Rozpoczęcie|Data rozpoczęcia projektu"
+
+msgid "Finish date|Finish date of the project"
+msgstr "Zakończenie|Data zakończenia projektu"
+
+msgid "Status|Status of the project"
+msgstr "Status projektu|Status projektu w procesie realizacji"
+
+msgid "Form|Edit summary information about a projects"
+msgstr "Dane podstawowe|Edycja zawartości informacji o projekcie"
+
+msgid "Tasks|Tasks being part of the project"
+msgstr "Zadania w projekcie|Zadania będące częścią projektu"
+
+msgid " NoLaterThan( $_ProjectStartDate, $_ProjectFinishDate )"
+msgstr " nie może mieć daty wcześniejszej niż pole \"Rozpoczęcie\""
+
+#xt
+msgid "Connected with the job"
+msgstr "Powiązane z zadaniem"
+
+msgid "Supervisor|Person supervising task execution"
+msgstr "Kierownik zadania|Osoba nadzorująca realizację zadania w projekcie"
+
+msgid "Tasks in the project"
+msgstr "Zadania w projekcie"
+
+msgid "Tasks in the projects"
+msgstr "Zadania w projektach"
+
+msgid "Tasks"
+msgstr "Zadania"
+
+msgid "Task"
+msgstr "Zadanie"
+
+msgid "Task ID|An automatically assigned number used to identify a record"
+msgstr "ID zadania|Automatycznie przydzielany numer do identyfikacji wiersza"
+
+msgid "Task|Name of the task in the project"
+msgstr "Zadanie|Nazwa zadania w projekcie"
+
+msgid "Description|Description of the task in the project"
+msgstr "Opis|Opis zadania w projekcie"
+
+msgid "Plan Workload|Task planned workload in days"
+msgstr "Założony nakład pracy|Wstępnie założony nakład pracy na wykonanie zadania"
+
+msgid "Estimated Workload|Task estimated workload in days"
+msgstr "Uzgodniony z wykonawcami|Sumaryczny nakład pracy uzgodniony z wykonawcami na realizację zadania przy przydzielaniu pracy"
+
+msgid "Done Workload|Task workload done in days"
+msgstr "Wykonany nakład pracy|Sumaryczna nakład czasu pracy wykonawców na realizację zadania"
+
+msgid "Start date|Start date of the task in the project"
+msgstr "Rozpoczęcie|Data rozpoczęcia zadania w projekcie"
+
+msgid "Finish date|Finish date of the task in the project"
+msgstr "Zakończenie|Data zakończenia zadania w projekcie"
+
+msgid "Project ID|ID of the project for the task"
+msgstr "ID projektu|ID projektu dla zadania"
+
+msgid "Status|Current status of the task in the project"
+msgstr "Status zadania|Obeceny status zadania w procesie realizacji projektu"
+
+msgid "Form|Edit summary information about a task"
+msgstr "Dane podstawowe|Edycja zawartości informacji o zdaniu"
+
+msgid "Jobs|Jobs being part of the task in the project"
+msgstr "Prace w zadaniu|Prace będące częścią zadania w projekcie"
+
+msgid "Estim. Workl."
+msgstr "Uzgodniony"
+
+msgid "Done Workl."
+msgstr "Wykonany"
+
+msgid "Plan Workl."
+msgstr "Założony"
+
+msgid " NoLaterThan( $_TaskStartDate, $_TaskFinishDate )"
+msgstr " nie może mieć daty wcześniejszej niż pole \"Rozpoczęcie\""
+
+msgid "Tasks and Jobs"
+msgstr "Zadania i prace"
+
+msgid "Task Status"
+msgstr "Status zadania"
+
+msgid "Start date"
+msgstr "Rozpoczęcie"
+
+msgid "Finish date"
+msgstr "Zakończenie"
+
+msgid "Developer"
+msgstr "Wykonawca"
+
+msgid "Job Status"
+msgstr "Status pracy"
+
+#xj
+msgid "Change requests connected with the job"
+msgstr "Żądania zmian powiązane z pracą"
+
+msgid "Jobs in the task"
+msgstr "Prace w zadaniu"
+
+msgid "Jobs in the tasks"
+msgstr "Prace w zadaniach"
+
+msgid "Jobs"
+msgstr "Prace"
+
+msgid "Job"
+msgstr "Praca"
+
+msgid "Job ID|An automatically assigned number used to identify a record"
+msgstr "ID pracy|Automatycznie przydzielany numer do identyfikacji wiersza"
+
+msgid "Job|Name of the job belonging to a task in the project"
+msgstr "Praca|Nazwa pracy w zadaniu w danym projekcie"
+
+msgid "Description|Description of the job belonging to a task in the project"
+msgstr "Opis|Opis pracy należącej do zadania w danym projekcie"
+
+msgid "Start date|Start date of the job belonging to a task in the project"
+msgstr "Rozpoczęcie|Data rozpoczęcia pracy w zadaniu w danym projekcie"
+
+msgid " NoLaterThan( $_JobStartDate, $_JobFinishDate )"
+msgstr " nie może mieć daty wcześniejszej niż pole \"Rozpoczęcie\""
+
+msgid "Finish date|Finish date of the job belonging to a task in the project"
+msgstr "Zakończenie|Data zakończenia pracy w zadaniu w danym projekcie"
+
+msgid "Estimated Workload|Job estimated workload in days"
+msgstr "Uzgodniony z wykonawcą|Uzgodniony z wykonawcą nakład pracy w dniu jej przydziału"
+
+msgid "Done Workload|Job workload done in days"
+msgstr "Wykonany nakład pracy|Rzeczywisty nakład pracy wykonawcy w dniu jej zamknięcia"
+
+msgid "Task|User defined task name"
+msgstr "Zadanie|Nazwa zdania zdefiniowana przez użytkownika"
+
+msgid "Status|Status of the job in the task and project"
+msgstr "Status pracy|Status pracy w zdaniu w procesie realizacji projektu"
+
+msgid "Developer|Developer responsible for the job"
+msgstr "Wykonawca|Wykonawca odpowiedzialny za wykonanie pracy"
+
+msgid "Form|Edit summary information about a job"
+msgstr "Dane podstawowe|Edycja zawartości informacji o pracy"
+
+#xr
+msgid "Conference rooms in the building"
+msgstr "Sale konferencyjne"
+
+msgid "Conference rooms register"
+msgstr "Sale konferencyjne"
+
+msgid "Conference room"
+msgstr "Sala konferencyjna"
+
+msgid "Conference rooms"
+msgstr "Sale konferencyjne"
+
+msgid "Conference room number"
+msgstr "Pokój"
+
+msgid "Room ID|An automatically assigned number used to identify a record"
+msgstr "ID sali|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Building|Building where the conference room is situated"
+msgstr "Budynek|Budynek w którym znajduje się sala konferencyjna"
+
+msgid "Floor|Floor of the room where the conference room is situated"
+msgstr "Piętro|Piętro na którym znajduje się sala konferencyjna w budynku"
+
+msgid "Conference room number|Conference room number in the building"
+msgstr "Pokój|Numer pomieszczenia, w którym znajduje się sala konferencyjna"
+
+msgid "Key store|Place, where the conference room key is stored"
+msgstr "Miejsce przechowywania klucza|Miejsce w którym przechowywany jest klucz do sali konferencyjnej"
+
+msgid "Room name|Unique name of the room in the organization"
+msgstr "Nazwa sali|Unikalna w całej organizacji nazwa sali konferencyjnej"
+
+msgid "Special features|Description of room special properties"
+msgstr "Cechy szczególne|Opis szczególnych właściwości sali konferencyjnej"
+
+msgid "Max. number of people|The maximum number of people in the room"
+msgstr "Maksymalna liczba ludzi|Maksymalna liczba ludzi, którzy mogą przebywać w sali konferencyjnej"
+
+msgid "Chairs number|Default chair number in the room"
+msgstr "Ilość krzeseł|Ilość krzeseł, które znajdują się w sali konferencyjnej"
+
+msgid "Room darkening|Can the room be made dark"
+msgstr "Zaciemnienie pokoju|Czy sala konferecyjna ma instalacje (np żaluzje, rolety) do jej zaciemnienia"
+
+msgid "Builtin beamer|Is in the room a builtin beamer for a PC"
+msgstr "Zabudowany projektor|Czy sala konferencyjna posiada zabudowany projektor do komputera"
+
+msgid "Beamer screen|Is in the room a screen for a beamer"
+msgstr "Ekran do projektora|Czy sala konferencyjna posiada ekran do projektora komputerowego"
+
+msgid "Computer screen|Is in the room a big size screen for a PC"
+msgstr "Ekran komputerowy|Czy sala konferencyjna posiada wielkoformatowy ekran do komputera"
+
+msgid "Video conferencing|Is in the room placed a video conferencing device"
+msgstr "Urządzenia do videokonferencji|Czy sala konferencyjna posiada na wyposażeniu urządzenia do prowadzenia videokonferencji"
+
+msgid "Telephon access|Is in the room a fixed line telephone"
+msgstr "Telefon stacjonarny|Czy sala konferencyjna posiada na wyposażeniu telefon stacjonarny"
+
+msgid "WLAN access|Is in the room a WLAN access possible"
+msgstr "Dostęp do WLAN|Czy w sali konferencyjnej można korzystać z sieci bezprzewodowej"
+
+msgid "Net access|Is in the room a fixed line net access possible"
+msgstr "Sieć stacjonarna|Czy sala konferencyjna posiada na wyposażeniu gniazdka z dostępem do sieci"
+
+msgid "Room supervisor|Person helping with problems connected with the room"
+msgstr "Wsparcie techniczne|Osoba udzielająca na miejscu wsparcia przy problemach organizacyjnych i technicznych związanych z salą konferencyjną"
+
+msgid "Unavailable from|Date of the start of the room beeing unavailable"
+msgstr "Sala niedostępna od|Data początku niedostępności sali konferencyjnej"
+
+msgid "Unavailable to|Date of the finish of the room beeing unavailable"
+msgstr "Sala niedostępna do|Data zakończenia niedostępności sali konferencyjnej"
+
+msgid "Remarks|Description why the room is unavailable"
+msgstr "Uwagi|Wyjaśnienie przyczyny niedostępności sali konferencyjnej"
+
+msgid "Conference room unavailable from booking"
+msgstr "Sala niedostępna do rezerwacji"
+
+msgid "Form|Edit summary information about a conference room"
+msgstr "Dane podstawowe|Edycja zawartości informacji o sali konferencyjnej"
+
+msgid "Room unavailable|Edit dates conference room is unavailable from booking"
+msgstr "Sala niedostępna|Edycja dat wyłączenia sali konferencyjnej z rezerwacji"
+
+msgid "Conference room properties"
+msgstr "Właściwości sali konferencyjnej"
+
+msgid "Key store"
+msgstr "Klucz"
+
+msgid " NoLaterThan( $_UnavailableBegin, $_UnavailableFinish )"
+msgstr "nie może mieć daty  wcześniejszej niż pole 'Sala niedostępna od'"
+
+msgid "Available today|Is the conference room available today"
+msgstr "Sala dzisiaj|Czy sala konferencyjna jest dostępna dzisiaj"
+
+#xrc
+msgid "Conference orders handlers"
+msgstr "Realizują zamówienia uzupełniające"
+
+msgid "Error 3015"
+msgstr "próbowałeś zdjąć nie swoją rezerwację"
+
+msgid "Conference rooms calendar"
+msgstr "Rezerwacje sal konferencyjnych"
+
+msgid "Conference room booking"
+msgstr "Rezerwacja sali konferencyjnej"
+
+msgid "Conference rooms bookings"
+msgstr "Rezerwacje sal konferencyjncyh"
+
+msgid "Room nad day ID|An automatically assigned number used to identify a record"
+msgstr "ID sali i dnia|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Booking date|Date for which the conference room can be booked"
+msgstr "Data rezerwacji|Data w której rezerwowana jest sala konferencyjna"
+
+msgid "Available on date|Is the conference room available on booking date"
+msgstr "Sala w dacie|Czy sala konferencyjna jest dostępna w dacie rezerwacji"
+
+msgid "Form|Edit summary information about a conference room booking"
+msgstr "Dane podstawowe|Edycja zawartości informacji o rezerwacji sali konferencyjnej"
+
+msgid "Conference room booking|Edit hours the conference room is booked"
+msgstr "Rezerwacja sali konferencyjnej|Rezerwacja godzin rezerwacji sali konferencyjnej"
+
+msgid " ... - 8.00|Reservation till 8.00"
+msgstr " ...&#160; - &#160;&#160;8.00|Rezerwacja do 8.00 rano"
+
+msgid "8.00 - 8.30|Reservation 8.00 - 8.30"
+msgstr " 8.00 - &#160;&#160;8.30|Rezerwacja w godzinach od 8.00 do 8.30"
+
+msgid "8.30 - 9.30|Reservation 8.30 - 9.00"
+msgstr " 8.30 - &#160;&#160;9.30|Rezerwacja w godzinach od 8.30 do 9.00"
+
+msgid "9.00 - 9.30|Reservation 9.00 - 9.30"
+msgstr " 9.00 - &#160;&#160;9.30|Rezerwacja w godzinach od 9.00 do 9.30"
+
+msgid "9.30 - 10.00|Reservation 9.30 -10.00"
+msgstr " 9.30 - 10.00|Rezerwacja w godzinach od 9.30 do 10.00"
+
+msgid "10.00 - 10.30|Reservation 10.00 - 10.30"
+msgstr "10.00 - 10.30|Rezerwacja w godzinach od 10.00 do 10.30"
+
+msgid "10.30 - 11.00|Reservation 10.30 -11.00"
+msgstr "10.30 - 11.00|Rezerwacja w godzinach od 10.30 do 11.00"
+
+msgid "11.00 - 11.30|Reservation 11.00 - 11.30"
+msgstr "11.00 - 11.30|Rezerwacja w godzinach od 11.00 do 11.30"
+
+msgid "11.30 - 12.00|Reservation 11.30 -12.00"
+msgstr "11.30 - 12.00|Rezerwacja w godzinach od 11.30 do 12.00"
+
+msgid "12.00 - 12.30|Reservation 12.00 - 12.30"
+msgstr "12.00 - 12.30|Rezerwacja w godzinach od 12.00 do 12.30"
+
+msgid "12.30 - 13.00|Reservation 12.30 -13.00"
+msgstr "12.30 - 13.00|Rezerwacja w godzinach od 12.30 do 13.00"
+
+msgid "13.00 - 13.30|Reservation 13.00 - 13.30"
+msgstr "13.00 - 13.30|Rezerwacja w godzinach od 13.00 do 13.30"
+
+msgid "13.30 - 14.00|Reservation 13.30 -14.00"
+msgstr "13.30 - 14.00|Rezerwacja w godzinach od 13.30 do 14.00"
+
+msgid "14.00 - 14.30|Reservation 14.00 - 14.30"
+msgstr "14.00 - 14.30|Rezerwacja w godzinach od 14.00 do 14.30"
+
+msgid "14.30 - 15.00|Reservation 14.30 -15.00"
+msgstr "14.30 - 15.00|Rezerwacja w godzinach od 14.30 do 15.00"
+
+msgid "15.00 - 15.30|Reservation 15.00 - 15.30"
+msgstr "15.00 - 15.30|Rezerwacja w godzinach od 15.00 do 15.30"
+
+msgid "15.30 - 16.00|Reservation 15.30 -16.00"
+msgstr "15.30 - 16.00|Rezerwacja w godzinach od 15.30 do 16.00"
+
+msgid "16.00 - 16.30|Reservation 16.00 - 16.30"
+msgstr "16.00 - 16.30|Rezerwacja w godzinach od 16.00 do 16.30"
+
+msgid "16.30 - 17.00|Reservation 16.30 -17.00"
+msgstr "16.30 - 17.00|Rezerwacja w godzinach od 16.30 do 17.00"
+
+msgid "17.00 - ... |Reservation 17.00 till next day"
+msgstr "17.00 - &#160;... &#160;&#160;&#160;&#160;&#160;|Rezerwacja od 17.00 do wieczora"
+
+msgid "Room orders|Add, update and delete orders connected with the conference room reservation"
+msgstr "Zamówienia uzupełniające rezerwację|Dodaj, zaktualizuj lub usuń dodatkowe zamówienia związane z rezerwacją sali konferencyjnej"
+
+msgid "Conference room orders"
+msgstr "Zamówienia uzupełniające rezerwację sali konferencyjnej"
+
+msgid "Booking day|Day name of the booking date"
+msgstr "Dzień tygodnia|Nazwa dnia tygodnia daty rezerwacji"
+
+msgid "No saturdays|Exclude saturdays from booking dates"
+msgstr "Wyłącz soboty|Wyłącz soboty z dat rezerwacji"
+
+msgid "No sundays|Exclude sundays from booking dates"
+msgstr "Wyłącz niedziele|Wyłącz niedziele z dat rezerwacji"
+
+msgid "Show only day|Day name of the booking date"
+msgstr "Pokazuj tylko wybrany dzień tygodnia|Nazwa dnia tygodnia daty rezerwacji"
+
+msgid "Day"
+msgstr "Dzień"
+
+msgid "Today, tomorrow|Is the conference room available today, tomorrow"
+msgstr "Pokazuj tylko dzisiaj i jutro|Pokaż rezerwacje sal konferencyjnych dzisiaj i jutro"
+
+msgid "Week ahead|Is the conference room available the week from today"
+msgstr "Pokazuj tylko tydzień do przodu|Pokaż rezerwacje sal konferencyjnych tydzień naprzód od dzisiejszego dnia"
+
+#xrcc
+msgid "Conference Room"
+msgstr "Sala"
+
+msgid "Room delivery orders"
+msgstr "Zamówienia uzupełniające"
+
+msgid "Conference room and time orders"
+msgstr "Zamówienia uzupełniające do rezerwacji sali"
+
+msgid "Room and time orders"
+msgstr "Zamówienia uzupełniające"
+
+msgid "Room and time order"
+msgstr "Zamówienie uzupełniające"
+
+msgid "Room order ID|An automatically assigned number used to identify a record"
+msgstr "ID zamówienia|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Delivery time|Time of the order delivery to the room"
+msgstr "Na godzinę|Godzina dostarczenia zamówienia do zarezerwowanej sali konferencyjnej"
+
+msgid "Order|Description what should be delivered on time to the room"
+msgstr "Opis zamówienia|Opis przedmiotu zamówienia dostarczanego do zarezerwowanej sali konferencyjnej"
+
+msgid "Order maker|Displays the name of the ordering person"
+msgstr "Zamawiający|Imię i nazwisko osoby robiącej uzupełniające zamówienie do rezerwacji sali konferencyjnej"
+
+msgid "Organization|Name of organization associated with the order maker"
+msgstr "Jednostka organizacyjna|Jednostka organizacyjna zamawiającego"
+
+msgid "Form|Edit summary information about the room delivery order"
+msgstr "Dane podstawowe|Edycja zawartości informacji o zamówieniu uzupełniającym do rezerwacji sali konferencyjnej"
+
+msgid "Today, tomorrow|Show the conference room orders today, tomorrow"
+msgstr "Pokazuj tylko dzisiaj i jutro|Pokaż zamówienia pomocnicze do sal konferencyjnych dzisiaj i jutro"
+
+msgid "Week ahead|Show the conference room orders the week from today"
+msgstr "Pokazuj tylko tydzień do przodu|Pokaż zamówienia pomocnicze do sal konferencyjnych tydzień naprzód od dzisiejszego dnia"
+
+#xmr
+msgid "Conference resources in the building"
+msgstr "Zasoby pomocnicze do spotkań"
+
+msgid "Conference resources register"
+msgstr "Zasoby pomocnicze do spotkań"
+
+msgid "Conference resource"
+msgstr "Zasób pomocniczy"
+
+msgid "Conference resources"
+msgstr "Zasoby pomocnicze"
+
+msgid "Resource ID|An automatically assigned number used to identify a record"
+msgstr "ID zasobu|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Building|Building where the resource is available"
+msgstr "Budynek|Budynek w którym dostępny do użycia jest zasób"
+
+msgid "Resource store|Place, where the resource is stored"
+msgstr "Miejsce przechowywania|Miejsce składowania zasobu w budynku"
+
+msgid "Resource name|Unique name of the resource in the organization"
+msgstr "Nazwa zasobu|Unikalna w całej organizacji nazwa zasobu"
+
+msgid "Special features|Description of the resource special properties"
+msgstr "Cechy szczególne|Opis szczególnych właściwości zasobu"
+
+msgid "Resource supervisor|Person helping with problems connected with the resource"
+msgstr "Wsparcie techniczne|Osoba udzielająca na miejscu wsparcia przy problemach organizacyjnych i technicznych związanych z zasobem"
+
+msgid "Unavailable from|Date of the start of the resource beeing unavailable"
+msgstr "Zasób niedostępny od|Data początku niedostępności zasobu"
+
+msgid "Unavailable to|Date of the finish of the resource beeing unavailable"
+msgstr "Zasób niedostępny do|Data zakończenia niedostępności zasobu"
+
+msgid "Remarks|Description why the resource is unavailable"
+msgstr "Uwagi|Wyjaśnienie przyczyny niedostępności zasobu"
+
+msgid "Resource unavailable from booking"
+msgstr "Zasób niedostępny do rezerwacji"
+
+msgid "Form|Edit summary information about the resource"
+msgstr "Dane podstawowe|Edycja zawartości informacji o zasobie"
+
+msgid "Resource unavailable|Edit dates resource is unavailable from booking"
+msgstr "Zasób niedostępny|Edycja dat wyłączenia zasobu z rezerwacji"
+
+msgid "  NoLaterThan( $_UnavailableBegin, $_UnavailableFinish )"
+msgstr "nie może mieć daty wcześniejszej niż pole 'Zasób niedostępny od'"
+
+msgid "Available today|Is the resource available today"
+msgstr "Zasób dzisiaj|Czy zasób jest dostępny dzisiaj"
+
+#xmrc
+msgid "Reservation day"
+msgstr "Rezerwacja"
+
+msgid "Conference Resources"
+msgstr "Zasób"
+
+msgid "Conference resources calendar"
+msgstr "Rezerwacja zasobów do spotkania"
+
+msgid "Resource booking"
+msgstr "Rezerwacja zasobu"
+
+msgid "Resources bookings"
+msgstr "Rezerwacje zasobów"
+
+msgid "Resource nad day ID|An automatically assigned number used to identify a record"
+msgstr "ID zasobu i dnia|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Booking date|Date for which the the resource can be booked"
+msgstr "Data rezerwacji|Data w której rezerwowany jest zasób"
+
+msgid "Available on date|Is the resource available on booking date"
+msgstr "Zasób w dacie|Czy zasób jest dostępny w dacie rezerwacji"
+
+msgid "Form|Edit summary information about the resource booking"
+msgstr "Dane podstawowe|Edycja zawartości informacji o rezerwacji zasobu"
+
+msgid "Conference resource booking|Edit hours the conference resource is booked"
+msgstr "Rezerwacja zasobu pomocniczego|Rezerwacja godzin wykorzystania zasobu"
+
+msgid "Conference resource booking"
+msgstr "Rezerwacja zasobu pomocniczego"
+
+msgid "Today, tomorrow|Is the resource available today, tomorrow"
+msgstr "Pokazuj tylko dzisiaj i jutro|Pokaż rezerwacje zasobu pomocniczego dzisiaj i jutro"
+
+msgid "Week ahead|Is the resource available the week from today"
+msgstr "Pokazuj tylko tydzień do przodu|Pokaż rezerwacje zasobu pomocniczego tydzień naprzód od dzisiejszego dnia"
+
+#Navigation
+msgid "Meetings organization"
+msgstr "Organizacja spotkań"
+
+msgid "Business trips organization"
+msgstr "Wyjazdy służbowe"
+
+msgid "Purchase invoice assignment"
+msgstr "Koszty zewnętrzne"
+
+msgid "Asset management"
+msgstr "Wyposażenie pracownika"
+
+msgid "Miscellaneous"
+msgstr "Różności"
+
+msgid "Work time management"
+msgstr "Czas pracy"
+
+#xts
+msgid "Work timesheet"
+msgstr "Rozliczanie czasu pracy"
+
+msgid "Timesheet"
+msgstr "Rozliczenie czasu pracy"
+
+msgid "Timesheets"
+msgstr "Rozliczenia czasów pracy"
+
+msgid "Timesheet ID|An automatically assigned number used to identify a record"
+msgstr "ID rozliczenia|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Work period begin|The time the work period accounting started"
+msgstr "Początek okresu rozliczenia|Początek okresu za który rozliczany jest dzienny czasu pracy"
+
+msgid "Work period end|The time the work period accounting ended"
+msgstr "Koniec okresu rozliczenia|Koniec okresu za który rozliczany jest dzienny czasu pracy"
+
+msgid " NoLaterThan( $_WorkPeriodStart, $_WorkPeriodEnd )"
+msgstr " nie może mieć daty wcześniejszej niż pole \"Początek okresu rozliczenia\""
+
+msgid "Total work time|Total time spent in the work during the accounting period"
+msgstr "Sumaryczny czas pracy|Sumaryczny czas pracy za okres rozliczenia"
+
+msgid "Accepting supervisor|Person accepting the timesheet"
+msgstr "Rozliczenie akceptuje|Przełożony uprawniony do akceptacji rozliczenia czasu pracy"
+
+msgid "Timesheet handlers"
+msgstr "Rozliczenia czasu pracy obsługują"
+
+msgid "Form|Edit summary information about the timesheet"
+msgstr "Dane podstawowe|Edycja zawartości informacji o rozliczeniu czasu pracy"
+
+msgid "Daily timesheet|Add, update or delete daily entries of the work time"
+msgstr "Rejestracja czasu pracy|Dodawanie i aktualizacja dziennego wpisu czasu pracy"
+
+msgid "Actions|Decision taking for the timesheet"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zatwierdzenia rozliczenia czasu pracy za okres"
+
+msgid "Submitting person|Person submitting the timesheet"
+msgstr "Rozliczenie dla pracownika|Osoba przedkładająca swoje rozliczenie czasu pracy do akceptacji"
+
+msgid "Work period start"
+msgstr "Początek rozliczenia"
+
+msgid "Work period end"
+msgstr "Koniec rozliczenia"
+
+msgid "Daily timesheet"
+msgstr "Rejestracja czasu pracy"
+
+#xtsr
+msgid "Work timesheet rows"
+msgstr "Wpisy czasów pracy"
+
+msgid "Timesheet row"
+msgstr "Wpis czasu pracy"
+
+msgid "Work begin"
+msgstr "Rozpoczęcie"
+
+msgid "Work end"
+msgstr "Zakończenie"
+
+msgid "Timesheet rows"
+msgstr "Wpisy czasu pracy"
+
+msgid "Timesheet row ID|An automatically assigned number used to identify a record"
+msgstr "ID wpisu|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Remarks|Time entry and work remarks"
+msgstr "Uwagi|Uwagi do wpisu czasu pracy"
+
+msgid "Date|Date for which the time is accounted in the timesheet"
+msgstr "Data wykonywania pracy|Data której dotyczy wpis czasu pracy"
+
+msgid "Day|Day name of the work date"
+msgstr "Dzień|Nazwa dnia tygodnia dla daty"
+
+msgid "Begin|The time the work started"
+msgstr "Rozpoczęcie pracy|Godzina i minuta rozpoczęcia pracy w dniu daty"
+
+msgid "End|The time the work ended"
+msgstr "Zakończenie pracy|Godzina i minuta zakończenia pracy w dniu daty"
+
+msgid "Error 3023"
+msgstr "pole \"Zakończenie pracy\" nie może mieć godziny wcześniejszej lub równej niż pole \"Rozpoczęcie pracy\""
+
+msgid "Time|The time spent in the work"
+msgstr "Czas pracy|Czas pracy wynikający z czasu rozpoczęcia i zakończenia pracy"
+
+msgid "Form|Edit summary information about the timesheet entry"
+msgstr "Dane podstawowe|Edycja zawartości informacji o wpisie czasu pracy"
+
+msgid "Coworker"
+msgstr "Współpracownik"
+
+msgid "Work time"
+msgstr "Czas pracy"
+
+msgid " LaterThanTime($_WorkStart, $_WorkEnd)"
+msgstr " nie może mieć godziny wcześniejszej lub równej niż pole \"Rozpoczęcie pracy\""
+
+#xtsrr
+msgid "Work timesheet rows register"
+msgstr "Rejestr czasu pracy"
+
+msgid "Timesheet row entry"
+msgstr "Wpis czasu pracy"
+
+msgid "Timesheet rows entries"
+msgstr "Wpisy czasów prac"
+
+msgid "Error 3025"
+msgstr "sprawa jest trakcie podejmowania decyzji"
+
+msgid "Work timesheet entries"
+msgstr "Wpisy czasów pracy"
+
+msgid "Error 3026"
+msgstr "nie jest wypełnione pole w kolumnie\"Zakończenie\" tabeli \"Wpisy czasów pracy\" w zakładce Rejestracja czasu pracy"
+
+msgid "Error 3027"
+msgstr "nie ma żadnych wierszy w  tabeli \"Wpisy czasów pracy\" w zakładce Rejestracja czasu pracy"
+
+msgid "Error 3028"
+msgstr "osoba ze statusem \"Były współpracownik\" nie może pełnić żadnej roli w organizacji"
+
+msgid "Business trips expenses"
+msgstr "Delegacje"
+
+#xc
+msgid "Fleet management"
+msgstr "Pojazdy"
+
+msgid "Vehicle"
+msgstr "Pojazd"
+
+msgid "Vehicles"
+msgstr "Pojazdy"
+
+msgid "Vehicle ID|An automatically assigned number used to identify a record"
+msgstr "ID pojazdu|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Make Type Model|Make type and model of the car as in the vehicle registration certificate"
+msgstr "Marka, typ i model|Marka, typ i model pojazdu jak podano w dowodzie rejestracyjnym w polach D.1 D.2 D.3"
+
+msgid "Registration number|Registration number of the car as in the vehicle registration certificate"
+msgstr "Numer rejestracyjny|Numer rejestracyjny pojazdu jak podano w dowodzie rejestracyjnym w polu A"
+
+msgid "Description|Addtional vehicle description from the vehicle registration certificate"
+msgstr "Informacje uzupełniające|Pozostałe informacje z dowodu rejestracyjnego pojazdu lub inne konieczne do eksploatacji"
+
+msgid "Location|Vehicle assigned to the location as the base"
+msgstr "Lokalizacja bazowa|Lokalizacja do której jako baza przypisany jest pojazd"
+
+msgid "Vehicle assignment to persons"
+msgstr "Przydział pojazdu do pracowników"
+
+msgid "Fleet handlers"
+msgstr "Zarządzają flotą pojazdów"
+
+msgid "Form|Edit summary information about a vehicle"
+msgstr "Dane podstawowe|Edycja zawartości informacji o pojeździe"
+
+msgid "Persons with vehicle|Persons who have asignned a vehicle"
+msgstr "Użytkownicy pojazdu|Przydzielanie pojazdu do danej osoby i jego zwrot"
+
+msgid "Vehicles in the location"
+msgstr "Pojazdy w lokalizacji"
+
+msgid "Vehicle available"
+msgstr "Wolny"
+
+msgid "Is available|if the vehicle is available"
+msgstr "Jest wolny|Czy pojazd jest wolny i może zostać przydzieleny osobie"
+
+
+#xcp
+msgid "Persons with vehicles"
+msgstr "Użytkownicy pojazdów"
+
+msgid "Person with vehicle"
+msgstr "Użytkownik pojazdu"
+
+msgid "Person with vehicle ID|An automatically assigned number used to identify a record"
+msgstr "ID osoby i pojazdu|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Assignee|Person who has been asignned the vehicle"
+msgstr "Użytkujący|Osoba użytkująca pojazd w czasie przydziału"
+
+msgid "Organization|Name of organization associated with the person who has been asignned the vehicle"
+msgstr "Jednostka organizacyjna|Nazwa jednostki organizacyjnej związanej z osobą użytkującą pojazd"
+
+msgid "Remarks|Assignee and vehicle remarks"
+msgstr "Uwagi|Uwagi do osoby i użytkowanego pojazdu"
+
+msgid "Assigned on|Date the vehicle has been assigned to the person"
+msgstr "Przydzielono|Data otrzymania przez osobę pojazdu do użytkowania"
+
+msgid "Returned on|Date the vehicle has been returned to the assignor"
+msgstr "Zwrócono|Data zwrotu przez osobę pojazdu do organizacji"
+
+msgid "Form|Edit summary information about a assignee"
+msgstr "Dane podstawowe|Edycja zawartości informacji o osobie z pojazdem"
+
+msgid "Persons asignned the vehicle"
+msgstr "Użytkownicy pojazdu"
+
+msgid "Registration number"
+msgstr "Rejestracja"
+
+msgid " NoLaterThan( $_AssignedOn, $_ReturnedOn )"
+msgstr "musi mieć datę taką samą lub późniejszą niż \"Przydzielono\""
+
+msgid "Vacation begin"
+msgstr "Rozpoczęcie"
+
+msgid "Vacation finish"
+msgstr "Zakończenie"
+
+msgid "Item ordering"
+msgstr "Zamówienia pracownicze"
+
+msgid "Is assigned now|If the vehicle is assigned now to the person"
+msgstr "Jest teraz przydzielony|Czy jakaś osoba jest teraz w posiadaniu pojazdu"
+
+#xes
+msgid "Expenses in spe approval"
+msgstr "Akceptacja kosztów in spe"
+
+msgid "Subject|Short descrition of the expense in spe"
+msgstr "Koszt|Nazwa i rodzaj kosztu, który powstanie w przyszłości"
+
+msgid "Description|Detailed description of the expense in spe"
+msgstr "Uzasadnienie|Opis przyczyny powstania kosztu w przyszłości"
+
+msgid "Total|Total value of the expense in spe"
+msgstr "Wartość|Wartośc pieniężna budżetu na koszt w przyszłości"
+
+msgid "Accepting supervisor|Person accepting the expense in spe"
+msgstr "Wniosek do akceptacji przez|Przełożony akceptujący wniosek o budżet na koszt w przyszłości"
+
+msgid "Form|Edit summary information about a expense in spe"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o koszcie w przyszłości"
+
+msgid "Expense approvers"
+msgstr "Zatwierdzają akceptację"
+
+msgid "Expense handlers"
+msgstr "Wspierają wnioskowanie"
+
+msgid "Actions|Decison taking for the expense in spe"
+msgstr "Działania <br/>w&nbsp;sprawie|Podejmowanie działań w sprawie zatwierdzenia kosztów in spe"
+
+msgid "Expense in spe"
+msgstr "Koszt in spe"
+
+msgid "Expenses in spe"
+msgstr "Koszty in spe"
+
+msgid "Requesting person|Person requesting the expense in spe"
+msgstr "Zgłaszający koszt|Osoba zgłaszająca koszt in spre do aprobaty"
+
+#xesr
+msgid "Expenses in spe register"
+msgstr "Rejestr kosztów in spe"
+
+msgid "Expense in spe entry"
+msgstr "Wpis kosztu in spe"
+
+msgid "Expenses in spe entries"
+msgstr "Wpisy kosztów in spe"
+
+#xe
+msgid "Equipment management"
+msgstr "Rejestr wyposażenia"
+
+msgid "Equipment item"
+msgstr "Sprzęt"
+
+msgid "Equipment items"
+msgstr "Sprzęty"
+
+msgid "Equipment"
+msgstr "Sprzęt"
+
+msgid "Equipment ID|An automatically assigned number used to identify a record"
+msgstr "ID sprzętu|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Equipment|Make type and model of the equipment"
+msgstr "Nazwa sprzętu|Nazwa typ model sprzętu"
+
+msgid "Registration number|Registration number of the equipment of the manufacturer or internal"
+msgstr "Numer inwentarzowy|Numer wewnętrzny, z księgowości lub numer producenta przeznaczony do identyfikacji sprzętu"
+
+msgid "Equipment number"
+msgstr "Numer"
+
+msgid "Description|Description of the equipment characteristics and manfucaturing numbers"
+msgstr "Opis|Opis cech sprzętu oraz ewentualnych numerów i oznaczeń producenta"
+
+msgid "Location|Equipment assigned to the location as the base"
+msgstr "Lokalizacja bazowa|Lokalizacja do której jest przypisany jest sprzęt"
+
+msgid "Equipment handlers"
+msgstr "Zarządzają wyposażeniem"
+
+msgid "Form|Edit summary information about a equipment item"
+msgstr "Dane podstawowe|Edycja podstawowej informacji o jednostce sprzętu"
+
+msgid "Persons with the equipment item|Persons who have asignned the equipment item"
+msgstr "Użytkownicy sprzętu|Przydzielanie osobom wyposażenia na stan"
+
+msgid "Equipment assignment to persons"
+msgstr "Użytkownicy sprzętu"
+
+msgid "Store|Place, where the equipment is stored"
+msgstr "Miejsce przechowywania|Miejsce w którym stoi sprzęt"
+
+#xep
+msgid "Persons with equipment"
+msgstr "Sprzęt na stanie"
+
+msgid "Person with an equipment item"
+msgstr "Sprzęt"
+
+msgid "Persons with equipment items"
+msgstr "Sprzęty"
+
+msgid "Person with equipment ID|An automatically assigned number used to identify a record"
+msgstr "ID przydziału|Automatycznie przydzielany numer do indentyfikacji wiersza"
+
+msgid "Assignee|Person who has been asignned the equipment"
+msgstr "Użytkujący|Osoba użytkująca wyposażenie w czasie przydziału"
+
+msgid "Remarks|Assignee and equipment remarks"
+msgstr "Uwagi|Uwagi do osoby i użytkowanego wyposażenia"
+
+msgid "Returned on|Date the equipment has been returned to the assignor"
+msgstr "Zwrócono|Data zwrotu przez osobę sprzętu do organizacji"
+
+msgid "Assigned on|Date the equipment has been assigned to the person"
+msgstr "Przydzielono|Data otrzymania przez osobę sprzętu do użytkowania"
+
+msgid "Persons asignned the equipment"
+msgstr "Użytkownicy wyposażenia"
+
+msgid "Base location"
+msgstr "Baza"
+
+msgid "Is assigned now|If the equipment is assigned now to the person"
+msgstr "Jest teraz przydzielony|Czy sprzęt jest w tym momencie przydzielony i w posiadaniu osoby"
+
+msgid "Equipment available"
+msgstr "Wolny"
+
+msgid "Is available|if the equipment item is available"
+msgstr "Jest wolny|Czy sprzęt jest wolny i może zostać przydzieleny osobie"

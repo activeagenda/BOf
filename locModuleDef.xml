@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Locations" moduleID="loc" 
+	isImplementationPlanningModule="yes" isMasterData="yes" 
+	singularRecordName="Location" pluralRecordName="Locations" 
+	defaultMenuPath="Main Menu / Organizational structure / Locations">
+	
+    <ModuleFields>
+        <TableField 
+			name="LocationID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Location ID|An automatically assigned number used to identify a record"/>
+		<TableField 
+			name="Name" type="varchar(50)" validate="notEmpty" 
+			phrase="Location name|Name used to identify the location in the organization"/>
+		<TableField 
+			name="ShortName" type="varchar(5)" validate="notEmpty" 
+			phrase="Short Name|A short name used to identify the location in the organization"/>			
+		<TableField 
+			name="SupervisorID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar"
+			phrase="Supervisor|Person supervising the location"/>			
+		<ForeignField 
+			name="Supervisor" key="SupervisorID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="Supervisor|Person supervising the location">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="SupervisorLink" foreignModuleID="ppl" recordIDField="SupervisorID" 
+			phrase="Supervisor|Person supervising the location"/>
+		<ForeignField 
+			name="SupervisorOrganizationID"  key="SupervisorID" 
+			foreignTable="ppl" 	foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Supervisor|Person supervising the location"/>
+		<ForeignField 
+			name="SupervisorOrganization" key="SupervisorOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Supervisor|Person supervising the location"/>
+		<CombinedField name="SupervisorNameOrganization"  
+			phrase="Supervisor|Person supervising the location">
+			<CombinedFieldRef name="Supervisor"/>_/_<CombinedFieldRef name="SupervisorOrganization"/>
+		</CombinedField>	
+      			
+		<TableField 
+			name="OrgFunctionID" type="int" validate="RequireSelection" 
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+        <CodeField  
+			name="OrgFunction" key="OrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+        <TableField 
+			name="Address1" type="varchar(128)" validate="notEmpty" 
+			phrase="Street|Physical street address of the location plus city if no postal office in the city"/>
+        <TableField 
+			name="CountryID" type="int" dbFlags="unsigned" defaultValue="#165" validate="RequireSelection" 
+			phrase="Country|The internationally recognized name of the country"/>
+        <ForeignField 
+			name="Country" key="CountryID" 
+			foreignTable="ctr" foreignKey="CountryID" foreignField="Country" joinType="left" 
+			phrase="Country|A combined field used to associate this country with another record"/>
+        <TableField 
+			name="City" type="varchar(50)" validate="notEmpty" 
+			phrase="City|The name of the city where this organization is located"/>
+        <TableField 
+			name="PostalCode" type="varchar(10)" validate="notEmpty" 
+			phrase="Postal Code|Numerical postal code used to direct physical mail"/>
+		<TableField 
+			name="Description" type="text"  
+			phrase="Journey|Hints for the journey to the location"/>
+        <TableField 
+			name="Phone" type="varchar(25)" validate="Phone"
+			phrase="Phone|Telephone number of the location"/>
+        <TableField 
+			name="Fax" type="varchar(25)" validate="Phone"
+			phrase="Fax|Fax telephone number of the location"/>
+        <TableField 
+			name="Email" type="varchar(128)" validate="Email"
+			phrase="Email|Email address used by the organization to correspond with the location"/>
+       
+        <CombinedField 
+			name="Address" 
+			phrase="Address|Postal adres of the location">
+			<CombinedFieldRef name="Address1"/><br/>
+			<CombinedFieldRef name="PostalCode"/>_<CombinedFieldRef name="City"/><br/>
+			<CombinedFieldRef name="Country"/>
+		</CombinedField>		
+		<CombinedField 
+			name="AddressLink" 
+			phrase="Address|Postal adres of the location">
+			http://maps.google.com/maps?q=<CombinedFieldRef name="Address1"/>,_<CombinedFieldRef name="PostalCode"/>_<CombinedFieldRef name="City"/>,_<CombinedFieldRef name="Country"/>			
+		</CombinedField>
+		
+		<TableField 
+			name="OrderNumber" type="int" 
+			phrase="Order number|Order number of the position on the list"/>		
+        <CombinedField 
+			name="RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+            <CombinedFieldRef name="OrgFunction"/>_<CombinedFieldRef name="Name"/>
+        </CombinedField>
+		<CombinedField 
+			name="RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+            <CombinedFieldRef name="OrgFunction"/>_<CombinedFieldRef name="Name"/>		
+        </CombinedField>
+		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		
+	</ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="LocationID"/>
+        </PrimaryKey>
+        <UniquenessIndex name="Name">
+            <FieldRef name="Name"/>
+        </UniquenessIndex>        
+        <RecordDescriptionField name="RecordDescription"/>
+        <RecordLabelField name="RecordLabel"/>
+    </ModuleInfo>
+    <SubModules>
+        <SubModule 
+			name="Persons" parentKey="LocationID" 
+			moduleID="ppl" localKey="LocationID">
+			<SubModuleCondition field="PersonStatusID" value="1"/>
+		</SubModule>
+		<SubModule 
+			name="Builidngs" parentKey="LocationID" 
+			moduleID="locb" localKey="LocationID">
+		</SubModule>
+		<SubModule 
+			name="Vehicles" parentKey="LocationID" 
+			moduleID="xc" localKey="_VehicleLocationID">
+		</SubModule>
+		<SubModule 
+			name="Attachments" parentKey="LocationID"
+			moduleID="att" localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="loc"/>
+		</SubModule>
+    </SubModules>
+	<RecordSummaryFields>
+        <ViewField name="LocationID"/>
+		<ViewField name="ruler1"/>
+        <ViewField name="Name"/>		
+		<ViewField name="OrgFunction"/>
+		<ViewField name="ShortName"/>
+		<ViewField name="ruler2"/> 
+		<ViewField name="Address" link="AddressLink" icon="mapmarker.png"/>
+		<ViewField name="SupervisorNameOrganization" link="SupervisorLink"/>		
+    </RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List">
+            <ListField name="LocationID" phrase="ID"/>
+            <ListField name="Name" align="center" phrase="Location"/>			
+			<ListField name="OrgFunction" align="center"/>			
+			<ListField name="ShortName" align="center"  phrase="Short name"/>
+			<ListField name="Address" />
+			<HiddenField name="OrderNumber"/>
+            <OrderByField name="OrderNumber"/>				
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="LocationID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+            <EditField name="Name" size="50" maxLength="128"/>
+			<CodeRadioField name="OrgFunctionID" orientation="vertical"/>			
+			<EditField name="ShortName" size="5" maxLength="5"/>
+			<ViewField name="ruler2"/>
+			<EditField name="Address1" size="50" maxLength="128"/>
+            <EditField name="PostalCode" size="10" maxLength="10"/>
+			<EditField name="City" size="30" maxLength="128"/>
+            <ComboField name="CountryID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler3"/>           
+            <EditField name="Phone" size="15" maxLength="25"/>
+            <EditField name="Fax" size="15" maxLength="25"/>
+			<EditField name="Email" size="50" maxLength="128"/>	
+			<ViewField name="ruler4"/>			
+            <PersonComboField name="SupervisorID" findMode="text" suppressItemAdd="yes"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+            <ViewField name="LocationID"/>
+			<ViewField name="ruler1"/>
+            <ViewField name="Name"/>
+			<ViewField name="OrgFunction"/>
+			<ViewField name="ShortName"/>
+			<ViewField name="ruler2"/>                     
+            <ViewField name="Address" link="AddressLink" icon="mapmarker.png"/>
+            <ViewField name="Description"/>
+			<ViewField name="ruler3"/>			
+            <ViewField name="Phone"/>
+            <ViewField name="Fax"/>
+            <ViewField name="Email" link="Email"/>
+			<ViewField name="ruler4"/>
+			<ViewField name="SupervisorNameOrganization" link="SupervisorLink"  goEditScreen="Form"/> 
+			<ViewGrid moduleID="att"/>
+			<ViewScreenSection name="Associations" phrase="Connected with the location">						
+				<ViewGrid moduleID="locb" phrase="Buildings in the location" rowIDon="BuildingID"/>
+				<ViewGrid moduleID="xc" phrase="Vehicles in the location" rowIDon="LocationID"/>     
+                <ViewGrid moduleID="ppl" phrase="Persons in the location" rowIDon="LocationID"/>
+            </ViewScreenSection>            
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a location">
+            <ViewField name="LocationID"/>
+			<ViewField name="ruler1"/>
+            <EditField name="Name" size="50" maxLength="128"/>			
+			<CodeRadioField name="OrgFunctionID" orientation="vertical"/>
+			<EditField name="ShortName" size="5" maxLength="5"/>
+			<ViewField name="ruler2"/>
+            <EditField name="Address1" size="50" maxLength="128"/>            
+			<EditField name="PostalCode" size="10" maxLength="10"/>
+			<EditField name="City" size="30" maxLength="128"/>
+			<ComboField name="CountryID" findMode="text" suppressItemAdd="yes"/>
+			<MemoField name="Description" rows="5" cols="60"/>
+			<ViewField name="ruler3"/>
+            <EditField name="Phone" size="15" maxLength="25"/>
+            <EditField name="Fax" size="15" maxLength="25"/>
+			<EditField name="Email" size="30" maxLength="128"/>
+			<ViewField name="ruler4"/>			
+			<PersonComboField name="SupervisorID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler5"/>  
+			<EditField name="OrderNumber" size="5" maxLength="10"/>
+        </EditScreen>
+		<EditScreen name="Attachments"  phrase="Attachments|Manage attachments for this record">
+            <RecordSummaryFieldsRef/>
+			<UploadGrid moduleID="att" goViewAnchor="top"/>
+        </EditScreen>
+    </Screens>       
+    <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<p>Funkcjonalność procesu ma charakter rejestru danych:</p>
+<ul>
+<li>Wszyscy użytkownicy mają podgląd wszystkich danych.</li>
+<li>Aktualizujący dane mają prawo ich edycji.</li>
+</ul>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Lokalizacje" (loc)</li>
+<li>"Budynki" (locb)</li>
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Lokalizacje" (loc): Podgląd wszystkich danych</li>
+<li>"Budynki" (locb): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Grupy użytkowników założone do obsługi uprawnień w modułach realizujących proces:</li>
+<ul>
+<li>*Aktualizacja danych lokalizacji i budynków* (locb)</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników 
+*Aktualizacja danych lokalizacji i budynków* (locb): </li>
+<ul>
+<li>"Lokalizacje" (loc): Edycja wszystkich danych</li>
+<li>"Budynki" (locb): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Aktualizuje dane lokalizacji i budynków#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Aktualizacja danych lokalizacji i budynków* (locb)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Aktualizacja danych lokalizacji i budynków* (locb)</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Wypełnienie modułu "Lokalizacje" (loc) danymi przed wypełnianiem modułu "Budynki" (locb)</li>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date=""/>
+</Module>

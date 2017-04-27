@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Business trip reimbursable expenses" moduleID="xbte"
+	singularRecordName="Business trip expense" pluralRecordName="Business trip expenses"
+	defaultMenuPath="Main Menu / Business trips organization / Business trip reimbursable expenses">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_TripexpensesID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Case ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Business -->			
+		<TableField 
+			name="_SupervisorID" type="int" dbFlags="unsigned default 0"
+			orgListOptions="intpar" validate="RequireSelection" defaultValue="defaultorgID"
+			phrase="Accepting supervisor|Person accepting business trip expenses"/>			
+		<ForeignField 
+			name="_Supervisor" key="_SupervisorID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="Accepting supervisor|Person accepting business trip expenses">
+			<ListCondition fieldName="VacationDecisionmaker" mode="equals"><StaticValue value="1"/></ListCondition>
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_SupervisorLink" foreignModuleID="ppl" recordIDField="_SupervisorID" 
+			phrase="Accepting supervisor|Person accepting business trip expenses"/>
+		<ForeignField 
+			name="_SupervisorOrganizationID"
+			foreignTable="ppl"  key="_SupervisorID" 
+			foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_SupervisorOrganization" key="_SupervisorOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Accepting supervisor|Person accepting business trip expenses"/>
+		<CombinedField name="_SupervisorNameOrganization"  
+			phrase="Accepting supervisor|Person accepting business trip expenses">
+			<CombinedFieldRef name="_Supervisor"/>_/_<CombinedFieldRef name="_SupervisorOrganization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_BusinesstripDestination" type="varchar(50)" validate="notEmpty"
+			phrase="Destination|Destination of the business trip"/>	
+		<TableField 
+			name="_BusinesstripBegin" type="datetime" validate="notEmpty"
+			phrase="Business trip begin|Date and time of the start of the business trip"/>			
+		<TableField 
+			name="_BusinesstripFinish" type="datetime"
+			validate="notEmpty | eval: NoLaterThanDatetime( $_BusinesstripBegin, $_BusinesstripFinish )"
+			phrase="Business trip finish|Date and time  of the finish of the business trip"/>	
+		<TableField 
+			name="_BusinesstripObjective" type="varchar(50)" validate="notEmpty"
+			phrase="Objective|Objective of the business trip"/>	
+					
+		<TableField 
+			name="_TravelAllowance" type="money" 
+			phrase="Travel allowance|Travel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_TravelAllowanceCount" type="float" validate="notNegative"
+			phrase="Number of travel allowance|Number of eligible travel allowance accounted as law requires"/>
+		<TableField 
+			name="_TravelAllowanceTotal" type="money" 
+			phrase="Total travel allowance|Total of travel allowance accounted as law requires"/>
+		
+		<TableField 
+			name="_HotelAllowance" type="money" 
+			phrase="Hotel allowance|Hotel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_HotelAllowanceCount" type="int" validate="notNegative"
+			phrase="Number of hotel allowance|Number of eligible hotel allowance accounted as law requires"/>		
+		<TableField 
+			name="_HotelAllowanceTotal" type="money" 
+			phrase="Total hotel allowance|Total hotel allowance accounted as law requires"/>
+		<TableField 
+			name="_HotelAllowanceSubstantiation" type="varchar(50)"
+			phrase="Substantiation|Why hotel allowance is eligible"/>
+		<CombinedField 
+			name="_HotelAllowanceSubstantiation1" 
+			phrase="Substantiation|Why hotel allowance is eligible">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>]]>_<CombinedFieldRef name="_HotelAllowanceSubstantiation"/>
+		</CombinedField>
+		<CombinedField 
+			name="_HotelAllowanceCountRemark" 
+			phrase="Number of hotel allowance|Number of eligible hotel allowance accounted as law requires">
+			<CombinedFieldRef name="_HotelAllowanceCount"/>_<CombinedFieldRef name="_HotelAllowanceSubstantiation1"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_CommutingAllowance" type="money" 
+			phrase="Commuting allowance|Commuting allowance during a business trip as set by law or internal regulations"/>
+		<TableField 
+			name="_CommutingAllowanceCount" type="int" validate="notNegative"
+			phrase="Number of commuting allowance|Number of eligible commuting allowance accounted as law requires"/>
+		<TableField 
+			name="_CommutingAllowanceTotal" type="money" 
+			phrase="Commuting allowance|Total commuting allowance during a business trip accounted as law requires"/>
+		<TableField 
+			name="_CommutingAllowanceSubstantiation" type="varchar(50)"
+			phrase="Substantiation|Why commuting allowance is eligible"/>
+		<CombinedField 
+			name="_CommutingAllowanceSubstantiation1" 
+			phrase="Substantiation|Why commuting allowance is eligible">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>]]>_<CombinedFieldRef name="_CommutingAllowanceSubstantiation"/>
+		</CombinedField>
+		<CombinedField 
+			name="_CommutingAllowanceCountRemark" 
+			phrase="Number of commuting allowance|Number of eligible commuting allowance accounted as law requires">
+			<CombinedFieldRef name="_CommutingAllowanceCount"/>_<CombinedFieldRef name="_CommutingAllowanceSubstantiation1"/>
+		</CombinedField>
+			
+		<TableField 
+			name="_TransportationID" type="int" validate="RequireSelection"
+			phrase="Vehicle|Type of vehicle used during the business trip if done with own one"/>
+		<CodeField 
+			name="_Transportation" key="_TransportationID"  codeTypeID="1014"
+			phrase="Vehicle|Type of vehicle used during the business trip if done with own one"/>
+		<TableField 
+			name="_WayAllowance" type="money" 
+			phrase="Way allowance|Way allowance for business trips withe own vehicle as set by law or internal regulations"/>			
+		<TableField 
+			name="_WayCount" type="int" validate="notNegative"
+			phrase="Number of kilometers|Total number of km done during the business trip done with the own vehicle"/>
+		<TableField 
+			name="_WayTotal" type="money" 
+			phrase="Total way|Total business trip way allowance done with the own vehicle"/>
+		<StaticField 
+			name="_WayDescription" type="text" content="" 
+			phrase="Routes and kilometers with own vehicle |The description of the route and kilometers done withe the own vehicle during the business trip"/>
+		<TableField 
+			name="_RouteDescription1" type="varchar(50)"
+			validate="eval: !empty($_RouteCount1) AND !empty($_RouteDescription1)"
+			phrase="Route 1|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount1" type="int" dbFlags="unsigned" 
+			validate="notNegative | eval: !empty($_RouteDescription1) AND !empty($_RouteCount1)"
+			phrase="Route 1 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription2" type="varchar(50)"
+			validate="eval: !empty($_RouteCount2) AND !empty($_RouteDescription2)"
+			phrase="Route 2|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount2" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription2) AND !empty($_RouteCount2)"
+			phrase="Route 2 kilometers|Number of kilometers done on the route during the business trip"/>	
+		<TableField 
+			name="_RouteDescription3" type="varchar(50)"
+			validate="eval: !empty($_RouteCount3) AND !empty($_RouteDescription3)"
+			phrase="Route3 |Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount3" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription3) AND !empty($_RouteCount3)"
+			phrase="Route 3 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription4" type="varchar(50)"
+			validate="eval: !empty($_RouteCount4) AND !empty($_RouteDescription4)"
+			phrase="Route 4|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount4" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription4) AND !empty($_RouteCount4)"
+			phrase="Route 4 kilometers|Number of kilometers done on the route during the business trip"/>
+		<TableField 
+			name="_RouteDescription5" type="varchar(50)"
+			validate="eval: !empty($_RouteCount5) AND !empty($_RouteDescription5)"
+			phrase="Route 5|Description of the route during the business trip"/>
+		<TableField 
+			name="_RouteCount5" type="int" dbFlags="unsigned"
+			validate="notNegative | eval: !empty($_RouteDescription5) AND !empty($_RouteCount5)"
+			phrase="Route 5 kilometers|Number of kilometers done on the route during the business trip"/>
+			
+		<TableField 
+			name="_Fullcatering" type="bool" validate="notEmpty"
+			phrase="Full catering|If full catering has been provided during the business trip"/>
+		
+		<TableField 
+			name="_BusinesstripRemarks" type="text"
+			phrase="Remarks|Remarks important for accounting business trip reimbursable expenses"/>
+			
+		<TableField 
+			name="_BusinesstripTotal" type="money" 
+			phrase="Reimbursable expenses|Total of the reimbursable expenses for the business trip"/>
+			
+		<TableField 
+			name="_InvoiceOrganizationID" type="int" orgListOptions="intpar" 
+			phrase="Organization assignment|Name of organization associated with the business trip expenses"/>	
+		<ForeignField 
+			name="_InvoiceOrganization" key="_InvoiceOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization assignment|Name of organization associated with the business trip expenses"/>
+		<TableField 
+			name="_InvoiceCostCenter" type="varchar(50)" 
+			phrase="Invoice assignment|The description how to assign the business trip expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."/>
+						
+		<StaticField 
+			name="_PersonStatusOne" type="int" content="1" 
+			phrase="Current employee flag|This person is current employe"/>		
+		
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" validate="RequireSelection"
+			defaultValue="userID" orgListOptions="intpar" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_Owned" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"			
+			phrase="Case owner|Displays case owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"	
+			orgListOptions="intpar"			
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Case owner|Displays case owners name and his organisation name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_LocationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>
+		
+		<CombinedField name="_BusinesstripPerson"  
+			phrase="Person on business trip|Person making the business trip">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_OwnedEmail"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="WorkEmail"
+			phrase="Work Email|Email address used by the individual at work"/>       	
+        <CombinedField 
+			name="_OwnedEmailLinkIcon" 
+			phrase="Work Email|Email address used by the individual at work">
+			<![CDATA[<a href="mailto:]]><CombinedFieldRef name="_OwnedEmail"/>
+			<![CDATA[!mailtoRecordTopicSubject!"><img src="!themeDirectory!/img/mailto.png" class="mailto"/></a>&nbsp\;&nbsp\;&nbsp\;]]>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_OwnedSkype"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="SkypeName"
+			phrase="Skype Name|The name used by the person to participate in Skype"/>
+        <CombinedField 
+			name="_OwnedSkypeLinkIcon" 
+			phrase="Skype Name|The name used by the person to participate in Skype">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="skype:]]><CombinedFieldRef name="_OwnedSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="skype:]]><CombinedFieldRef name="_OwnedSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>
+
+		<ForeignField 
+			name="_OwnedGaduGadu"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="GaduGaduName"
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services"/>
+        <CombinedField 
+			name="_OwnedGaduGaduLinkIcon" 
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="gg:]]><CombinedFieldRef name="_OwnedGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="gg:]]><CombinedFieldRef name="_OwnedGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>		
+		
+		<CombinedField 
+			name="_OwnedMobileIMLinkIcon" 
+			phrase="Phone and Skype|Link from browser to establish phone and skype chat connection">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>&nbsp\;&nbsp\;&nbsp\;]]>		
+			<CombinedFieldRef name="_OwnedEmailLinkIcon"/>
+			<CombinedFieldRef name="_OwnedSkypeLinkIcon"/>
+			<CombinedFieldRef name="_OwnedGaduGaduLinkIcon"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_ActiontakerID" type="int" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="_Actiontaker" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_ActiontakerID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<LinkField 
+			name="_ActiontakerLink" foreignModuleID="ppl" recordIDField="_ActiontakerID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="_ActiontakerOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="_ActiontakerID" 
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_ActiontakerOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_ActiontakerOrganizationID" 
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_ActiontakerAndOrganization"  
+			phrase="Action taker|Automatic entry of the name of the person taking the action">
+			<CombinedFieldRef name="_Actiontaker"/>_/_<CombinedFieldRef name="_ActiontakerOrganization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_ActiontakerEmail"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="WorkEmail"
+			phrase="Work Email|Email address used by the individual at work"/>       	
+        <CombinedField 
+			name="_ActiontakerEmailLinkIcon" 
+			phrase="Work Email|Email address used by the individual at work">
+			<![CDATA[<a href="mailto:]]><CombinedFieldRef name="_ActiontakerEmail"/>
+			<![CDATA[!mailtoRecordTopicSubject!"><img src="!themeDirectory!/img/mailto.png" class="mailto"/></a>&nbsp\;&nbsp\;&nbsp\;]]>
+		</CombinedField>	
+		
+		<ForeignField 
+			name="_ActiontakerSkype"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="SkypeName"
+			phrase="Skype Name|The name used by the person to participate in Skype"/>       
+        <CombinedField 
+			name="_ActiontakerSkypeLinkIcon" 
+			phrase="Skype Name|The name used by the person to participate in Skype">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="skype:]]><CombinedFieldRef name="_ActiontakerSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="skype:]]><CombinedFieldRef name="_ActiontakerSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>	
+		
+		<ForeignField 
+			name="_ActiontakerGaduGadu"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="GaduGaduName"
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services"/>
+        <CombinedField 
+			name="_ActiontakerGaduGaduLinkIcon" 
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="gg:]]><CombinedFieldRef name="_ActiontakerGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="gg:]]><CombinedFieldRef name="_ActiontakerGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>	
+		
+		<CombinedField 
+			name="_ActiontakerMobileIMLinkIcon" 
+			phrase="Phone and Skype|Link from browser to establish phone and skype chat connection">			
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>&nbsp\;&nbsp\;&nbsp\;]]>
+			<CombinedFieldRef name="_ActiontakerEmailLinkIcon"/>
+			<CombinedFieldRef name="_ActiontakerSkypeLinkIcon"/>
+			<CombinedFieldRef name="_ActiontakerGaduGaduLinkIcon"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_SubmittedOn" type="datetime" 
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>	
+		
+		<!-- Process state -->		
+		<TableField 
+			name="_ProcessStateID" type="int" validate="eval: 2 > $value" defaultValue="#1"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessState" key="_ProcessStateID"  codeTypeID="306"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessState1" key="_ProcessStateID"  codeTypeID="316"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessStateProgress" key="_ProcessStateID"  codeTypeID="314"
+			phrase="Case state|State of the business process for this case"/>	
+		<TableField 
+			name="_NextProcessStateID" type="int" dbFlags="default 2"  validate="RequireSelection" 
+			phrase="Next case state|Next state of the business process for this case"/>
+		<TableField 
+			name="_NextProcessStep" type="int"  dbFlags="default 2" 
+			phrase="Next process step|Next step of the business process for this case"/>
+		<CodeField 
+			name="_NextProcessState" key="_NextProcessStateID"  codeTypeID="313" 
+			phrase="Do action|Change the state of the case by doing an action">
+			<ListCondition fieldName="Value" mode="equals"><FieldValue value="_NextProcessStep"/></ListCondition> 
+		</CodeField>		
+		<TableField 
+			name="_NextProcessStepRemark" type="varchar(50)" 
+			phrase="Remark|Remark attached to the action"/>	
+		<TableField 
+			name="_ProcessStepRemark" type="varchar(50)" 
+			phrase="Remark|Remark attached to the action"/>		
+		<CombinedField 
+			name="_ProcessStepRemark1" 
+			phrase="Remark|Remark attached to the action">
+			<![CDATA[<br/>]]><CombinedFieldRef name="_ProcessStepRemark"/>
+		</CombinedField>
+		<CombinedField 
+			name="_ProcessStateRemark" 
+			phrase="Case state|State of the business process for this case">
+			<![CDATA[<br/>]]><CombinedFieldRef name="_ProcessStateProgress"/><![CDATA[<br/>&nbsp\;]]>_<CombinedFieldRef name="_ProcessStepRemark1"/>
+		</CombinedField>
+		
+		<CalculatedField 
+			name="_ProcessStateIDe23"  type="bool"  
+			calcFunction="same_as2" params="_ProcessStateID #2 #3"  
+			phrase="Called or Accepted|State of the business process for this case is Called or Accepted"/>
+		<CalculatedField 
+			name="_ProcessStateIDne1"  type="bool"  
+			calcFunction="is_not_equal" params="_ProcessStateID #1"  
+			phrase="Other than Uncalled|State of the business process for this case is other thena Uncalled"/>
+			
+		<TableField 
+			name="_beupdActionFlag" type="bool" defaultValue="#1"
+			phrase="Before Flag|Action flag for before update trigger"/>
+		<TableField 
+			name="_afupdActionFlag" type="bool"  
+			phrase="After Flag|Action flag for after update trigger"/>
+		<TableField 
+			name="_triggerFlag" type="bool"  
+			phrase="Trigger Flag|Flag enforcing triggers on update"/>
+			
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_BusinesstripBegin"/>_;_<CombinedFieldRef name="_BusinesstripFinish"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_BusinesstripBegin"/>_;_<CombinedFieldRef name="_BusinesstripFinish"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_TripexpensesID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xbte'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->
+		<TableField 
+			name="BlankField" type="varchar(10)"
+			phrase="Blank field|Hack for the IE8 one submit field problem" />
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler8" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler9" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler10" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler11" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler12" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler13" type="text" content="" phrase=" "/>	
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_TripexpensesID"/>
+        </PrimaryKey>
+		<Index name="_OwnedBy_Deleted">
+			<FieldRef name="_OwnedBy"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>	
+	<SubModules>
+		<SubModule
+			name="Actions" parentKey="_TripexpensesID"
+			moduleID="ntf" localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="xbte"/>
+		</SubModule>
+		<SubModule
+			name="Approver" parentKey="_PersonStatusOne" 
+			moduleID="ppl1" localKey="PersonStatusID">
+			<SubModuleCondition field="TripexpensesApprover" value="1"/>
+		</SubModule>
+		<SubModule
+			name="Handlers" parentKey="_PersonStatusOne" 
+			moduleID="ppl" localKey="PersonStatusID">
+			<SubModuleCondition field="TripexpensesHandler" value="1"/>
+		</SubModule>
+	</SubModules>
+	<RecordSummaryFields>		
+		<ViewField name="_TripexpensesID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_BusinesstripPerson" link="_OwnedLink"/>
+		<ViewField name="_BusinesstripDestination"/>
+		<ViewField name="_BusinesstripObjective"/>
+		<ViewField name="_BusinesstripBegin"/>
+		<ViewField name="_BusinesstripFinish"/>
+		<ViewField name="_BusinesstripRemarks"/>
+		<ViewField name="ruler2"/>
+		<ViewField name="_BusinesstripTotal"/>
+		<ViewField name="ruler3"/>
+		<ViewField name="_InvoiceOrganization"/>
+		<ViewField name="_InvoiceCostCenter"/>
+	</RecordSummaryFields>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_TripexpensesID" phrase="ID"/>			
+			<ListField name="_ProcessState1"/>
+			<ListField name="_BusinesstripPerson"/>
+			<ListField name="_BusinesstripBegin" phrase="Business trip begin"/>			
+			<ListField name="_BusinesstripFinish" phrase="Business trip finish"/>
+			<ListField name="_BusinesstripTotal" phrase="Reimbursable expenses"/>
+			<OrderByField name="_TripexpensesID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_TripexpensesID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_BusinesstripDestination" size="50" maxLength="50"/>
+			<EditField name="_BusinesstripObjective" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_BusinesstripBegin"/>
+			<DateField name="_BusinesstripFinish"/>
+			<CheckBoxField name="_Fullcatering"/>
+			<ViewField name="ruler3"/>
+			<CodeComboField name="_TransportationID" suppressItemAdd="yes"/>			
+			<EditField name="_WayCount" size="2" maxLength="9"/>
+			<MoneyField name="_WayAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_WayTotal" size="9" maxLength="9"/>			
+			<ViewField name="ruler4"/>
+			<EditField name="_TravelAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_TravelAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_TravelAllowanceTotal" size="9" maxLength="9"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_HotelAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_HotelAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_HotelAllowanceTotal" size="9" maxLength="9"/>
+			<ViewField name="ruler6"/>
+			<EditField name="_CommutingAllowanceCount" size="2" maxLength="9"/>
+			<MoneyField name="_CommutingAllowance" size="4" maxLength="9"/>
+			<MoneyField name="_CommutingAllowanceTotal" size="9" maxLength="9"/>			
+			<ViewField name="ruler7"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>
+			<ViewField name="ruler8"/>
+			<ViewField name="ruler9"/>
+			<CodeRadioField name="_ProcessStateID" orientation="vertical"/>
+			<CheckBoxField name="_ProcessStateIDne1" onlyTrue="yes"/>
+			<CheckBoxField name="_ProcessStateIDe23"/>
+			<ViewField name="ruler10"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler11"/>
+			<PersonComboField name="_SupervisorID" findMode="text" suppressItemAdd="yes"/>			
+			<ViewField name="ruler12"/>	
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_TripexpensesID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_BusinesstripPerson" link="_OwnedLink"/>
+			<ViewField name="_BusinesstripDestination"/>
+			<ViewField name="_BusinesstripObjective"/>
+			<ViewField name="_BusinesstripBegin"/>
+			<ViewField name="_BusinesstripFinish"/>	
+			<ViewField name="_BusinesstripRemarks"/>	
+			<ViewField name="ruler2"/>
+			<ViewField name="_BusinesstripTotal"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_InvoiceOrganization"/>
+			<ViewField name="_InvoiceCostCenter"  goEditScreen="Form"/>
+			<ViewScreenSection name="CaseState" >
+				<ViewField name="_LocationFunction" link="_LocationLink"/>
+				<ViewField name="_OwnedOrganization" link="_OwnedLink">
+					<ViewField name="_OwnedMobileIMLinkIcon"/>
+				</ViewField>
+				<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink" goEditScreen="Form"/>
+				<ViewGrid 
+					moduleID="ppl1" akaID="ppl" rowIDon="TripexpensesApprover=1&amp;null"
+					phrase="Business trip reimbursable expenses approver"/>
+				<ViewGrid 
+					moduleID="ppl" rowIDon="TripexpensesHandler=1&amp;null"
+					phrase="Business trip reimbursable expenses handlers"/>
+			</ViewScreenSection>
+			<ViewScreenSection name="TravelAccounting" phrase="Reimbursable travel allowance">
+				<ViewField name="_BusinesstripBegin"/>
+				<ViewField name="_BusinesstripFinish"/>
+				<ViewField name="_Fullcatering"/>
+				<ViewField name="_TravelAllowanceCount"/>				
+				<ViewField name="_TravelAllowance"/>
+				<ViewField name="_TravelAllowanceTotal" goEditScreen="Form"/>				
+			</ViewScreenSection>
+			<ViewScreenSection name="WayAccounting" phrase="Reimbursable transportation">
+				<ViewField name="_Transportation"/>
+				<ViewField name="_WayDescription">
+					<ViewField name="_RouteDescription1" />
+					<ViewField name="_RouteCount1" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription2"/>
+					<ViewField name="_RouteCount2" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription3"/>
+					<ViewField name="_RouteCount3" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription4"/>
+					<ViewField name="_RouteCount4" inlinePostContent="&lt;br/&gt;"/>
+					<ViewField name="_RouteDescription5"/>
+					<ViewField name="_RouteCount5" inlinePostContent="&lt;br/&gt;"/>				
+				</ViewField>
+				<ViewField name="_WayCount"/>
+				<ViewField name="_WayAllowance"/>
+				<ViewField name="_WayTotal" goEditScreen="Form"/>
+			</ViewScreenSection>			
+			<ViewScreenSection name="HotelAccounting" phrase="Reimbursable hotel allowance">
+				<ViewField name="_HotelAllowanceCountRemark"/>
+				<ViewField name="_HotelAllowance"/>
+				<ViewField name="_HotelAllowanceTotal" goEditScreen="Form"/>
+			</ViewScreenSection>
+			<ViewScreenSection name="CommutingAccounting" phrase="Reimbursable commuting allowance">
+				<ViewField name="_CommutingAllowanceCountRemark"/>
+				<ViewField name="_CommutingAllowance"/>
+				<ViewField name="_CommutingAllowanceTotal" goEditScreen="Form"/>
+			</ViewScreenSection>
+			<ViewScreenSection name="CaseActions" phrase="Case actions history">							
+				<ViewField name="_ProcessStateRemark" goEditScreen="Actions"/>
+				<ViewGrid moduleID="ntf"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen 
+			name="Form" onNewGoEditScreen="Actions" onOkGoEditScreen="Actions" cloneAsNew="no"
+			phrase="Form|Edit summary information about the business trip reimbursable expenses">
+			<ViewField name="_TripexpensesID"/>
+			<ViewField name="_ProcessStateProgress" inlinePreContent="&lt;br/&gt;" inlinePostContent="&lt;br/&gt;&#160;"/>			
+			<ViewField name="ruler1"/>			
+			<EditField name="_BusinesstripDestination" size="50" maxLength="50"/>
+			<EditField name="_BusinesstripObjective" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_BusinesstripBegin"/>
+			<DateField name="_BusinesstripFinish"/>		
+			<CheckBoxField name="_Fullcatering"/>
+			<ViewField name="ruler3"/>
+			<CodeComboField name="_TransportationID" suppressItemAdd="yes"/>
+			<ViewField name="_WayDescription">
+				<EditField name="_RouteDescription1" size="35" maxLength="50" inlinePreContent=" &lt;br/&gt;&#160; Trasa 1:"/>
+				<EditField name="_RouteCount1" size="5" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription2" size="35" maxLength="50" inlinePreContent="&#160; Trasa 2:"/>
+				<EditField name="_RouteCount2" size="5" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription3" size="35" maxLength="50" inlinePreContent="&#160; Trasa 3:"/>
+				<EditField name="_RouteCount3" size="5" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription4" size="35" maxLength="50" inlinePreContent="&#160; Trasa 4:"/>
+				<EditField name="_RouteCount4" size="5" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;"/>
+				<EditField name="_RouteDescription5" size="35" maxLength="50" inlinePreContent="&#160; Trasa 5:"/>
+				<EditField name="_RouteCount5" size="5" maxLength="9" inlinePreContent="&#160;  km:" inlinePostContent="&lt;br/&gt;&#160;"/>
+			</ViewField>			
+			<ViewField name="ruler4"/>
+			<EditField name="_HotelAllowanceCount" size="2" maxLength="9"/>
+			<EditField name="_HotelAllowanceSubstantiation" size="50" maxLength="50"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_CommutingAllowanceCount" size="2" maxLength="9"/>
+			<EditField name="_CommutingAllowanceSubstantiation" size="50" maxLength="50"/>
+			<ViewField name="ruler6"/>
+			<MemoField name="_BusinesstripRemarks" rows="5" cols="60"/>			
+			<ViewField name="ruler7"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>
+			<ViewField name="ruler8"/>
+			<PersonComboField name="_SupervisorID" findMode="text" suppressItemAdd="yes"/>
+			<!-- Initialisation-->
+			<HiddenField name="_OwnedBy"/>
+			<HiddenField name="_ProcessStateID"/>
+        </EditScreen>
+		<EditScreen 
+			name="Actions" onOkGoListScreen="List" 
+			phrase="Actions|Decison taking for accepting business trip reimbursable expenses">
+			<RecordSummaryFieldsRef/>
+			<ViewField name="ruler4"/>	
+			<ViewField name="_ProcessStateRemark"/>			
+			<HiddenField name="_NextProcessStep"/>
+			<CodeRadioField name="_NextProcessStateID" orientation="vertical"/>
+			<EditField name="_NextProcessStepRemark" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+			</EditField>
+			<HiddenField name="_beupdActionFlag"/>
+		</EditScreen>
+    </Screens>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<ol>
+<li><b>Wnioskujący</b> w sprawie wypełnia dane merytoryczne oraz wskazuje <b>Akceptującego</b> w ekranie 'Nowy wiersz' dostępnym w zakładkach listy.</li>
+<br/>
+<li><b>Wnioskujący</b> zgłasza wniosek w ekranie 'Działania w sprawie' dostępnym w zakładkach widoku szczegółów wiersza i blokuje edycję danych w wierszu, <b>Akceptujący</b> otrzymuje powiadomienie emailem o sprawie.</li>
+<br/>
+<li><b>Akceptujący</b> odrzuca wniosek lub go akceptuje do zatwierdzenia, <b>Wnioskujący</b> i <b>Zatwierdzający</b> otrzymuje powiadomienie emailem o stanie sprawy.</li>
+<br/>
+<li><b>Zatwierdzający</b> odmawia lub zatwierdza wniosek do realizacji, <b>Wnioskujący</b> otrzymuje powiadomienie emailem o stanie sprawy.</li>
+<br/>
+<li>Zatwierdzony wniosek zostaje wpisany automatycznie do rejestru, <b>Obsługujący</b> realizację sprawy otrzymuje powiadomienie emailem.</li>
+</ol>
+<p>W przypadku odrzucenia lub odmowy tylko <b>Wnioskujący</b> otrzymuje powiadomienie emailem. Po odrzuceniu wniosku lub odmowie realizacji sprawy <b>Wnioskujący</b> może otworzyć sprawę do ponownej edycji w ekranie 'Działania w sprawie' dostępnym w zakładkach widoku szczegółów wiersza i po zmianie danych lub <b>Akceptującego</b> zgłosić ją do ponownego rozpatrzenia w opisanym powyżej trybie.</p>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Akceptacja diet i ryczałtów za delegacje" (xbte)</li>
+<li>"Rejestr diet i ryczałtów za delegacje krajowe" (xbter)</li>
+<li>"Stawki kilometrówki dla pojazdów własnych" (xbtev)</li>
+<li>"Stawki ryczałtów i diety" (xbtea)</li> 
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Akceptacja diet i ryczałtów za delegacje" (xbte): Edycja tylko własnych danych</li>
+<li>"Rejestr diet i ryczałtów za delegacje krajowe" (xbter): Podgląd tylko własnych danych</li>
+<li>"Stawki kilometrówki dla pojazdów własnych" (xbtev): Podgląd wszystkich danych</li>
+<li>"Stawki ryczałtów i diety" (xbtea): Podgląd wszystkich danych</li> 
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>"Rejestr diet i ryczałtów za delegacje krajowe" (xbter): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Grupy użytkowników założone do obsługi uprawnień w modułach realizujących proces:</li>
+<ul>
+<li>*Diety i ryczałty za delegacje* (bte)</li>
+<li>*Stawki diet i ryczałtów za delegacje* (bteav)</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Diety i ryczałty za delegacje* (bte):</li>
+<ul>
+<li>"Akceptacja diet i ryczałtów za delegacje" (xbte): Edycja wszystkich danych</li>
+<li>"Rejestr diet i ryczałtów za delegacje krajowe" (xbter): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Stawki diet i ryczałtów za delegacje* (bteav):</li>
+<ul>
+<li>"Stawki kilometrówki dla pojazdów własnych" (xbtev): Edycja wszystkich danych</li>
+<li>"Stawki ryczałtów i diety" (xbtea): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Akceptuje diety za delegacje#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Diety i ryczałty za delegacje* (bte)</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Rozlicza diety za delegacje#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Diety i ryczałty za delegacje* (bte)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Diety i ryczałty za delegacje* (bte)</li>
+<li>Dodaje do grupy użytkowników *Stawki diet i ryczałtów za delegacje* (bteav)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Stawki diet i ryczałtów za delegacje* (bteav)</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>"Stawki kilometrówki dla pojazdów własnych" (xbtev)</li>
+<li>"Stawki ryczałtów i diety" (xbtea)</li>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>				
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

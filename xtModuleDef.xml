@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Tasks in the projects" moduleID="xt" 
+	singularRecordName="Task" pluralRecordName="Tasks" 
+	defaultMenuPath="Main Menu / Project coordination / Tasks in the projects">  
+	
+	<ModuleFields>
+        <TableField 
+			name="_TaskID" type="int" dbFlags="unsigned auto_increment not null"			
+			deleteKeys="xj._TaskID" deleteOnIdGlobals="att nts cos lnk"
+			phrase="Task ID|An automatically assigned number used to identify a record" />
+       	<!-- Dataset context-->
+		<TableField 
+			name="_TaskName" type="varchar(50)"  validate="notEmpty" 
+			phrase="Task|Name of the task in the project"/>
+		<CalculatedField 
+			name="_TaskNameDigest" calcFunction="digest" params="_TaskName #10" 
+			phrase="Name digest|The 10 character digest from the task name"/>
+		<TableField 
+			name="_TaskDescription" type="text" 
+			phrase="Description|Description of the task in the project"/>
+		<TableField 
+			name="_TaskPlanWorkload" type="int"  validate="RequireSelection"
+			phrase="Plan Workload|Task planned workload in days"/>
+		<SummaryField 
+			name="_TaskEstimatedWorkload" localKey="_TaskID" 
+			summaryModuleID="xj" summaryKey="_TaskID" summaryFunction="sum" summaryField="_JobEstimatedWorkload"
+			summaryRankField="_" 
+			phrase="Estimated Workload|Task estimated workload in days"/>
+		<SummaryField 
+			name="_TaskDoneWorkload" localKey="_TaskID" 
+			 summaryModuleID="xj" summaryKey="_TaskID" summaryFunction="sum" summaryField="_JobDoneWorkload"
+			phrase="Done Workload|Task workload done in days"/>		
+	
+		<TableField 
+			name="_TaskStartDate" type="date" validate="RequireSelection"
+			phrase="Start date|Start date of the task in the project"/>
+		<TableField
+			name="_TaskFinishDate" type="date"
+			validate="RequireSelection | eval: NoLaterThan( $_TaskStartDate, $_TaskFinishDate )"
+			phrase="Finish date|Finish date of the task in the project"/>
+		<CalculatedField 
+			name="_TaskUnixFinishDate" calcFunction="unixtimestamp" params="_TaskFinishDate"
+			phrase="Unix timestamp|Finish date converted to Unix time"/>
+		
+		<TableField 
+			name="_ProjectID" type="int" dbFlags="unsigned"  validate="RequireSelection"
+			phrase="Project ID|ID of the project for the task"/>
+		<LinkField 
+			name="_ProjectLink" foreignModuleID="xp" recordIDField="_ProjectID" 
+			phrase="Project|User defined project name"/>
+		<ForeignField 
+			name="_Project" key="_ProjectID" 
+			foreignTable="xp" foreignKey="_ProjectID"  foreignField="_ProjectName"
+			phrase="Project|User defined project name">
+			<ListCondition fieldName="_ProjectStatusID" mode="equals">
+				<StaticValue value="1"/>
+			</ListCondition>
+		</ForeignField>
+		<ForeignField 
+			name="_ProjectLabourUnitsID" key="_ProjectID" 
+			foreignTable="xp" foreignKey="_ProjectID"  foreignField="_ProjectLabourUnitsID"
+			phrase="Labour units|Labour units used in the project"/>
+		<CodeField 
+			name="_ProjectLabourUnits" key="_ProjectLabourUnitsID"  codeTypeID="1018" 
+			phrase="Labour units|Labour units used in the project"/>	
+		
+		
+		<TableField 
+			name="_TaskStatusID" type="int"  defaultValue="#1" validate="RequireSelection" 
+			passValueOn="xj._JobStatusID/_TaskID=xj._TaskID"
+			phrase="Status|Current status of the task in the project"/>			
+		<CodeField 
+			name="_TaskStatus" key="_TaskStatusID"  codeTypeID="1001"
+			phrase="Status|Current status of the task in the project"/>
+		<CodeField 
+			name="_TaskStatus1" key="_TaskStatusID"  codeTypeID="301" 
+			phrase="Status|Current status of the task in the project"/>
+		 <CombinedField 
+			name="_TaskStatusGraph" 
+			phrase="Status|Current status of the task in the project">
+			<![CDATA[<div class="gsblt">]]><CombinedFieldRef name="_TaskStatus1"/><![CDATA[</div>]]>
+		</CombinedField>
+		<CodeField 
+			name="_TaskStatus2" key="_TaskStatusID"  codeTypeID="299" 
+			phrase="Status|Current status of the task in the project"/>
+		
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection"  orgListOptions="intpar" 
+			phrase="Supervisor|Person supervising task execution"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Supervisor|Person supervising task execution">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+			<ListCondition fieldName="TaskManager" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Supervisor|Person supervising task execution"/>
+		<ForeignField 
+			name="_OrganizationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Organization|Name of organization associated with the individual"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the individual"/>
+		<CombinedField 
+			name="_OwnedOrganization"  
+			phrase="Supervisor|Person supervising task execution">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		
+		<!-- Module properties-->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_TaskStatus2"/>
+			<CombinedFieldRef name="_Project"/>
+			_;_<CombinedFieldRef name="_TaskName"/>
+			<![CDATA[</span>]]>		
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_Project"/>
+			_;_<CombinedFieldRef name="_TaskName"/>
+			_;_<CombinedFieldRef name="_TaskStatus"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_Tag" key="_TaskID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag" 
+			listCondition="RelatedModuleID='xt'" 			
+			phrase="Tag|A tag that classifies the record"/>
+		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_TaskID"/>
+        </PrimaryKey>
+        <!--<OwnerField name="_"/>-->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules>
+		<SubModule 
+			name="Jobs" parentKey="_TaskID" 
+			moduleID="xj" localKey="_TaskID"/>				
+	</SubModules>
+	<RecordSummaryFields>
+		<ViewField name="_TaskID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_Project" link="_ProjectLink"/>
+		<ViewField name="_TaskName"/>
+		<ViewField name="ruler2"/>		
+		<ViewField name="_TaskStartDate"/>
+		<ViewField name="_TaskFinishDate"/>
+		<ViewField name="ruler3"/>
+		<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+		<ViewField name="_ProjectLabourUnits"/>
+		<ViewField name="_TaskStatus"/>		
+	</RecordSummaryFields>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_TaskID" phrase="ID"/>	
+			<ListField name="_TaskStatusGraph" align="center" phrase="Status"/>		
+			<ListField name="_TaskName"/>
+			<ListField name="_Project"/>			
+			<ListField name="_TaskStartDate"/>
+			<ListField name="_TaskFinishDate"/>
+			<OrderByField name="_TaskStartDate"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_TaskID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<ComboField name="_ProjectID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_TaskName" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_TaskStartDate"/>
+			<DateField name="_TaskFinishDate"/>
+			<ViewField name="ruler3"/>			
+			<EditField name="_TaskPlanWorkload" size="7" maxLength="7"/>
+			<EditField name="_TaskEstimatedWorkload" size="7" maxLength="7"/>
+			<EditField name="_TaskDoneWorkload" size="7" maxLength="7"/>			
+			<ViewField name="ruler4"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<CodeRadioField name="_TaskStatusID" orientation="vertical"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_TaskID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_Project" link="_ProjectLink"/>
+			<ViewField name="_TaskName"/>
+			<ViewField name="_TaskDescription"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_TaskStartDate"/>
+			<ViewField name="_TaskFinishDate"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_TaskPlanWorkload">
+				<ViewField name="_ProjectLabourUnits"/>
+			</ViewField>
+			<ViewField name="_TaskEstimatedWorkload">
+				<ViewField name="_ProjectLabourUnits"/>
+			</ViewField>
+			<ViewField name="_TaskDoneWorkload">
+				<ViewField name="_ProjectLabourUnits"/>
+			</ViewField>					
+			<ViewField name="ruler4"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_TaskStatus" goEditScreen="Form"/>	
+			<ViewScreenSection name="Associations" phrase="Connected with the job">	
+				<ViewGrid moduleID="xj" rowIDon="_TaskID" goEditScreen="Jobs"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen name="Form" EditPermission="xt" phrase="Form|Edit summary information about a task">
+            <ViewField name="_TaskID"/>
+			<ViewField name="ruler1"/>
+			<ComboField name="_ProjectID" findMode="text"/>
+			<EditField name="_TaskName" size="50" maxLength="50"/>
+			<MemoField name="_TaskDescription" rows="5" cols="60"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_TaskStartDate"/>
+			<DateField name="_TaskFinishDate"/>
+			<ViewField name="ruler3"/>
+			<EditField name="_TaskPlanWorkload" size="7" maxLength="7">
+				<ViewField name="_ProjectLabourUnits"/>
+			</EditField>			
+			<ViewField name="ruler4"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<CodeRadioField name="_TaskStatusID" orientation="vertical"/>			
+        </EditScreen>		
+		<EditScreen name="Jobs" EditPermission="xj" phrase="Jobs|Jobs being part of the task in the project">
+			<RecordSummaryFieldsRef/>
+			<EditGrid moduleID="xj" rowIDon="_TaskID" goViewAnchor="Associations"/>
+		</EditScreen>
+    </Screens>	
+    <Exports>
+        <ViewGrid moduleID="xt" phrase="Tasks in the project">
+			<InvisibleField name="_TaskID"/>			
+			<ViewField name="_TaskName"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_TaskPlanWorkload" align="center" phrase="Plan Workl."/>
+			<ViewField name="_TaskEstimatedWorkload" align="center" phrase="Estim. Workl."/>
+			<ViewField name="_TaskDoneWorkload" align="center" phrase="Done Workl."/>
+			<ViewField name="_TaskStatusGraph" align="center" phrase="Status"/>
+			<ViewField name="_TaskStartDate"/>
+			<ViewField name="_TaskFinishDate"/>
+			<OrderByField name="_TaskStartDate"/>
+        </ViewGrid>		
+        <EditGrid moduleID="xt" phrase="Tasks in the project">			
+			<InvisibleField name="_TaskID"/>
+			<ViewField name="_TaskName"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="_TaskPlanWorkload" align="center" phrase="Plan Workl."/>
+			<ViewField name="_TaskEstimatedWorkload" align="center" phrase="Estim. Workl."/>
+			<ViewField name="_TaskDoneWorkload" align="center" phrase="Done Workl."/>
+			<ViewField name="_TaskStatusGraph" align="center" phrase="Status"/>
+			<ViewField name="_TaskStartDate"/>
+			<ViewField name="_TaskFinishDate"/>
+			<OrderByField name="_TaskStartDate"/>
+			<GridForm>
+				<InvisibleField name="_TaskID"/>
+				<EditField name="_TaskName" size="50" maxLength="50"/>
+				<MemoField name="_TaskDescription" rows="5" cols="60"/>
+				<ViewField name="ruler1"/>
+				<DateField name="_TaskStartDate"/>
+				<DateField name="_TaskFinishDate"/>
+				<ViewField name="ruler2"/>
+				<EditField name="_TaskPlanWorkload" size="7" maxLength="7">
+					<ViewField name="_ProjectLabourUnits"/>
+				</EditField>			
+				<ViewField name="ruler3"/>
+				<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+				<CodeComboField name="_TaskStatusID" suppressItemAdd="yes"/>
+			</GridForm>
+		</EditGrid>		
+    </Exports>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-rekord jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście rekordu,</li>
+<li>powiązania rekordu z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie</li>
+<li>Funkcjonalności dostępnych na ekranie Listy</li>
+<li>Funkcjonalności dostępnych na ekranie Rekordu</li>
+<li>Funkcjonalności związanych z edycją zawartości danych rekordu</li>
+<li>Funkcjonalności raportów</li>
+<li>Funkcjonalności wykresów</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa</li>
+<li>Województwa</li>
+<li>Powiaty</li>
+</ul>
+<p>Moduły dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na realizowane funkcje biznesowe i mogą być wycofane przez administratora systemu</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xp">Projekty (xp)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xp">Projekty (xp)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2009-07-15"/>
+</Module>

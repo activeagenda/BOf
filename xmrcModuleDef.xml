@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Conference resources calendar" moduleID="xmrc"
+	allowAddRecord="no"
+	singularRecordName="Resource booking" pluralRecordName="Resources bookings"
+	defaultMenuPath="Main Menu / Meetings organization / Conference resources calendar">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_ResourceDayID" type="int" dbFlags="unsigned auto_increment not null"
+			deleteOnIdGlobals="rmd att nts cos lnk"	
+			phrase="Resource nad day ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Domian data model -->
+		<TableField 
+			name="_ResourceID" type="int" validate="RequireSelection"
+			phrase="Resource ID|An automatically assigned number used to identify a record"/>
+		<ForeignField 
+			name="_LocationID"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_LocationID"
+			phrase="Location|Name used to identify the location in the organization"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Location|Name used to identify the location in the organization"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Location|Name used to identify the location in the organization"/>	
+		<ForeignField 
+			name="_LocationOrgFunctionID"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Location|Function and name used to identify the location in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>	
+			
+			
+		<ForeignField 
+			name="_BuildingID"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_BuildingID"
+			phrase="Building|Building where the resource is available"/>		
+		<ForeignField 
+			name="_Building"  key="_BuildingID" 
+			foreignTable="locb" foreignKey="BuildingID" foreignField="Name"
+			phrase="Building|Building where the resource is available"/>
+		<LinkField 
+			name="_BuildingLink" foreignModuleID="locb" recordIDField="_BuildingID" 
+			phrase="Building|Building where the resource is available"/>			
+		
+		<ForeignField 
+			name="_ResourceStore"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_ResourceStore"
+			phrase="Resource store|Place, where the resource is stored"/>
+		<ForeignField 
+			name="_ResourceName"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_ResourceName"
+			phrase="Resource name|Unique name of the resource in the organization"/>	
+		<ForeignField 
+			name="_ResourceDescription"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_ResourceDescription"
+			phrase="Special features|Description of the resource special properties"/>
+		
+		<ForeignField 
+			name="_SupervisorID"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_SupervisorID"
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>			
+		<ForeignField 
+			name="_Supervisor" key="_SupervisorID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="Resource supervisor|Person helping with problems connected with the resource">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_SupervisorLink" foreignModuleID="ppl" recordIDField="_SupervisorID" 
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>
+		<ForeignField 
+			name="_SupervisorOrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_SupervisorID" 
+			phrase="Organization|Name of organization associated with the resource supervisor"/>
+		<ForeignField 
+			name="_SupervisorOrganization"  key="_SupervisorOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>
+		<CombinedField name="_SupervisorNameOrganization"  
+			phrase="Resource supervisor|Person helping with problems connected with the resource">
+			<CombinedFieldRef name="_Supervisor"/>_/_<CombinedFieldRef name="_SupervisorOrganization"/>
+		</CombinedField>
+		
+			
+		<TableField 
+			name="_BookingDate" type="date" validate="notEmpty"
+			phrase="Booking date|Date for which the the resource can be booked"/>
+		<CalculatedField 
+			name="_BookingDateDayID"  type="int"  
+			calcFunction="day_of_week" params="_BookingDate"  
+			phrase="Booking day|Day name of the booking date"/>
+		<CodeField 
+			name="_BookingDateDay" key="_BookingDateDayID"  codeTypeID="310" 
+			phrase="Booking day|Day name of the booking date"/>			
+		<CodeField 
+			name="_BookingDateDay1" key="_BookingDateDayID"  codeTypeID="311" 
+			phrase="Booking day|Day name of the booking date"/>
+		<CodeField 
+			name="_BookingDateDay2" key="_BookingDateDayID"  codeTypeID="310" 
+			phrase="Show only day|Day name of the booking date"/>	
+		<CalculatedField 
+			name="_BookingDateNoSat"  type="bool"  
+			calcFunction="not_saturday" params="_BookingDate"  
+			phrase="No saturdays|Exclude saturdays from booking dates"/>
+		<CalculatedField 
+			name="_BookingDateNoSun"  type="bool"  
+			calcFunction="not_sunday" params="_BookingDate"  
+			phrase="No sundays|Exclude sundays from booking dates"/>		
+		<ForeignField 
+			name="_UnavailableBegin"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_UnavailableBegin"
+			phrase="Unavailable from|Date of the start of the resource beeing unavailable"/>		
+		<ForeignField 
+			name="_UnavailableFinish"  key="_ResourceID" 
+			foreignTable="xmr" foreignKey="_ResourceID" foreignField="_UnavailableFinish"
+			phrase="Unavailable to|Date of the finish of the resource beeing unavailable"/>
+		<CalculatedField 
+			name="_UnavailableOnBookingID"  type="int"  
+			calcFunction="date_outside_interval12" params="_BookingDate _UnavailableBegin _UnavailableFinish"  
+			phrase="Available on date|Is the resource available on booking date"/>
+		<CodeField 
+			name="_UnavailableOnBooking" key="_UnavailableOnBookingID"  codeTypeID="1021" 
+			phrase="Available on date|Is the resource available on booking date"/>
+		<CalculatedField 
+			name="_UnavailableOnBookingColor1" 
+			calcFunction="flipflop" params="_UnavailableOnBookingID #sct #wct"  
+			phrase="Available on date|Is the resource available on booking date"/>
+		<CalculatedField 
+			name="_UnavailableOnBookingColor2" 
+			calcFunction="flipflop" params="_UnavailableOnBookingID #sgsc #wgsc"  
+			phrase="Available on date|Is the resource available on booking date"/>
+		<CombinedField 
+			name="_BookingDateColor" 
+			phrase="Booking date|Date for which the the resource can be booked">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_BookingDate"/><![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_ResourceNameColor" 
+			phrase="Resource name|Unique name of the resource in the organization">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableOnBookingColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_ResourceName"/><![CDATA[</span>]]>
+		</CombinedField>
+		
+		<CalculatedField 
+			name="_AvailableTodTom"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #1"  
+			phrase="Today, tomorrow|Is the resource available today, tomorrow"/>
+		<CalculatedField 
+			name="_AvailableWeek"  type="bool"  
+			calcFunction="is_day" params="_BookingDate #7"  
+			phrase="Week ahead|Is the resource available the week from today"/>
+
+		<!-- 00.00 - 8.00 -->
+		<TableField 
+			name="_Booking000080" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase=" ... - 8.00|Reservation till 8.00"/>
+		<TableField 
+			name="_Person000080ID" type="int"  
+			phrase=" ... - 8.00|Reservation till 8.00"/>	
+		<ForeignField 
+			name="_Person000080" key="_Person000080ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase=" ... - 8.00|Reservation till 8.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person000080Link" foreignModuleID="ppl" recordIDField="_Person000080ID" 
+			phrase=" ... - 8.00|Reservation till 8.00"/>
+		<ForeignField 
+			name="_Person000080OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person000080ID" 
+			phrase=" ... - 8.00|Reservation till 8.00"/>
+		<ForeignField 
+			name="_Person000080Organization"  key="_Person000080OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase=" ... - 8.00|Reservation till 8.00"/>
+		<CombinedField name="_Person000080andOrganization"  
+			phrase=" ... - 8.00|Reservation till 8.00">
+			<CombinedFieldRef name="_Person000080"/>_/_<CombinedFieldRef name="_Person000080Organization"/>
+		</CombinedField>
+
+		
+		<CalculatedField 
+			name="_Booking000080Sign" 
+			calcFunction="flipflop" params="_Booking000080 #&#160;&#160;&#9632; #&#160;&#160;&#9633;"  
+			phrase=" ... - 8.00|Reservation till 8.00"/>		
+		<CombinedField 
+			name="_Booking000080Graph" 
+			phrase=" ... - 8.00|Reservation till 8.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking000080Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 8.00 - 9.00 -->	
+		<TableField 
+			name="_Booking080083" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30"/>
+		<TableField 
+			name="_Person080083ID" type="int"  
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30"/>	
+		<ForeignField 
+			name="_Person080083" key="_Person080083ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person080083Link" foreignModuleID="ppl" recordIDField="_Person080083ID" 
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30"/>
+		<ForeignField 
+			name="_Person080083OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person080083ID" 
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30"/>
+		<ForeignField 
+			name="_Person080083Organization"  key="_Person080083OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30"/>
+		<CombinedField name="_Person080083andOrganization"  
+			phrase="8.00 - 8.30|Reservation 8.00 - 8.30">
+			<CombinedFieldRef name="_Person080083"/>_/_<CombinedFieldRef name="_Person080083Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking083090" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00"/>
+		<TableField 
+			name="_Person083090ID" type="int"  
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00"/>	
+		<ForeignField 
+			name="_Person083090" key="_Person083090ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person083090Link" foreignModuleID="ppl" recordIDField="_Person083090ID" 
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00"/>
+		<ForeignField 
+			name="_Person083090OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person083090ID" 
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00"/>
+		<ForeignField 
+			name="_Person083090Organization"  key="_Person083090OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00"/>
+		<CombinedField name="_Person083090andOrganization"  
+			phrase="8.30 - 9.30|Reservation 8.30 - 9.00">
+			<CombinedFieldRef name="_Person083090"/>_/_<CombinedFieldRef name="_Person083090Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking080090Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking080083 _Booking083090 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="8.00 - 9.30|Reservation 8.00 - 9.00"/>
+		<CombinedField 
+			name="_Booking080090Graph" 
+			phrase="8.00 - 9.30|Reservation 8.00 - 9.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking080090Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 9.00 - 10.00 -->		
+		<TableField 
+			name="_Booking090093" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30"/>
+		<TableField 
+			name="_Person090093ID" type="int"  
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30"/>	
+		<ForeignField 
+			name="_Person090093" key="_Person090093ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person090093Link" foreignModuleID="ppl" recordIDField="_Person090093ID" 
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30"/>
+		<ForeignField 
+			name="_Person090093OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person090093ID" 
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30"/>
+		<ForeignField 
+			name="_Person090093Organization"  key="_Person090093OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30"/>
+		<CombinedField name="_Person090093andOrganization"  
+			phrase="9.00 - 9.30|Reservation 9.00 - 9.30">
+			<CombinedFieldRef name="_Person090093"/>_/_<CombinedFieldRef name="_Person090093Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking093100" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00"/>
+		<TableField 
+			name="_Person093100ID" type="int"  
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00"/>	
+		<ForeignField 
+			name="_Person093100" key="_Person093100ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person093100Link" foreignModuleID="ppl" recordIDField="_Person093100ID" 
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00"/>
+		<ForeignField 
+			name="_Person093100OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person093100ID" 
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00"/>
+		<ForeignField 
+			name="_Person093100Organization"  key="_Person093100OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00"/>
+		<CombinedField name="_Person093100andOrganization"  
+			phrase="9.30 - 10.00|Reservation 9.30 -10.00">
+			<CombinedFieldRef name="_Person093100"/>_/_<CombinedFieldRef name="_Person093100Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking090100Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking090093 _Booking093100 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="9.00 - 10.00|Reservation 9.00 -10.00"/>
+		<CombinedField 
+			name="_Booking090100Graph" 
+			phrase="9.00 - 10.00|Reservation 9.00 -10.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking090100Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 10.00 - 11.00 -->
+		<TableField 
+			name="_Booking100103" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30"/>
+		<TableField 
+			name="_Person100103ID" type="int"  
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30"/>	
+		<ForeignField 
+			name="_Person100103" key="_Person100103ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person100103Link" foreignModuleID="ppl" recordIDField="_Person100103ID" 
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30"/>
+		<ForeignField 
+			name="_Person100103OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person100103ID" 
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30"/>
+		<ForeignField 
+			name="_Person100103Organization"  key="_Person100103OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30"/>
+		<CombinedField name="_Person100103andOrganization"  
+			phrase="10.00 - 10.30|Reservation 10.00 - 10.30">
+			<CombinedFieldRef name="_Person100103"/>_/_<CombinedFieldRef name="_Person100103Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking103110" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00"/>
+		<TableField 
+			name="_Person103110ID" type="int"  
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00"/>	
+		<ForeignField 
+			name="_Person103110" key="_Person103110ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person103110Link" foreignModuleID="ppl" recordIDField="_Person103110ID" 
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00"/>
+		<ForeignField 
+			name="_Person103110OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person103110ID" 
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00"/>
+		<ForeignField 
+			name="_Person103110Organization"  key="_Person103110OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00"/>
+		<CombinedField name="_Person103110andOrganization"  
+			phrase="10.30 - 11.00|Reservation 10.30 -11.00">
+			<CombinedFieldRef name="_Person103110"/>_/_<CombinedFieldRef name="_Person103110Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking100110Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking100103 _Booking103110 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="10.00 - 11.00|Reservation 10.00 - 11.00"/>
+		<CombinedField 
+			name="_Booking100110Graph" 
+			phrase="10.00 - 11.00|Reservation 10.00 - 11.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking100110Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 11.00 - 12.00 -->
+		<TableField 
+			name="_Booking110113" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30"/>
+		<TableField 
+			name="_Person110113ID" type="int"  
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30"/>	
+		<ForeignField 
+			name="_Person110113" key="_Person110113ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person110113Link" foreignModuleID="ppl" recordIDField="_Person110113ID" 
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30"/>
+		<ForeignField 
+			name="_Person110113OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person110113ID" 
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30"/>
+		<ForeignField 
+			name="_Person110113Organization"  key="_Person110113OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30"/>
+		<CombinedField name="_Person110113andOrganization"  
+			phrase="11.00 - 11.30|Reservation 11.00 - 11.30">
+			<CombinedFieldRef name="_Person110113"/>_/_<CombinedFieldRef name="_Person110113Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking113120" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00"/>
+		<TableField 
+			name="_Person113120ID" type="int"  
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00"/>	
+		<ForeignField 
+			name="_Person113120" key="_Person113120ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person113120Link" foreignModuleID="ppl" recordIDField="_Person113120ID" 
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00"/>
+		<ForeignField 
+			name="_Person113120OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person113120ID" 
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00"/>
+		<ForeignField 
+			name="_Person113120Organization"  key="_Person113120OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00"/>
+		<CombinedField name="_Person113120andOrganization"  
+			phrase="11.30 - 12.00|Reservation 11.30 -12.00">
+			<CombinedFieldRef name="_Person113120"/>_/_<CombinedFieldRef name="_Person113120Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking110120Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking110113 _Booking113120 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="11.00 - 12.00|Reservation 11.00 - 12.00"/>
+		<CombinedField 
+			name="_Booking110120Graph" 
+			phrase="11.00 - 12.00|Reservation 11.00 - 12.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking110120Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 12.00 - 13.00 -->
+		<TableField 
+			name="_Booking120123" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30"/>
+		<TableField 
+			name="_Person120123ID" type="int"  
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30"/>	
+		<ForeignField 
+			name="_Person120123" key="_Person120123ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person120123Link" foreignModuleID="ppl" recordIDField="_Person120123ID" 
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30"/>
+		<ForeignField 
+			name="_Person120123OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person120123ID" 
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30"/>
+		<ForeignField 
+			name="_Person120123Organization"  key="_Person120123OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30"/>
+		<CombinedField name="_Person120123andOrganization"  
+			phrase="12.00 - 12.30|Reservation 12.00 - 12.30">
+			<CombinedFieldRef name="_Person120123"/>_/_<CombinedFieldRef name="_Person120123Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking123130" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00"/>
+		<TableField 
+			name="_Person123130ID" type="int"  
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00"/>	
+		<ForeignField 
+			name="_Person123130" key="_Person123130ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person123130Link" foreignModuleID="ppl" recordIDField="_Person123130ID" 
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00"/>
+		<ForeignField 
+			name="_Person123130OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person123130ID" 
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00"/>
+		<ForeignField 
+			name="_Person123130Organization"  key="_Person123130OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00"/>
+		<CombinedField name="_Person123130andOrganization"  
+			phrase="12.30 - 13.00|Reservation 12.30 -13.00">
+			<CombinedFieldRef name="_Person123130"/>_/_<CombinedFieldRef name="_Person123130Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking120130Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking120123 _Booking123130 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="12.00 - 13.00|Reservation 12.00 - 13.00"/>
+		<CombinedField 
+			name="_Booking120130Graph" 
+			phrase="12.00 - 13.00|Reservation 12.00 - 13.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking120130Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 13.00 - 14.00 -->
+		<TableField 
+			name="_Booking130133" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30"/>
+		<TableField 
+			name="_Person130133ID" type="int"  
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30"/>	
+		<ForeignField 
+			name="_Person130133" key="_Person130133ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person130133Link" foreignModuleID="ppl" recordIDField="_Person130133ID" 
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30"/>
+		<ForeignField 
+			name="_Person130133OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person130133ID" 
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30"/>
+		<ForeignField 
+			name="_Person130133Organization"  key="_Person130133OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30"/>
+		<CombinedField name="_Person130133andOrganization"  
+			phrase="13.00 - 13.30|Reservation 13.00 - 13.30">
+			<CombinedFieldRef name="_Person130133"/>_/_<CombinedFieldRef name="_Person130133Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking133140" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00"/>
+		<TableField 
+			name="_Person133140ID" type="int"  
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00"/>	
+		<ForeignField 
+			name="_Person133140" key="_Person133140ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person133140Link" foreignModuleID="ppl" recordIDField="_Person133140ID" 
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00"/>
+		<ForeignField 
+			name="_Person133140OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person133140ID" 
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00"/>
+		<ForeignField 
+			name="_Person133140Organization"  key="_Person133140OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00"/>
+		<CombinedField name="_Person133140andOrganization"  
+			phrase="13.30 - 14.00|Reservation 13.30 -14.00">
+			<CombinedFieldRef name="_Person133140"/>_/_<CombinedFieldRef name="_Person133140Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking130140Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking130133 _Booking133140 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="13.00 - 14.00|Reservation 13.00 - 14.00"/>
+		<CombinedField 
+			name="_Booking130140Graph" 
+			phrase="13.00 - 14.00|Reservation 13.00 - 14.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking130140Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 14.00 - 15.00 -->
+		<TableField 
+			name="_Booking140143" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30"/>
+		<TableField 
+			name="_Person140143ID" type="int"  
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30"/>	
+		<ForeignField 
+			name="_Person140143" key="_Person140143ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person140143Link" foreignModuleID="ppl" recordIDField="_Person140143ID" 
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30"/>
+		<ForeignField 
+			name="_Person140143OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person140143ID" 
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30"/>
+		<ForeignField 
+			name="_Person140143Organization"  key="_Person140143OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30"/>
+		<CombinedField name="_Person140143andOrganization"  
+			phrase="14.00 - 14.30|Reservation 14.00 - 14.30">
+			<CombinedFieldRef name="_Person140143"/>_/_<CombinedFieldRef name="_Person140143Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking143150" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00"/>
+		<TableField 
+			name="_Person143150ID" type="int"  
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00"/>	
+		<ForeignField 
+			name="_Person143150" key="_Person143150ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person143150Link" foreignModuleID="ppl" recordIDField="_Person143150ID" 
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00"/>
+		<ForeignField 
+			name="_Person143150OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person143150ID" 
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00"/>
+		<ForeignField 
+			name="_Person143150Organization"  key="_Person143150OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00"/>
+		<CombinedField name="_Person143150andOrganization"  
+			phrase="14.30 - 15.00|Reservation 14.30 -15.00">
+			<CombinedFieldRef name="_Person143150"/>_/_<CombinedFieldRef name="_Person143150Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking140150Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking140143 _Booking143150 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="14.00 - 15.00|Reservation 14.00 - 15.00"/>
+		<CombinedField 
+			name="_Booking140150Graph" 
+			phrase="14.00 - 15.00|Reservation 14.00 - 15.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking140150Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 15.00 - 16.00 -->
+		<TableField 
+			name="_Booking150153" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30"/>
+		<TableField 
+			name="_Person150153ID" type="int"  
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30"/>	
+		<ForeignField 
+			name="_Person150153" key="_Person150153ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person150153Link" foreignModuleID="ppl" recordIDField="_Person150153ID" 
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30"/>
+		<ForeignField 
+			name="_Person150153OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person150153ID" 
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30"/>
+		<ForeignField 
+			name="_Person150153Organization"  key="_Person150153OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30"/>
+		<CombinedField name="_Person150153andOrganization"  
+			phrase="15.00 - 15.30|Reservation 15.00 - 15.30">
+			<CombinedFieldRef name="_Person150153"/>_/_<CombinedFieldRef name="_Person150153Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking153160" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00"/>
+		<TableField 
+			name="_Person153160ID" type="int"  
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00"/>	
+		<ForeignField 
+			name="_Person153160" key="_Person153160ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals">
+			<StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person153160Link" foreignModuleID="ppl" recordIDField="_Person153160ID" 
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00"/>
+		<ForeignField 
+			name="_Person153160OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person153160ID" 
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00"/>
+		<ForeignField 
+			name="_Person153160Organization"  key="_Person153160OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00"/>
+		<CombinedField name="_Person153160andOrganization"  
+			phrase="15.30 - 16.00|Reservation 15.30 -16.00">
+			<CombinedFieldRef name="_Person153160"/>_/_<CombinedFieldRef name="_Person153160Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking150160Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking150153 _Booking153160 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="15.00 - 16.00|Reservation 15.00 - 16.00"/>
+		<CombinedField 
+			name="_Booking150160Graph" 
+			phrase="15.00 - 16.00|Reservation 15.00 - 16.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking150160Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 16.00 - 17.00 -->
+		<TableField 
+			name="_Booking160163" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30"/>
+		<TableField 
+			name="_Person160163ID" type="int"  
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30"/>	
+		<ForeignField 
+			name="_Person160163" key="_Person160163ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person160163Link" foreignModuleID="ppl" recordIDField="_Person160163ID" 
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30"/>
+		<ForeignField 
+			name="_Person160163OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person160163ID" 
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30"/>
+		<ForeignField 
+			name="_Person160163Organization"  key="_Person160163OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30"/>
+		<CombinedField name="_Person160163andOrganization"  
+			phrase="16.00 - 16.30|Reservation 16.00 - 16.30">
+			<CombinedFieldRef name="_Person160163"/>_/_<CombinedFieldRef name="_Person160163Organization"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_Booking163170" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00"/>
+		<TableField 
+			name="_Person163170ID" type="int"  
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00"/>	
+		<ForeignField 
+			name="_Person163170" key="_Person163170ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person163170Link" foreignModuleID="ppl" recordIDField="_Person163170ID" 
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00"/>
+		<ForeignField 
+			name="_Person163170OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person163170ID" 
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00"/>
+		<ForeignField 
+			name="_Person163170Organization"  key="_Person163170OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00"/>
+		<CombinedField name="_Person163170andOrganization"  
+			phrase="16.30 - 17.00|Reservation 16.30 -17.00">
+			<CombinedFieldRef name="_Person163170"/>_/_<CombinedFieldRef name="_Person163170Organization"/>
+		</CombinedField>		
+		
+		<CalculatedField 
+			name="_Booking160170Sign" 
+			calcFunction="halfhour_logic" 
+			params="_Booking160163 _Booking163170 #&#9633;&#9633; #&#9632;&#9633; #&#9633;&#9632; #&#9632;&#9632;"  
+			phrase="16.00 - 17.00|Reservation 16.00 - 17.00"/>
+		<CombinedField 
+			name="_Booking160170Graph" 
+			phrase="16.00 - 17.00|Reservation 16.00 - 17.00">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking160170Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- 17.00 24.00 -->
+		<TableField 
+			name="_Booking170240" type="bool" dbFlags="default 0" validate="RequireSelection"  
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>
+		<TableField 
+			name="_Person170240ID" type="int"  
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>	
+		<ForeignField 
+			name="_Person170240" key="_Person170240ID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="17.00 - ... |Reservation 17.00 till next day">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_Person170240Link" foreignModuleID="ppl" recordIDField="_Person170240ID" 
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>
+		<ForeignField 
+			name="_Person170240OrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_Person170240ID" 
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>
+		<ForeignField 
+			name="_Person170240Organization"  key="_Person170240OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>
+		<CombinedField name="_Person170240andOrganization"  
+			phrase="17.00 - ... |Reservation 17.00 till next day">
+			<CombinedFieldRef name="_Person170240"/>_/_<CombinedFieldRef name="_Person170240Organization"/>
+		</CombinedField>		
+		<CalculatedField 
+			name="_Booking170240Sign" 
+			calcFunction="flipflop" params="_Booking170240 #&#9632;&#160;&#160; #&#9633;&#160;&#160;"  
+			phrase="17.00 - ... |Reservation 17.00 till next day"/>
+		<CombinedField 
+			name="_Booking170240Graph" 
+			phrase="17.00 - ... |Reservation 17.00 till next day">
+			<![CDATA[<div class="]]>
+			<CombinedFieldRef name="_UnavailableOnBookingColor2"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Booking170240Sign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_ResourceNameColor"/>_;_<CombinedFieldRef name="_BookingDateColor"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_ResourceNameColor"/>_;_<CombinedFieldRef name="_BookingDateColor"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_ResourceDayID"
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xmrc'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->	
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>	
+		
+		<StaticField 
+			name="ruler10" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler11" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler12" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler13" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler14" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler15" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler16" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler17" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler18" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler19" type="text" content="" phrase=" "/>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_ResourceDayID"/>
+        </PrimaryKey>
+		 <Index name="ResourceID_BookingDate" unique="yes" >
+            <FieldRef name="_ResourceID"/>
+            <FieldRef name="_BookingDate"/>
+        </Index>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_BookingDate"/>
+		<ViewField name="ruler1"/>		
+		<ViewField name="_ResourceName"/>
+		<ViewField name="_UnavailableOnBooking"/>
+		<ViewField name="ruler2"/>	
+		<ViewField name="_Location" link="_LocationLink"/>
+		<ViewField name="_Building" link="_BuildingLink"/>
+		<ViewField name="_ResourceStore"/>
+		<ViewField name="ruler3"/>
+		<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink"/>
+	</RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List" allowDelete="no">
+			<InvisibleField name="_ResourceDayID"/>	
+			<ListField name="_BookingDate" phrase="Reservation day"/>
+			<ListField name="_BookingDateDay1" align="center" phrase="Day"/>
+			<ListField name="_ResourceNameColor" align="center"  phrase="Conference Resources"/>
+			<ListField name="_Booking000080Graph" align="center" phrase="-8&#160;"/>
+			<ListField name="_Booking080090Graph" align="center" phrase="&#160;8-"/>
+			<ListField name="_Booking090100Graph" align="center" phrase="&#160;9-"/>
+			<ListField name="_Booking100110Graph" align="center" phrase="10-"/>
+			<ListField name="_Booking110120Graph" align="center" phrase="11-"/>
+			<ListField name="_Booking120130Graph" align="center" phrase="12-"/>
+			<ListField name="_Booking130140Graph" align="center" phrase="13-"/>
+			<ListField name="_Booking140150Graph" align="center" phrase="14-"/>			
+			<ListField name="_Booking150160Graph" align="center" phrase="15-"/>					
+			<ListField name="_Booking160170Graph" align="center" phrase="16-"/>
+			<ListField name="_Booking170240Graph" align="center" phrase="17-"/>			
+			<InvisibleField name="_ResourceName"/>
+			<OrderByField name="_BookingDate"/>
+			<OrderByField name="_ResourceName"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<CheckBoxField name="_AvailableTodTom"  onlyTrue="yes"/>	
+			<CheckBoxField name="_AvailableWeek"  onlyTrue="yes"/>			
+			<DateField name="_BookingDate"/>	
+			<CheckBoxField name="_BookingDateNoSat"  onlyTrue="yes"/>
+			<CheckBoxField name="_BookingDateNoSun"  onlyTrue="yes"/>
+			<CodeComboField name="_BookingDateDayID" listField="_BookingDateDay2" suppressItemAdd="yes"/>
+			<ViewField name="ruler1"/>
+			<CodeRadioField name="_UnavailableOnBookingID" orientation="vertical"/>
+			<ViewField name="ruler2"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes">
+				<UpdateFieldRef name="_BuildingID"/>
+			</ComboField>
+			<ComboField name="_BuildingID" parentField="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler3"/>
+			<EditField name="_ResourceName" size="50" maxLength="50"/>
+			<ViewField name="ruler4"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen> 
+        <ViewScreen name="View">
+			<ViewField name="_BookingDateDay">
+				<ViewField name="_BookingDate"/>
+			</ViewField>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ResourceName"/>
+			<ViewField name="_ResourceDescription"/>			
+			<ViewField name="_UnavailableOnBooking"/>
+			<ViewField name="ruler2"/>			
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_Building" link="_BuildingLink"/>
+			<ViewField name="_ResourceStore"/>
+			<ViewField name="ruler3"/>				
+			<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink"/>			
+			<ViewScreenSection name="Booking" phrase="Conference resource booking">				
+				<ViewField name="_Person000080andOrganization" link="_Person000080Link" goEditScreen="ResourceBooking"/>
+				<ViewField name="ruler10"/>
+				<ViewField name="_Person080083andOrganization" link="_Person080083Link"/>
+				<ViewField name="_Person083090andOrganization" link="_Person083090Link"/>
+				<ViewField name="ruler11"/>
+				<ViewField name="_Person090093andOrganization" link="_Person090093Link"/>
+				<ViewField name="_Person093100andOrganization" link="_Person093100Link"/>
+				<ViewField name="ruler12"/>
+				<ViewField name="_Person100103andOrganization" link="_Person100103Link"/>
+				<ViewField name="_Person103110andOrganization" link="_Person103110Link"/>
+				<ViewField name="ruler13"/>
+				<ViewField name="_Person110113andOrganization" link="_Person110113Link"/>
+				<ViewField name="_Person113120andOrganization" link="_Person113120Link"/>
+				<ViewField name="ruler14"/>
+				<ViewField name="_Person120123andOrganization" link="_Person120123Link" goEditScreen="ResourceBooking"/>
+				<ViewField name="_Person123130andOrganization" link="_Person123130Link"/>
+				<ViewField name="ruler15"/>
+				<ViewField name="_Person130133andOrganization" link="_Person130133Link"/>
+				<ViewField name="_Person133140andOrganization" link="_Person133140Link"/>
+				<ViewField name="ruler16"/>				
+				<ViewField name="_Person140143andOrganization" link="_Person140143Link"/>
+				<ViewField name="_Person143150andOrganization" link="_Person143150Link"/>
+				<ViewField name="ruler17"/>			
+				<ViewField name="_Person150153andOrganization" link="_Person150153Link"/>
+				<ViewField name="_Person153160andOrganization" link="_Person153160Link"/>
+				<ViewField name="ruler18"/>						
+				<ViewField name="_Person160163andOrganization" link="_Person160163Link"/>
+				<ViewField name="_Person163170andOrganization" link="_Person163170Link"/>
+				<ViewField name="ruler19"/>				
+				<ViewField name="_Person170240andOrganization" link="_Person170240Link" goEditScreen="ResourceBooking"/>
+			</ViewScreenSection>		
+        </ViewScreen>
+<!-- 		
+        <EditScreen name="Form" phrase="Form|Edit summary information about the resource booking">
+			<ViewField name="_ResourceDayID"/>
+			<ViewField name="ruler1"/>	
+			<EditField name="_ResourceID" size="10" maxLength="10"/>
+			<DateField name="_BookingDate"/>			
+        </EditScreen>
+	 -->	
+		<EditScreen  
+			name="ResourceBooking" onOkGoListScreen="List" allowDelete="no"
+			phrase="Conference resource booking|Edit hours the conference resource is booked">
+			<RecordSummaryFieldsRef/>
+			<ViewField name="ruler5"/>
+			<CheckBoxField name="_Booking000080">
+				<ViewField 
+					name="_Person000080andOrganization" link="_Person000080Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>			
+			<ViewField name="ruler10"/>			
+			<CheckBoxField 	name="_Booking080083">
+				<ViewField 
+					name="_Person080083andOrganization" link="_Person080083Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking083090">
+				<ViewField 
+					name="_Person083090andOrganization" link="_Person083090Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler11"/>			
+			<CheckBoxField 	name="_Booking090093">
+				<ViewField 
+					name="_Person090093andOrganization" link="_Person090093Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking093100">
+				<ViewField 
+					name="_Person093100andOrganization" link="_Person093100Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler12"/>
+			<CheckBoxField 	name="_Booking100103">
+				<ViewField 
+					name="_Person100103andOrganization" link="_Person100103Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking103110">
+				<ViewField 
+					name="_Person103110andOrganization" link="_Person103110Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler13"/>
+			<CheckBoxField 	name="_Booking110113">
+				<ViewField 
+					name="_Person110113andOrganization" link="_Person110113Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking113120">
+				<ViewField 
+					name="_Person113120andOrganization" link="_Person113120Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler14"/>
+			<CheckBoxField 	name="_Booking120123">
+				<ViewField 
+					name="_Person120123andOrganization" link="_Person120123Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking123130">
+				<ViewField 
+					name="_Person123130andOrganization" link="_Person123130Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler15"/>
+			<CheckBoxField 	name="_Booking130133">
+				<ViewField 
+					name="_Person130133andOrganization" link="_Person130133Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking133140">
+				<ViewField 
+					name="_Person133140andOrganization" link="_Person133140Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler16"/>			
+			<CheckBoxField 	name="_Booking140143">
+				<ViewField 
+					name="_Person140143andOrganization" link="_Person140143Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking143150">
+				<ViewField 
+					name="_Person143150andOrganization" link="_Person143150Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler17"/>		
+			<CheckBoxField 	name="_Booking150153">
+				<ViewField 
+					name="_Person150153andOrganization" link="_Person150153Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking153160">
+				<ViewField 
+					name="_Person153160andOrganization" link="_Person153160Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler18"/>
+				
+			<CheckBoxField 	name="_Booking160163">
+				<ViewField 
+					name="_Person160163andOrganization" link="_Person160163Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<CheckBoxField 	name="_Booking163170">
+				<ViewField 
+					name="_Person163170andOrganization" link="_Person163170Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField>
+			<ViewField name="ruler19"/>			
+			<CheckBoxField 	name="_Booking170240">			
+				<ViewField 
+					name="_Person170240andOrganization" link="_Person170240Link"
+					inlinePreContent='&lt;span style="color:white;font-size:150%"&gt;|&#160;&#160;&lt;/span&gt;'/>
+			</CheckBoxField> 			
+        </EditScreen>
+    </Screens>		
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<p><b>Zarządzający</b> wprowadza, aktualizuje i usuwa dane o zasobach pomocniczych w module "Zasoby pomocnicze do spotkań" (xmr). <b>Zarządzający</b> może wskazać niedostępnośc zasobu poprzez wypełnienie danych w ekranie 'Zasób niedostępny'. Niedostępne w terminie zasoby zostaną oznaczone na czerwono na liście modułu "Rezerwacja zasobów do spotkania" (xmrc).</p>
+<br/>
+<p><b>Rezerwujący</b> dokonują  tylko dla siebie rezerwacji zasobu pomocniczego w wybranej dacie i godzinach w module "Rezerwacja zasobów do spotkania" (xmrc) w ekranie 'Rezerwacja zasobu pomocniczego'. Tylko <b>Rezerwujący</b> osobiście lub <b>Zarządzający</b> mogą zdjąć uprzednio dokonaną rezerwację zasobu pomocniczego do spotkania.</p>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Rezerwacja zasobów do spotkania" (xmrc)</li>
+<li>"Zasoby pomocnicze do spotkań" (xmr)</li>
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Rezerwacja zasobów do spotkania" (xmrc): Edycja wszystkich danych</li>
+<li>"Zasoby pomocnicze do spotkań" (xmr): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Grupy użytkowników założone do obsługi uprawnień w modułach realizujących proces:</li>
+<ul>
+<li>*Zarządzanie zasobami do spotkania* (mr)</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników 
+*Zarządzanie zasobami pomocniczymi* (mr): </li>
+<ul>
+<li>"Zasoby pomocnicze do spotkań" (xmr): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Zarządza zasobami pomocniczymi do spotkań#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Zarządzanie zasobami pomocniczymi* (mr)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Zarządzanie zasobami pomocniczymi* (mr)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułu "Rezerwacja zasobów do spotkania" (xmrc)</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Wypełnie modułu "Zasoby pomocnicze do spotkań" (xmr) danymi o zasobach pomocniczych do spotkania</li>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>	
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

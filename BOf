@@ -1,0 +1,113 @@
+#!/bin/bash
+AA_PATH=/var/www/s2a
+
+#===
+# BOF 
+# Back office
+#===
+
+# Translation:
+cp BOf.pl_PL.po $AA_PATH/active_agenda/lang/pl_PL/LC_MESSAGES/BOf.pl_PL.po
+ 
+# Navigation:
+cp Navigation.xml $AA_PATH/active_agenda/Navigation.xml
+
+# Crone calls
+#cp cron-calls.php $AA_PATH/lib/cron/cron-calls.php
+
+# Custom SQL
+cp script.sql $AA_PATH/active_agenda/xml/script.sql
+
+# Codes
+cp codes_pl.sql $AA_PATH/install/codes_pl.sql
+
+# Overriding standard modules:
+cp pplModuleDef.xml $AA_PATH/active_agenda/xml/pplModuleDef.xml
+cp ppl1ModuleDef.xml $AA_PATH/active_agenda/xml/ppl1ModuleDef.xml
+cp orgModuleDef.xml $AA_PATH/active_agenda/xml/orgModuleDef.xml
+cp locModuleDef.xml $AA_PATH/active_agenda/xml/locModuleDef.xml
+cp locbModuleDef.xml $AA_PATH/active_agenda/xml/locbModuleDef.xml
+
+# Bussines modules: 
+cp xbcModuleDef.xml $AA_PATH/active_agenda/xml/xbcModuleDef.xml
+cp xbcrModuleDef.xml $AA_PATH/active_agenda/xml/xbcrModuleDef.xml
+cp xbModuleDef.xml $AA_PATH/active_agenda/xml/xbModuleDef.xml
+cp xbpModuleDef.xml $AA_PATH/active_agenda/xml/xbpModuleDef.xml
+cp xicModuleDef.xml $AA_PATH/active_agenda/xml/xicModuleDef.xml
+cp xkModuleDef.xml $AA_PATH/active_agenda/xml/xkModuleDef.xml
+cp xkpModuleDef.xml $AA_PATH/active_agenda/xml/xkpModuleDef.xml
+cp xppModuleDef.xml $AA_PATH/active_agenda/xml/xppModuleDef.xml
+cp ximModuleDef.xml $AA_PATH/active_agenda/xml/ximModuleDef.xml
+cp xsModuleDef.xml $AA_PATH/active_agenda/xml/xsModuleDef.xml
+cp xsrModuleDef.xml $AA_PATH/active_agenda/xml/xsrModuleDef.xml
+cp xhrModuleDef.xml $AA_PATH/active_agenda/xml/xhrModuleDef.xml
+cp xhrrModuleDef.xml $AA_PATH/active_agenda/xml/xhrrModuleDef.xml
+cp xttModuleDef.xml $AA_PATH/active_agenda/xml/xttModuleDef.xml
+cp xttrModuleDef.xml $AA_PATH/active_agenda/xml/xttrModuleDef.xml
+cp xvModuleDef.xml $AA_PATH/active_agenda/xml/xvModuleDef.xml
+cp xvrModuleDef.xml $AA_PATH/active_agenda/xml/xvrModuleDef.xml
+cp xaModuleDef.xml $AA_PATH/active_agenda/xml/xaModuleDef.xml
+cp xarModuleDef.xml $AA_PATH/active_agenda/xml/xarModuleDef.xml
+cp xroModuleDef.xml $AA_PATH/active_agenda/xml/xroModuleDef.xml
+cp xrorModuleDef.xml $AA_PATH/active_agenda/xml/xrorModuleDef.xml
+cp xhdModuleDef.xml $AA_PATH/active_agenda/xml/xhdModuleDef.xml
+cp xhdrModuleDef.xml $AA_PATH/active_agenda/xml/xhdrModuleDef.xml
+cp xioModuleDef.xml $AA_PATH/active_agenda/xml/xioModuleDef.xml
+cp xiorModuleDef.xml $AA_PATH/active_agenda/xml/xiorModuleDef.xml
+cp xapModuleDef.xml $AA_PATH/active_agenda/xml/xapModuleDef.xml
+cp xaprModuleDef.xml $AA_PATH/active_agenda/xml/xaprModuleDef.xml
+cp xetModuleDef.xml $AA_PATH/active_agenda/xml/xetModuleDef.xml
+cp xetrModuleDef.xml $AA_PATH/active_agenda/xml/xetrModuleDef.xml
+cp xalModuleDef.xml $AA_PATH/active_agenda/xml/xalModuleDef.xml
+cp xalrModuleDef.xml $AA_PATH/active_agenda/xml/xalrModuleDef.xml
+cp xmcModuleDef.xml $AA_PATH/active_agenda/xml/xmcModuleDef.xml
+cp xmcsModuleDef.xml $AA_PATH/active_agenda/xml/xmcsModuleDef.xml
+cp xmoModuleDef.xml $AA_PATH/active_agenda/xml/xmoModuleDef.xml
+cp xmorModuleDef.xml $AA_PATH/active_agenda/xml/xmorModuleDef.xml
+cp xiModuleDef.xml $AA_PATH/active_agenda/xml/xiModuleDef.xml
+cp xirModuleDef.xml $AA_PATH/active_agenda/xml/xirModuleDef.xml
+cp xiirModuleDef.xml $AA_PATH/active_agenda/xml/xiirModuleDef.xml
+cp xiirrModuleDef.xml $AA_PATH/active_agenda/xml/xiirrModuleDef.xml
+cp xiiModuleDef.xml $AA_PATH/active_agenda/xml/xiiModuleDef.xml
+cp xiirnModuleDef.xml $AA_PATH/active_agenda/xml/xiirnModuleDef.xml
+cp xbtoModuleDef.xml $AA_PATH/active_agenda/xml/xbtoModuleDef.xml
+cp xbtorModuleDef.xml $AA_PATH/active_agenda/xml/xbtorModuleDef.xml
+cp xbtor_ReportDef_Business-trip-orderDOC.xml $AA_PATH/active_agenda/xml/xbtor_ReportDef_Business-trip-orderDOC.xml
+mkdir $AA_PATH/active_agenda/msxml/Business-trip-orderDOC
+cp Business-trip-orderDOC/xbtor.xml $AA_PATH/active_agenda/msxml/Business-trip-orderDOC/xbtor.xml
+cp xbteModuleDef.xml $AA_PATH/active_agenda/xml/xbteModuleDef.xml
+cp xbteaModuleDef.xml $AA_PATH/active_agenda/xml/xbteaModuleDef.xml
+cp xbtevModuleDef.xml $AA_PATH/active_agenda/xml/xbtevModuleDef.xml
+cp xbterModuleDef.xml $AA_PATH/active_agenda/xml/xbterModuleDef.xml
+cp xadModuleDef.xml $AA_PATH/active_agenda/xml/xadModuleDef.xml
+cp xatModuleDef.xml $AA_PATH/active_agenda/xml/xatModuleDef.xml
+cp xatrModuleDef.xml $AA_PATH/active_agenda/xml/xatrModuleDef.xml
+cp xklModuleDef.xml $AA_PATH/active_agenda/xml/xklModuleDef.xml
+cp xklrModuleDef.xml $AA_PATH/active_agenda/xml/xklrModuleDef.xml
+cp xjModuleDef.xml $AA_PATH/active_agenda/xml/xjModuleDef.xml
+cp xtModuleDef.xml $AA_PATH/active_agenda/xml/xtModuleDef.xml
+
+cp xt_ReportDef_TaskListHTML.xml $AA_PATH/active_agenda/xml/xt_ReportDef_TaskListHTML.xml
+
+cp xt_ReportDef_TasksXLS.xml $AA_PATH/active_agenda/xml/xt_ReportDef_TasksXLS.xml
+mkdir $AA_PATH/active_agenda/msxml/TasksXLS
+cp TasksXLS/header.xml $AA_PATH/active_agenda/msxml/TasksXLS/header.xml
+cp TasksXLS/xt.xml $AA_PATH/active_agenda/msxml/TasksXLS/xt.xml
+cp TasksXLS/xt_xj.xml $AA_PATH/active_agenda/msxml/TasksXLS/xt_xj.xml
+cp TasksXLS/footer.xml $AA_PATH/active_agenda/msxml/TasksXLS/footer.xml
+
+cp xpModuleDef.xml $AA_PATH/active_agenda/xml/xpModuleDef.xml
+cp xrModuleDef.xml $AA_PATH/active_agenda/xml/xrModuleDef.xml
+cp xrcModuleDef.xml $AA_PATH/active_agenda/xml/xrcModuleDef.xml
+cp xrccModuleDef.xml $AA_PATH/active_agenda/xml/xrccModuleDef.xml
+cp xmrModuleDef.xml $AA_PATH/active_agenda/xml/xmrModuleDef.xml
+cp xmrcModuleDef.xml $AA_PATH/active_agenda/xml/xmrcModuleDef.xml
+cp xtsModuleDef.xml $AA_PATH/active_agenda/xml/xtsModuleDef.xml
+cp xtsrModuleDef.xml $AA_PATH/active_agenda/xml/xtsrModuleDef.xml
+cp xtsrrModuleDef.xml $AA_PATH/active_agenda/xml/xtsrrModuleDef.xml
+cp xcModuleDef.xml $AA_PATH/active_agenda/xml/xcModuleDef.xml
+cp xcpModuleDef.xml $AA_PATH/active_agenda/xml/xcpModuleDef.xml
+cp xesModuleDef.xml $AA_PATH/active_agenda/xml/xesModuleDef.xml
+cp xesrModuleDef.xml $AA_PATH/active_agenda/xml/xesrModuleDef.xml
+cp xeModuleDef.xml $AA_PATH/active_agenda/xml/xeModuleDef.xml
+cp xepModuleDef.xml $AA_PATH/active_agenda/xml/xepModuleDef.xml

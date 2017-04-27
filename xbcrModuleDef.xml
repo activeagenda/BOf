@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Business card order register" moduleID="xbcr" 
+	allowAddRecord="no"
+	singularRecordName="Business card order" pluralRecordName="Business card orders"  
+	defaultMenuPath="Main Menu / Item ordering / Business cards [xbc] / Business card order register">
+ 
+	<ModuleFields>
+		<TableField 
+			name="_BusinesscardID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Case ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Business -->	
+		<TableField 
+			name="_BusinesscardTitle" type="varchar(20)" 
+			phrase="Title|Title printed on the business card"/>	
+		<TableField 
+			name="_BusinesscardFirstName" type="varchar(50)" 
+			phrase="First Name|First name printed on the business card"  validate="notEmpty"/>	
+		<TableField 
+			name="_BusinesscardFamilyName" type="varchar(50)" 
+			phrase="Family Name|Family name printed on the business card"  validate="notEmpty"/>
+		<TableField 
+			name="_BusinesscardPosition" type="varchar(50)" 
+			phrase="Position in the organization|Position in the organization printed on the business card"/>
+		<TableField 
+			name="_BusinesscardAddress" type="varchar(50)" 
+			phrase="Address|Address printed on the business card"/>
+		<TableField 
+			name="_BusinesscardPhone" type="varchar(50)" 
+			phrase="Phone|Phone printed on the business card"/>
+		<TableField 
+			name="_BusinesscardFax" type="varchar(50)" 
+			phrase="Fax|Fax printed on the business card"/>	
+		<TableField 
+			name="_BusinesscardMobile" type="varchar(50)" 
+			phrase="Mobile|Mobile phone printed on the business card"/>
+		<TableField 
+			name="_BusinesscardEmail" type="varchar(50)" 
+			phrase="Email|Email printed on the business card"/>	
+		<TableField 
+			name="_BusinesscardHomepage" type="varchar(50)" 
+			phrase="Homepage|Homepage printed on the business card"/>
+		<TableField 
+			name="_BusinesscardCount" type="int" defaultValue="#1" validate="notEmpty | eval: $value > 0" 
+			phrase="Number of entities|Number of business card entities, which should be printed and delivered"/>
+			
+		<TableField 
+			name="_InvoiceOrganizationID" type="int" orgListOptions="intpar" 
+			phrase="Organization assignment|Name of organization associated with the business card expenses"/>	
+		<ForeignField 
+			name="_InvoiceOrganization" key="_InvoiceOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization assignment|Name of organization associated with the business card expenses"/>
+		<TableField 
+			name="_InvoiceCostCenter" type="varchar(50)" 
+			phrase="Invoice assignment|The description how to assign the business card expenses in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."/>
+		
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Ordering person|Person ordering the business card"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Ordering person|Person ordering the business card"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Ordering person|Person ordering the business card"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"			
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField
+			name="_OwnedOrganization"  
+			phrase="Ordering person|Person ordering the business card">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>		
+		
+		<ForeignField 
+			name="_LocationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>	
+		
+		<CombinedField name="_SubmittedByOrganization"  
+			phrase="Submitted by|Person who submitted the case to the approval process">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<TableField 
+			name="_SubmittedOn" type="datetime" validate="notEmpty"
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>	
+		
+		<TableField 
+			name="_AcceptedByID" type="int" validate="RequireSelection" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedBy"  key="_AcceptedByID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Accepted by|Person who accepted the case"/>
+		<LinkField 
+			name="_AcceptedByLink" foreignModuleID="ppl" recordIDField="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedByOrganizationID" key="_AcceptedByID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"			
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_AcceptedByOrganization" key="_AcceptedByOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 			
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_AcceptedByAcceptedByOrganization"  
+			phrase="Accepted by|Person who accepted the case">
+			<CombinedFieldRef name="_AcceptedBy"/>_/_<CombinedFieldRef name="_AcceptedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_AcceptedOn" type="datetime" validate="notEmpty"
+			phrase="Accepted on|Date and time the case has been accepted by the person"/>
+		<TableField 
+			name="_AcceptedRemark" type="varchar(50)" 
+			phrase="Remark for accepted|Remark for accepting the case"/>
+		
+		<TableField 
+			name="_ClosedByID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			validate="RequireSelection" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedBy" key="_ClosedByID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			listCondition="PersonStatusID=1"			
+			phrase="Closed by|Person who closed the case"/>
+		<LinkField 
+			name="_ClosedByLink" foreignModuleID="ppl" recordIDField="_ClosedByID" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedByOrganizationID" key="_ClosedByID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 			
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_ClosedByOrganization" key="_ClosedByOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 			
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_ClosedByClosedByOrganization"  
+			phrase="Closed by|Person who closed the case">
+			<CombinedFieldRef name="_ClosedBy"/>_/_<CombinedFieldRef name="_ClosedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_ClosedOn" type="datetime" validate="notEmpty"
+			phrase="Closed on|Date and time the case has been closed"/>
+		<TableField 
+			name="_ClosedRemark" type="varchar(50)" 
+			phrase="Remark for closed|Remark for closing the case"/>
+			
+		<CalculatedField 
+			name="_DaysBetween12" type="int" 
+			calcFunction="datediff" params="_AcceptedOn _SubmittedOn"  
+			phrase="Days between|Number of days between change of the state"/>
+		<CalculatedField 
+			name="_DaysBetween23" type="int" 
+			calcFunction="datediff" params="_ClosedOn _AcceptedOn"  
+			phrase="Days between|Number of days between change of the state"/>	
+			
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_BusinesscardFamilyName"/>
+			,_<CombinedFieldRef name="_BusinesscardFirstName"/>
+			;_<CombinedFieldRef name="_BusinesscardCount"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_BusinesscardFamilyName"/>
+			,_<CombinedFieldRef name="_BusinesscardFirstName"/>
+			;_<CombinedFieldRef name="_BusinesscardCount"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_BusinesscardID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xbcr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+		
+		<!-- Beautifiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>		
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>	
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_BusinesscardID"/>
+        </PrimaryKey>
+		<Index name="_OwnedBy_Deleted">
+			<FieldRef name="_OwnedBy"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_BusinesscardID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_BusinesscardFamilyName"/>		
+		<ViewField name="_BusinesscardFirstName"/>
+		<ViewField name="_BusinesscardPosition"/>
+		<ViewField name="_BusinesscardAddress"/>
+		<ViewField name="_BusinesscardPhone"/>
+		<ViewField name="_BusinesscardFax"/>
+		<ViewField name="_BusinesscardMobile"/>
+		<ViewField name="_BusinesscardEmail"/>
+		<ViewField name="_BusinesscardHomepage"/>
+		<ViewField name="_BusinesscardCount"/>
+		<ViewField name="ruler2"/>
+		<ViewField name="_InvoiceOrganization"/>
+		<ViewField name="_InvoiceCostCenter"/>			
+	</RecordSummaryFields>	
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_BusinesscardID" phrase="ID"/>	
+			<ListField name="_OwnedOrganization"/>
+			<ListField name="_BusinesscardCount" align="center" phrase="Businesscard count"/>		
+			<ListField name="_BusinesscardFirstName"/>
+			<ListField name="_BusinesscardFamilyName"/>
+			
+			<HiddenField name="_InvoiceOrganization"/>
+			<HiddenField name="_InvoiceCostCenter"/>
+			
+			<HiddenField name="_SubmittedOn"/>
+			<HiddenField name="_SubmittedByOrganization"/>
+			<HiddenField name="_SubmittedRemark"/>
+			<HiddenField name="_DaysBetween12"/>
+			<HiddenField name="_AcceptedOn"/>
+			<HiddenField name="_AcceptedByAcceptedByOrganization"/>
+			<HiddenField name="_AcceptedRemark"/>
+			<HiddenField name="_DaysBetween23"/>
+			<HiddenField name="_ClosedOn"/>
+			<HiddenField name="_ClosedByClosedByOrganization"/>
+			<HiddenField name="_ClosedRemark"/>
+		
+			<OrderByField name="_BusinesscardID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_BusinesscardID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_BusinesscardTitle" size="20" maxLength="20"/>
+			<EditField name="_BusinesscardFirstName" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardFamilyName" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardPosition" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardAddress" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardPhone" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardFax" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardMobile" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardEmail" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardHomepage" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardCount" size="5" maxLength="5"/>
+			<ViewField name="ruler2"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="ruler4"/>
+			<DateField name="_SubmittedOn"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler5"/>
+			<DateField name="_AcceptedOn"/>			
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>	
+			<ViewField name="ruler6"/>			
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>			
+			<ViewField name="ruler7"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>				
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_BusinesscardID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_BusinesscardTitle"/>
+			<ViewField name="_BusinesscardFirstName"/>
+			<ViewField name="_BusinesscardFamilyName"/>
+			<ViewField name="_BusinesscardPosition"/>
+			<ViewField name="_BusinesscardAddress"/>
+			<ViewField name="_BusinesscardPhone"/>
+			<ViewField name="_BusinesscardFax"/>
+			<ViewField name="_BusinesscardMobile"/>
+			<ViewField name="_BusinesscardEmail"/>
+			<ViewField name="_BusinesscardHomepage"/>
+			<ViewField name="_BusinesscardCount"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_InvoiceOrganization"/>
+			<ViewField name="_InvoiceCostCenter" goEditScreen="Form"/>			
+			<ViewScreenSection name="CaseState" phrase="Case approval history">
+				<ViewField name="_SubmittedOn"/>
+				<ViewField name="_SubmittedByOrganization" link="_OwnedLink"/>
+				<ViewField name="_SubmittedRemark"/>
+				<ViewField name="ruler3"/>						
+				<ViewField name="_AcceptedOn"/>
+				<ViewField name="_AcceptedByAcceptedByOrganization" link="_AcceptedByLink"/>
+				<ViewField name="_AcceptedRemark"/>
+				<ViewField name="ruler4"/>	
+				<ViewField name="_ClosedOn"/>
+				<ViewField name="_ClosedByClosedByOrganization" link="_ClosedByLink"/>
+				<ViewField name="_ClosedRemark" goEditScreen="Form"/>
+			</ViewScreenSection>				
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a business card">
+			<ViewField name="_BusinesscardID"/>			
+			<ViewField name="ruler1"/>
+			<EditField name="_BusinesscardTitle" size="20" maxLength="20"/>
+			<EditField name="_BusinesscardFirstName" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardFamilyName" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardPosition" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardAddress" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardPhone" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardFax" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardMobile" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardEmail" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardHomepage" size="50" maxLength="50"/>
+			<EditField name="_BusinesscardCount" size="5" maxLength="5"/>
+			<ViewField name="ruler2"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"  suppressItemAdd="yes"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>				
+			<ViewField name="ruler3"/>
+			<ViewField name="ruler4"/>
+			<DateField name="_SubmittedOn"/>	
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_SubmittedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler5"/>
+			<DateField name="_AcceptedOn"/>				
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_AcceptedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler6"/>
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ClosedRemark" size="50" maxLength="50"/>			
+        </EditScreen>		
+    </Screens>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	    <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xbc">Zamówienia wizytówek  (xbc)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xbc">Zamówienia wizytówek  (xbc)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

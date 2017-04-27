@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Persons with equipment" moduleID="xep" 
+	allowAddRecord="no"
+	singularRecordName="Person with an equipment item" pluralRecordName="Persons with equipment items"
+	defaultMenuPath="Main Menu / Asset management / Persons with equipment"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_PersonEquipmentID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk"
+			phrase="Person with equipment ID|An automatically assigned number used to identify a record"/>
+		
+		<!-- Key -->
+		<TableField 
+			name="_EquipmentID" type="int" dbFlags="unsigned default 0" validate="notEmpty" 
+			phrase="Equipment ID|An automatically assigned number used to identify a record"/>
+		<ForeignField
+			name="_EquipmentName"  key="_EquipmentID" 
+			foreignTable="xe" foreignKey="_EquipmentID" foreignField="_EquipmentName"
+			phrase="Equipment|Make type and model of the equipment"/>
+		<ForeignField
+			name="_EquipmentRegistrationNumber"  key="_EquipmentID"
+			foreignTable="xe" foreignKey="_EquipmentID" foreignField="_EquipmentRegistrationNumber"
+			phrase="Registration number|Registration number of the equipment of the manufacturer or internal"/>
+		<ForeignField
+			name="_EquipmentDescription"  key="_EquipmentID"
+			foreignTable="xe" foreignKey="_EquipmentID" foreignField="_EquipmentDescription"
+			phrase="Description|Description of the equipment characteristics and manfucaturing numbers"/>
+			
+		<!-- Person -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection" orgListOptions="intpar"
+			phrase="Assignee|Person who has been asignned the equipment"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy"
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" listCondition="PersonStatusID=1"
+			phrase="Assignee|Person who has been asignned the equipment"/>
+		<LinkField 
+			name="_PersonLink" foreignModuleID="ppl" recordIDField="_OwnedBy"
+			phrase="Assignee|Person who has been asignned the equipment"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			phrase="Organization|Name of organization associated with the person who has been asignned the equipment"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the person who has been asignned the equipment"/>
+		<CombinedField name="_PersonOrganization"  
+			phrase="Assignee|Person who has been asignned the equipment">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>	
+		
+		<TableField 
+			name="_Remarks" type="varchar(50)" 
+			phrase="Remarks|Assignee and equipment remarks"/>
+		<!-- Dates -->
+		<TableField 
+			name="_AssignedOn" type="date" validate="notEmpty" defaultValue="today"
+			phrase="Assigned on|Date the equipment has been assigned to the person"/>
+		
+		<TableField 
+			name="_ReturnedOn" type="date"  validate="eval: NoLaterThan( $_AssignedOn, $_ReturnedOn )"
+			phrase="Returned on|Date the equipment has been returned to the assignor"/>
+		
+		<CalculatedField 
+			name="_IsAssigned"  type="bool"  
+			calcFunction="isnull" params="_ReturnedOn"  
+			phrase="Is assigned now|If the equipment is assigned now to the person"/>
+		
+		<StaticField 
+			name="_PersonStatusOne" type="int" content="1" 
+			phrase="Current employee flag|This person is current employe"/>
+		
+		<!-- Record description   -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_EquipmentName"/>
+		</CombinedField>
+		
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_EquipmentName"/>_;_<CombinedFieldRef name="_EquipmentRegistrationNumber"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_PersonEquipmentID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xep'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_PersonEquipmentID"/>
+        </PrimaryKey>
+		<Index name="_EquipmentID_Deleted">
+			<FieldRef name="_EquipmentID"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<SubModules>
+		<SubModule 
+			name="Handlers" parentKey="_PersonStatusOne" 
+			moduleID="ppl" localKey="PersonStatusID">
+			<SubModuleCondition field="EquipmentHandler" value="1"/>
+		</SubModule>
+	</SubModules>	
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_PersonEquipmentID" phrase="ID"/>						
+			<ListField name="_PersonOrganization"/>
+			<ListField name="_EquipmentName" phrase="Equipment"/>
+			<ListField name="_EquipmentRegistrationNumber" align="center"/>
+			<ListField name="_AssignedOn"/>
+			<ListField name="_ReturnedOn"/>
+			<OrderByField name="_ReturnedOn"/>
+        </ListScreen>
+        <SearchScreen name="Search">		
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler1"/>
+			<InvisibleField name="_PersonEquipmentID"/>
+			<InvisibleField name="_EquipmentID"/>
+			<EditField name="_EquipmentName" size="50" maxLength="50"/>
+			<EditField name="_EquipmentRegistrationNumber" size="50" maxLength="50"/>	
+			<ViewField name="ruler2"/>
+			<CheckBoxField name="_IsAssigned" onlyTrue="yes"/>
+			<DateField name="_AssignedOn"/>
+			<DateField name="_ReturnedOn"/>						
+			<EditField name="_Remarks" size="50" maxLength="50"/>
+			<ViewField name="ruler3"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_PersonEquipmentID"/>
+			<ViewField name="ruler1"/>
+			<InvisibleField name="_PersonLink"/>
+			<ViewField name="_PersonOrganization" link="_PersonLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_EquipmentName"/>
+			<ViewField name="_EquipmentRegistrationNumber"/>
+			<ViewField name="_EquipmentDescription"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_AssignedOn"/>
+			<ViewField name="_ReturnedOn"/>		
+			<ViewField name="_Remarks" goEditScreen="Form"/>
+			<ViewScreenSection name="Associations">
+				<ViewGrid moduleID="ppl" rowIDon="EquipmentHandler=1&amp;null" phrase="Equipment handlers"/>
+			</ViewScreenSection>			
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a assignee">
+			<ViewField name="_PersonEquipmentID"/>
+			<ViewField name="ruler1"/>
+			<InvisibleField name="_PersonLink"/>
+			<ViewField name="_PersonOrganization" link="_PersonLink"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_EquipmentName"/>
+			<ViewField name="_EquipmentRegistrationNumber"/>
+			<ViewField name="ruler3"/>
+			<DateField name="_AssignedOn"/>
+			<DateField name="_ReturnedOn"/>	
+			<EditField name="_Remarks" size="50" maxLength="50"/>			
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xep" phrase="Persons asignned the equipment">
+			<InvisibleField name="_PersonEquipmentID"/>			
+			<ViewField name="_PersonOrganization" link="_PersonLink"/>
+			<ViewField name="_AssignedOn"/>
+			<ViewField name="_ReturnedOn"/>
+			<ViewField name="_Remarks"/>
+			<OrderByField name="_ReturnedOn"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xep" phrase="Persons asignned the equipment">
+			<InvisibleField name="_PersonEquipmentID"/>			
+			<ViewField name="_PersonOrganization"/>
+			<ViewField name="_AssignedOn"/>
+			<ViewField name="_ReturnedOn"/>
+			<ViewField name="_Remarks"/>
+			<OrderByField name="_ReturnedOn"/>
+			<GridForm>
+				<InvisibleField name="_PersonEquipmentID"/>
+				<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+				<DateField name="_AssignedOn"/>
+				<DateField name="_ReturnedOn"/>	
+				<EditField name="_Remarks" size="50" maxLength="50"/>
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xe">  Rejestr wyposażenia (xe)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xe">  Rejestr wyposażenia (xe)</a>.</p>
+]]>		
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

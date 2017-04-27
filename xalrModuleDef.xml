@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Attendance list rows" moduleID="xalr" 
+	allowAddRecord="no"
+	singularRecordName="Attendance list entry" pluralRecordName="Attendance list entries">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_AttendeeID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Attendee ID|An automatically assigned number used to identify a record"/>		
+		<!-- Key -->
+		<TableField 
+			name="_AttendanceID" type="int" validate="notEmpty" 
+			phrase="Attendance list ID|An automatically assigned number used to identify a record"/>
+			
+		<ForeignField
+			name="_AttendanceName" foreignTable="xal" 
+			foreignKey="_AttendanceID" foreignField="_AttendanceName" key="_AttendanceID" 
+			phrase="Name|Name of the attendance list"/>
+		<ForeignField
+			name="_AttendanceDescription" foreignTable="xal" 
+			foreignKey="_AttendanceID" foreignField="_AttendanceDescription" key="_AttendanceID"
+			phrase="Description|Description of the objectives for the attendance list"/>
+		
+		<TableField 
+			name="_NumberOne" type="int" dbFlags="default 1"
+			phrase="1|Easy counting of rows in xal"/>		
+		
+		<TableField 
+			name="_AttendeeRemarks" type="varchar(50)" 
+			phrase="Remarks|Remarks to the attendance entry"/>
+		
+		<RecordMetaField 
+			name="_ThisCreationDate"  returnType="date" lookupType="created"  
+			phrase="Created|Record created on date"/>
+		
+		<!-- Owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Attendee|Displays attendee name"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy"
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			phrase="Attendee|Displays attendee name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Attendee|Displays attendee name"/>
+		<ForeignField 
+			name="_OrganizationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<ForeignField 
+			name="_Organization"  key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Attendee|Displays attendee name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_AttendanceName"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_AttendanceName"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_AttendeeID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xalr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- beautyfiers -->
+		<TableField 
+			name="BlankField" type="varchar(10)"
+			phrase="Blank field|Hack for the IE8 one submit field problem" />
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_AttendeeID"/>
+        </PrimaryKey>
+		<Index name="Attendance">
+			<FieldRef name="_AttendanceID"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <!-- <OwnerField name="_"/> -->
+		<UniquenessIndex name="OnlyOnePerson">
+			<FieldRef name="_AttendanceID"/> 
+            <FieldRef name="_OwnedBy"/>
+        </UniquenessIndex>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_AttendeeID" phrase="ID" />
+			<ListField name="_ThisCreationDate"/>
+			<ListField name="_AttendanceName"/>
+			<ListField name="_OwnedOrganization"/>
+			<ListField name="_AttendeeRemarks"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_AttendeeID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<InvisibleField name="_AttendanceID"/>
+			<EditField name="_AttendanceName" size="50" maxLength="50"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<EditField name="_AttendeeRemarks" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_AttendeeID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_AttendanceName"/>
+			<ViewField name="_AttendanceDescription"/>
+			<ViewField name="_AttendeeRemarks"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"  goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the attendence list entry">
+			<ViewField name="_AttendeeID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_AttendanceName"/>
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_AttendeeRemarks" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+			</EditField>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xalr" phrase="People list entries">
+			<InvisibleField name="_AttendeeID"/>
+			<ViewField name="_ThisCreationDate" phrase="Entry created"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_AttendeeRemarks"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xalr" allowEditOn="_OwnedBy" phrase="People list entries">
+			<InvisibleField name="_OwnedBy"/>
+			<InvisibleField name="_AttendeeID"/>
+			<ViewField name="_ThisCreationDate" phrase="Entry created"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="_AttendeeRemarks"/>
+			<GridForm>
+				<InvisibleField name="_AttendeeID"/>
+				<ViewField name="_OwnedOrganization"/>
+				<EditField name="_AttendeeRemarks" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+			</EditField>
+				<HiddenField name="_OwnedBy"/>								
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xal">Listy osób (xal)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xal">Listy osób (xal)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

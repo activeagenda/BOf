@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Conference resources register" moduleID="xmr"
+	singularRecordName="Conference resource" pluralRecordName="Conference resources"
+	defaultMenuPath="Main Menu / Meetings organization / Conference resources calendar [xmrc] / Conference resources register">  
+ 
+	<ModuleFields>
+		<!-- Domian data model -->
+        <TableField 
+			name="_ResourceID" type="int" dbFlags="unsigned auto_increment not null"
+			deleteOnIdGlobals="rmd att nts cos lnk"	deleteKeys="xrc._ResourceID"
+			phrase="Resource ID|An automatically assigned number used to identify a record"/>
+		<TableField 
+			name="_LocationID" type="int" validate="RequireSelection"
+			phrase="Location|Name used to identify the location in the organization"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Location|Name used to identify the location in the organization"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Location|Name used to identify the location in the organization"/>	
+		<ForeignField 
+			name="_LocationOrgFunctionID"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Location|Function and name used to identify the location in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>	
+			
+			
+		<TableField 
+			name="_BuildingID" type="int" validate="RequireSelection"  
+			phrase="Building|Building where the resource is available"/>			
+		<ForeignField 
+			name="_Building"  key="_BuildingID" 
+			foreignTable="locb" foreignKey="BuildingID" foreignField="Name"
+			phrase="Building|Building where the resource is available"/>
+		<LinkField 
+			name="_BuildingLink" foreignModuleID="locb" recordIDField="_BuildingID" 
+			phrase="Building|Building where the resource is available"/>			
+		
+		<TableField 
+			name="_ResourceStore" type="varchar(50)" validate="notEmpty" 
+			phrase="Resource store|Place, where the resource is stored"/>
+		<TableField 
+			name="_ResourceName" type="varchar(50)" validate="notEmpty" 
+			phrase="Resource name|Unique name of the resource in the organization"/>	
+			
+		<TableField 
+			name="_ResourceDescription" type="text" 
+			phrase="Special features|Description of the resource special properties"/>
+		
+		
+		<TableField 
+			name="_SupervisorID" type="int" dbFlags="unsigned default 0" 
+			orgListOptions="intpar" validate="RequireSelection" 
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>			
+		<ForeignField 
+			name="_Supervisor" key="_SupervisorID"	
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 					
+			phrase="Resource supervisor|Person helping with problems connected with the resource">
+			<ListCondition fieldName="PersonStatusID" mode="equals"><StaticValue value="1"/></ListCondition>
+		</ForeignField>
+		<LinkField 
+			name="_SupervisorLink" foreignModuleID="ppl" recordIDField="_SupervisorID" 
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>
+		<ForeignField 
+			name="_SupervisorOrganizationID" foreignTable="ppl" 
+			foreignKey="PersonID" foreignField="OrganizationID" key="_SupervisorID" 
+			phrase="Organization|Name of organization associated with the resource supervisor"/>
+		<ForeignField 
+			name="_SupervisorOrganization"  key="_SupervisorOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Resource supervisor|Person helping with problems connected with the resource"/>
+		<CombinedField name="_SupervisorNameOrganization"  
+			phrase="Resource supervisor|Person helping with problems connected with the resource">
+			<CombinedFieldRef name="_Supervisor"/>_/_<CombinedFieldRef name="_SupervisorOrganization"/>
+		</CombinedField>
+		
+		<!-- Resource pattern model -->
+		<TableField 
+			name="_UnavailableBegin" type="date" validate="notEmpty"
+			phrase="Unavailable from|Date of the start of the resource beeing unavailable"/>			
+		<TableField 
+			name="_UnavailableFinish" type="date" validate="notEmpty | eval:  NoLaterThan( $_UnavailableBegin, $_UnavailableFinish )"
+			phrase="Unavailable to|Date of the finish of the resource beeing unavailable"/>
+		<TableField 
+			name="_Unavailable" type="varchar(50)"
+			phrase="Remarks|Description why the resource is unavailable"/>			
+		<CalculatedField 
+			name="_UnavailableTodayID"  type="int"  
+			calcFunction="today_outside_interval12" params="_UnavailableBegin _UnavailableFinish"  
+			phrase="Available today|Is the resource available today"/>
+		<CodeField 
+			name="_UnavailableToday" key="_UnavailableTodayID"  codeTypeID="1021" 
+			phrase="Available today|Is the resource available today"/>
+		<CalculatedField 
+			name="_UnavailableTodayColor1" 
+			calcFunction="flipflop" params="_UnavailableTodayID #sct #wct" 
+			phrase="Available today|Is the resource available today"/>
+		<CombinedField 
+			name="_ResourceNameColor" 
+			phrase="Resource name|Unique name of the resource in the organization">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableTodayColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_ResourceName"/><![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_BuildingColor" 
+			phrase="Building|Building where the resource is available">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableTodayColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Building"/><![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_LocationColor" 
+			phrase="Location|Name used to identify the location in the organization">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableTodayColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_Location"/><![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_LocationOrgFunctionColor" 
+			phrase="Location|Function and name used to identify the location in the organization">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableTodayColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_LocationOrgFunction"/><![CDATA[</span>]]>
+		</CombinedField>
+			
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<![CDATA[<span class="]]><CombinedFieldRef name="_UnavailableTodayColor1"/><![CDATA[">]]>
+			<CombinedFieldRef name="_LocationFunction"/>_;_<CombinedFieldRef name="_ResourceName"/>
+			<![CDATA[</span>]]>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_LocationFunction"/>_;_<CombinedFieldRef name="_ResourceName"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_ResourceID"
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xmr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>		
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_ResourceID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_ResourceID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ResourceName"/>
+			<ViewField name="_ResourceDescription"/>
+			<ViewField name="_UnavailableToday"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_Building" link="_BuildingLink"/>
+			<ViewField name="_ResourceStore"/>			
+			<ViewField name="ruler3"/>
+			<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink"/>		
+	</RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_ResourceID" phrase="ID"/>
+			<ListField name="_ResourceNameColor"/>
+			<ListField name="_BuildingColor"/>
+			<ListField name="_LocationColor" align="center"/>
+			<ListField name="_LocationOrgFunctionColor" align="center"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_ResourceID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<CodeRadioField name="_LocationOrgFunctionID" orientation="vertical"/>		
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes">
+				<UpdateFieldRef name="_BuildingID"/>
+			</ComboField>
+			<ComboField name="_BuildingID" parentField="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ResourceStore" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_ResourceName" size="50" maxLength="50"/>
+			<ViewField name="ruler3"/>			
+			<PersonComboField name="_SupervisorID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler4"/>
+			<DateField name="_UnavailableBegin"/>
+			<DateField name="_UnavailableFinish"/>
+			<EditField name="_Unavailable" size="50" maxLength="50"/>			
+			<ViewField name="ruler5"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen> 
+        <ViewScreen name="View">
+			<ViewField name="_ResourceID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_ResourceName"/>
+			<ViewField name="_ResourceDescription"/>
+			<ViewField name="_UnavailableToday"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_Building" link="_BuildingLink"/>
+			<ViewField name="_ResourceStore"/>			
+			<ViewField name="ruler3"/>
+			<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink"  goEditScreen="Form"/>	
+			<ViewScreenSection name="Associations" phrase="Resource unavailable from booking">
+				<ViewField name="_UnavailableBegin"/>
+				<ViewField name="_UnavailableFinish"/>
+				<ViewField name="_Unavailable" goEditScreen="ResourceUnavailable"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the resource">
+			<ViewField name="_ResourceID"/>			
+			<ViewField name="ruler1"/>
+			<EditField name="_ResourceName" size="50" maxLength="50"/>				
+			<MemoField name="_ResourceDescription" rows="5" cols="60"/>
+			<ViewField name="ruler2"/>	
+			<PersonComboField name="_SupervisorID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler3"/>			
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes">
+				<UpdateFieldRef name="_BuildingID"/>
+			</ComboField>
+			<ComboField name="_BuildingID" parentField="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ResourceStore" size="50" maxLength="50"/>			
+        </EditScreen>
+		<EditScreen 
+			name="ResourceUnavailable" 
+			phrase="Resource unavailable|Edit dates resource is unavailable from booking">
+			<RecordSummaryFieldsRef/>		
+			<DateField name="_UnavailableBegin"/>
+			<DateField name="_UnavailableFinish"/>
+			<EditField name="_Unavailable" size="50" maxLength="50"/>			
+        </EditScreen>
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xmr" phrase="Conference resources">
+			<InvisibleField name="_ResourceID"/>
+			<ViewField name="_ResourceName"/>
+			<ViewField name="_ResourceStore"/>
+			<ViewField name="_SupervisorNameOrganization" link="_SupervisorLink"/>	
+        </ViewGrid>
+	</Exports>		
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xmrc">Rezerwacja zasobów do spotkania  (xmrc)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xmrc">Rezerwacja zasobów do spotkania  (xmrc)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

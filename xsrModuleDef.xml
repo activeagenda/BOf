@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="microSpreadsheet rows" moduleID="xsr"
+	allowAddRecord="no"
+	singularRecordName="microSpreadsheet row" pluralRecordName="microSpreadsheet rows"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_SsRowID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Spreadsheet row ID|An automatically assigned number used to identify a record"/>
+		
+		<!-- Key -->
+		<TableField 
+			name="_SpreadsheetID" type="int" dbFlags="unsigned default 0" validate="notEmpty" 
+			phrase="Spreadsheet ID|An automatically assigned number used to identify a record"/>
+		<ForeignField
+			name="_SpreadsheetName" foreignTable="xs" foreignKey="_SpreadsheetID" foreignField="_SpreadsheetName" key="_SpreadsheetID" 
+			phrase="Spreadsheet name|Name of the spreadsheet"/>
+		<ForeignField
+			name="_SpreadsheetDescription" foreignTable="xs" foreignKey="_SpreadsheetID" foreignField="_SpreadsheetDescription" key="_SpreadsheetID"
+			phrase="Spreadsheet description|Description of the spreadsheet aim and filling"/>
+		
+		<TableField 
+			name="_SsRowA" type="varchar(50)" validate="notEmpty"
+			phrase="- A - |Cell in the column A"/>
+		<TableField 
+			name="_SsRowB" type="varchar(50)" 
+			phrase="- B - |Cell in the column B"/>
+		<TableField 
+			name="_SsRowC" type="varchar(50)" 
+			phrase="- C - |Cell in the column C"/>
+		<TableField 
+			name="_SsRowD" type="varchar(50)" 
+			phrase="- D - |Cell in the column D"/>
+		<TableField 
+			name="_SsRowE" type="varchar(50)" 
+			phrase="- E - |Cell in the column E"/>
+		
+		
+		<!-- Owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Row owner|Displays row owners name"/>
+		<ForeignField 
+			name="_Owned" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_OwnedBy" 
+			phrase="Row owner|Displays row owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Row owner|Displays row owners name"/>
+		<ForeignField 
+			name="_OrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="_OwnedBy" 
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<ForeignField 
+			name="_Organization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_OrganizationID" 
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Row owner|Displays spreadsheet owners name and his organisation name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_SpreadsheetName"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_SpreadsheetName"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_SsRowID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xsr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_SsRowID"/>
+        </PrimaryKey>
+		<Index name="microSpreadsheet">
+			<FieldRef name="_SpreadsheetID"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_SsRowID" phrase="ID" />
+			<ListField name="_SpreadsheetName"/>
+			<ListField name="_SsRowA"/>
+			<ListField name="_SsRowB"/>
+			<ListField name="_SsRowC"/>
+			<ListField name="_SsRowD"/>
+			<ListField name="_SsRowE"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_SsRowID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<InvisibleField name="_SpreadsheetID"/>
+			<EditField name="_SpreadsheetName" size="50" maxLength="50"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>			
+			<EditField name="_SsRowA" size="50" maxLength="50"/>
+			<EditField name="_SsRowB" size="50" maxLength="50"/>
+			<EditField name="_SsRowC" size="50" maxLength="50"/>
+			<EditField name="_SsRowD" size="50" maxLength="50"/>
+			<EditField name="_SsRowE" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_SsRowID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_SpreadsheetName"/>
+			<ViewField name="_SpreadsheetDescription"/>			
+			<ViewField name="ruler2"/>
+			<ViewField name="_SsRowA"/>
+			<ViewField name="_SsRowB"/>
+			<ViewField name="_SsRowC"/>
+			<ViewField name="_SsRowD"/>
+			<ViewField name="_SsRowE"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the microSpreadsheet row">
+			<ViewField name="_SsRowID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_SpreadsheetName"/>
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_SsRowA" size="50" maxLength="50"/>
+			<EditField name="_SsRowB" size="50" maxLength="50"/>
+			<EditField name="_SsRowC" size="50" maxLength="50"/>
+			<EditField name="_SsRowD" size="50" maxLength="50"/>
+			<EditField name="_SsRowE" size="50" maxLength="50"/>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xsr" phrase="Rows">
+			<InvisibleField name="_SsRowID"/>
+			<ViewField name="_SsRowA"/>
+			<ViewField name="_SsRowB"/>
+			<ViewField name="_SsRowC"/>
+			<ViewField name="_SsRowD"/>
+			<ViewField name="_SsRowE"/>			
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+        </ViewGrid>
+        <EditGrid moduleID="xsr" allowEditOn="_OwnedBy" phrase="Rows">
+			<InvisibleField name="_OwnedBy"/>
+			<InvisibleField name="_SsRowID"/>
+			<ViewField name="_SsRowA"/>
+			<ViewField name="_SsRowB"/>
+			<ViewField name="_SsRowC"/>
+			<ViewField name="_SsRowD"/>
+			<ViewField name="_SsRowE"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<GridForm>
+				<InvisibleField name="_SsRowID"/>				
+				<EditField name="_SsRowA" size="50" maxLength="50"/>
+				<EditField name="_SsRowB" size="50" maxLength="50"/>
+				<EditField name="_SsRowC" size="50" maxLength="50"/>
+				<EditField name="_SsRowD" size="50" maxLength="50"/>
+				<EditField name="_SsRowE" size="50" maxLength="50"/>				
+				<HiddenField name="_OwnedBy"/>			
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xs">microArkusze (xs)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xs">microArkusze (xs)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

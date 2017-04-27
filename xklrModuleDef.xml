@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Kitty list rows" moduleID="xklr" 
+	allowAddRecord="no"  
+	singularRecordName="Kitty list entry" pluralRecordName="Kitty list entries">  
+ 
+	<ModuleFields>
+        <TableField 
+			name="_KittymemberID" type="int" dbFlags="unsigned auto_increment not null" 
+			phrase="Kitty member ID|An automatically assigned number used to identify a record"/>		
+		<!-- Key -->
+		<TableField 
+			name="_KittyID" type="int" validate="notEmpty" 
+			phrase="Kitty list ID|An automatically assigned number used to identify a record"/>
+			
+		<ForeignField
+			name="_KittyName" key="_KittyID" 
+			foreignTable="xkl" 	foreignKey="_KittyID" foreignField="_KittyName"
+			phrase="Name|Name of the attendance list"/>
+		<ForeignField
+			name="_KittyDescription"  key="_KittyID"
+			foreignTable="xkl" foreignKey="_KittyID" foreignField="_KittyDescription"
+			phrase="Description|Description of the objectives for the kitty list"/>
+		
+		<TableField 
+			name="_NumberOne" type="int" dbFlags="default 1"
+			phrase="1|Easy counting of rows"/>		
+		
+		<TableField 
+			name="_KittyRemarks" type="varchar(50)" 
+			phrase="Remarks|Remarks to the kitty entry"/>
+		<TableField 
+			name="_KittymemberMoney" type="money" validate="notEmpty | notNegative" 
+			phrase="Money|Money paid to the kitty by the person"/>
+		
+		<TableField 
+			name="_PayerID" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection" orgListOptions="intpar" 
+			phrase="Payer|Displays payer name"/>
+		<ForeignField 
+			name="_Payer" key="_PayerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Payer|Displays payer name"/>
+		<LinkField 
+			name="_PayerLink" foreignModuleID="ppl" recordIDField="_PayerID" 
+			phrase="Payer|Displays payer name"/>
+		<ForeignField 
+			name="_PayerOrganizationID" key="_PayerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 			
+			phrase="Organization|Name of organization associated with the payer"/>
+		<ForeignField 
+			name="_PayerOrganization" key="_PayerOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			phrase="Organization|Name of organization associated with the payer"/>
+		<CombinedField name="_KittyPayerOrganization"  
+			phrase="Payer|Displays payer name">
+			<CombinedFieldRef name="_Payer"/>_/_<CombinedFieldRef name="_PayerOrganization"/>
+		</CombinedField>
+		
+		<RecordMetaField 
+			name="_ThisCreationDate"  returnType="date" lookupType="created"  
+			phrase="Created|Record created on date"/>
+		
+		<!-- Owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Teller|Displays teller name"/>
+		<ForeignField 
+			name="_Owned" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Teller|Displays teller name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Teller|Displays teller name"/>
+		<ForeignField 
+			name="_OrganizationID" key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 
+			orgListOptions="intpar"			
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<ForeignField 
+			name="_Organization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			phrase="Organization|Name of organization associated with the row owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Teller|Displays teller name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_KittyName"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_KittyName"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_KittymemberID"
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xklr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- beautyfiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_KittymemberID"/>
+        </PrimaryKey>
+		<Index name="Kitty">
+			<FieldRef name="_KittyID"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+        <!-- <OwnerField name="_"/> -->		
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_KittymemberID" phrase="ID" />
+			<ListField name="_ThisCreationDate"/>
+			<ListField name="_KittyName"/>
+			<ListField name="_KittyPayerOrganization"/>
+			<ListField name="_OwnedOrganization"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_KittymemberID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>			
+			<InvisibleField name="_KittyID"/>
+			<EditField name="_KittyName" size="50" maxLength="50"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<PersonComboField name="_PayerID" findMode="text" suppressItemAdd="yes"/>
+			<MoneyField name="_KittymemberMoney" size="9" maxLength="9"/>
+			<EditField name="_KittyRemarks" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_KittymemberID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_KittyName"/>
+			<ViewField name="_KittyDescription"/>
+			<ViewField name="_KittyPayerOrganization" link="_PayerLink"/>
+			<ViewField name="_KittymemberMoney"/>
+			<ViewField name="_KittyRemarks"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the kitty list entry">
+			<ViewField name="_KittymemberID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_KittyName"/>
+			<HiddenField name="_OwnedBy"/>
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="ruler2"/>
+			<PersonComboField name="_PayerID" findMode="text" suppressItemAdd="yes"/>
+			<MoneyField name="_KittymemberMoney" size="9" maxLength="9"/>
+			<EditField name="_KittyRemarks" size="50" maxLength="50"/>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xklr" phrase="Peoples kitty payments">
+			<InvisibleField name="_KittymemberID"/>
+			<ViewField name="_ThisCreationDate" phrase="Entry created"/>
+			<ViewField name="_KittyPayerOrganization" link="_PayerLink"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="_KittymemberMoney"/>
+			<ViewField name="_KittyRemarks"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xklr" allowEditOn="_OwnedBy" phrase="Peoples kitty payments">
+			<InvisibleField name="_OwnedBy"/>
+			<InvisibleField name="_KittymemberID"/>
+			<ViewField name="_ThisCreationDate" phrase="Entry created"/>
+			<ViewField name="_KittyPayerOrganization"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<ViewField name="_KittymemberMoney"/>
+			<ViewField name="_KittyRemarks"/>
+			<GridForm>
+				<InvisibleField name="_KittymemberID"/>
+				<ViewField name="_OwnedOrganization"/>
+				<PersonComboField name="_PayerID" findMode="text" suppressItemAdd="yes"/>
+				<EditField name="_KittymemberMoney" size="9" maxLength="9"/>
+				<EditField name="_KittyRemarks" size="50" maxLength="50"/>
+				<HiddenField name="_OwnedBy"/>								
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xkl">Zbiórki pieniędzy (xkl)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xkl">Zbiórki pieniędzy (xkl)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

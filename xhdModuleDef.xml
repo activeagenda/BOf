@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module
+	name="Help desk" moduleID="xhd"
+	singularRecordName="Help ticket" pluralRecordName="Help tickets"
+	defaultMenuPath="Main Menu / Asset management / Help desk">
+ 
+	<ModuleFields>
+        <TableField 
+			name="_HelpticketID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Case ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Business -->		
+		<TableField 
+			name="_HelpticketSubject" type="varchar(50)" validate="notEmpty"
+			phrase="Subject|Short descrition of the request subject"/>	
+		<TableField 
+			name="_HelpticketDescription" type="text" validate="notEmpty"
+			phrase="Description|Description of the problem and needed help"/>
+			
+		<StaticField 
+			name="_PersonStatusOne" type="int" content="1" 
+			phrase="Current employee flag|This person is current employe"/>
+			
+		
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0"
+			validate="RequireSelection" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Case owner|Displays case owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Case owner|Displays case owners name"/>
+		<ForeignField 
+			name="_OrganizationID"  key="_OwnedBy"
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_Organization"  key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Case owner|Displays case owners name and his organisation name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>		
+				
+		<ForeignField 
+			name="_LocationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>	
+		
+		<CombinedField name="_HelpticketPerson"  
+			phrase="Requesting person|Person requesting help from help desk">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_OwnedEmail"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="WorkEmail"
+			phrase="Work Email|Email address used by the individual at work"/>       	
+        <CombinedField 
+			name="_OwnedEmailLinkIcon" 
+			phrase="Work Email|Email address used by the individual at work">
+			<![CDATA[<a href="mailto:]]><CombinedFieldRef name="_OwnedEmail"/>
+			<![CDATA[!mailtoRecordTopicSubject!"><img src="!themeDirectory!/img/mailto.png" class="mailto"/></a>&nbsp\;&nbsp\;&nbsp\;]]>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_OwnedSkype"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="SkypeName"
+			phrase="Skype Name|The name used by the person to participate in Skype"/>
+        <CombinedField 
+			name="_OwnedSkypeLinkIcon" 
+			phrase="Skype Name|The name used by the person to participate in Skype">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="skype:]]><CombinedFieldRef name="_OwnedSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="skype:]]><CombinedFieldRef name="_OwnedSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>
+
+		<ForeignField 
+			name="_OwnedGaduGadu"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="GaduGaduName"
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services"/>
+        <CombinedField 
+			name="_OwnedGaduGaduLinkIcon" 
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="gg:]]><CombinedFieldRef name="_OwnedGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="gg:]]><CombinedFieldRef name="_OwnedGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>		
+		
+		<CombinedField 
+			name="_OwnedMobileIMLinkIcon" 
+			phrase="Phone and Skype|Link from browser to establish phone and skype chat connection">
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>&nbsp\;&nbsp\;&nbsp\;]]>		
+			<CombinedFieldRef name="_OwnedEmailLinkIcon"/>
+			<CombinedFieldRef name="_OwnedSkypeLinkIcon"/>
+			<CombinedFieldRef name="_OwnedGaduGaduLinkIcon"/>
+		</CombinedField>
+		
+		
+		<TableField 
+			name="_ActiontakerID" type="int" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="_Actiontaker" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" key="_ActiontakerID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<LinkField 
+			name="_ActiontakerLink" foreignModuleID="ppl" recordIDField="_ActiontakerID" 
+			phrase="Action taker|Automatic entry of the name of the person taking the action"/>
+		<ForeignField 
+			name="_ActiontakerOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" key="_ActiontakerID" 
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_ActiontakerOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" key="_ActiontakerOrganizationID" 
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_ActiontakerAndOrganization"  
+			phrase="Action taker|Automatic entry of the name of the person taking the action">
+			<CombinedFieldRef name="_Actiontaker"/>_/_<CombinedFieldRef name="_ActiontakerOrganization"/>
+		</CombinedField>
+		
+		<ForeignField 
+			name="_ActiontakerEmail"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="WorkEmail"
+			phrase="Work Email|Email address used by the individual at work"/>       	
+        <CombinedField 
+			name="_ActiontakerEmailLinkIcon" 
+			phrase="Work Email|Email address used by the individual at work">
+			<![CDATA[<a href="mailto:]]><CombinedFieldRef name="_ActiontakerEmail"/>
+			<![CDATA[!mailtoRecordTopicSubject!"><img src="!themeDirectory!/img/mailto.png" class="mailto"/></a>&nbsp\;&nbsp\;&nbsp\;]]>
+		</CombinedField>	
+		
+		<ForeignField 
+			name="_ActiontakerSkype"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="SkypeName"
+			phrase="Skype Name|The name used by the person to participate in Skype"/>       
+        <CombinedField 
+			name="_ActiontakerSkypeLinkIcon" 
+			phrase="Skype Name|The name used by the person to participate in Skype">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="skype:]]><CombinedFieldRef name="_ActiontakerSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="skype:]]><CombinedFieldRef name="_ActiontakerSkype"/>
+			<![CDATA[?chat"><img src="!themeDirectory!/img/skype.ico" class="skype"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>	
+		
+		<ForeignField 
+			name="_ActiontakerGaduGadu"  key="_ActiontakerID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="GaduGaduName"
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services"/>
+        <CombinedField 
+			name="_ActiontakerGaduGaduLinkIcon" 
+			phrase="Gadu Gadu Name|The name used by the person to participate in Gadu Gadu services">
+			<![CDATA[<!--[if IE]><a  target="_blank"  href="gg:]]><CombinedFieldRef name="_ActiontakerGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]-->]]>
+			<![CDATA[<![if !IE]><a href="gg:]]><CombinedFieldRef name="_ActiontakerGaduGadu"/>
+			<![CDATA["><img src="!themeDirectory!/img/gadugadu.ico" class="gdgd"/></a>&nbsp\;&nbsp\;&nbsp\;<![endif]>]]>
+		</CombinedField>	
+		
+		<CombinedField 
+			name="_ActiontakerMobileIMLinkIcon" 
+			phrase="Phone and Skype|Link from browser to establish phone and skype chat connection">			
+			<![CDATA[<span style="color:white\;font-size:150%">&nbsp\;|</span>&nbsp\;&nbsp\;&nbsp\;]]>
+			<CombinedFieldRef name="_ActiontakerEmailLinkIcon"/>
+			<CombinedFieldRef name="_ActiontakerSkypeLinkIcon"/>
+			<CombinedFieldRef name="_ActiontakerGaduGaduLinkIcon"/>
+		</CombinedField>
+		
+		<TableField 
+			name="_SubmittedOn" type="datetime" 
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>	
+		
+		<!-- Process state -->		
+		<TableField 
+			name="_ProcessStateID" type="int" validate="eval: 2 > $value" defaultValue="#1"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessState" key="_ProcessStateID"  codeTypeID="306"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessState1" key="_ProcessStateID"  codeTypeID="316"
+			phrase="Case state|State of the business process for this case"/>
+		<CodeField 
+			name="_ProcessStateProgress" key="_ProcessStateID"  codeTypeID="314"
+			phrase="Case state|State of the business process for this case"/>	
+		<TableField 
+			name="_NextProcessStateID" type="int" dbFlags="default 2"  validate="RequireSelection" 
+			phrase="Next case state|Next state of the business process for this case"/>
+		<TableField 
+			name="_NextProcessStep" type="int"  dbFlags="default 2" 
+			phrase="Next process step|Next step of the business process for this case"/>
+		<CodeField 
+			name="_NextProcessState" key="_NextProcessStateID"  codeTypeID="307" 
+			phrase="Do action|Change the state of the case by doing an action">
+			<ListCondition fieldName="Value" mode="equals"><FieldValue value="_NextProcessStep"/></ListCondition> 
+		</CodeField>		
+		<TableField 
+			name="_NextProcessStepRemark" type="varchar(50)" 
+			phrase="Remark|Remark attached to the action"/>	
+		<TableField 
+			name="_ProcessStepRemark" type="varchar(50)" 
+			phrase="Remark|Remark attached to the action"/>		
+		<CombinedField 
+			name="_ProcessStepRemark1" 
+			phrase="Remark|Remark attached to the action">
+			<![CDATA[<br/>]]><CombinedFieldRef name="_ProcessStepRemark"/>
+		</CombinedField>
+		<CombinedField 
+			name="_ProcessStateRemark" 
+			phrase="Case state|State of the business process for this case">
+			<![CDATA[<br/>]]><CombinedFieldRef name="_ProcessStateProgress"/><![CDATA[<br/>&nbsp\;]]>_<CombinedFieldRef name="_ProcessStepRemark1"/>
+		</CombinedField>
+		
+		<CalculatedField 
+			name="_ProcessStateIDe23"  type="bool"  
+			calcFunction="same_as2" params="_ProcessStateID #2 #3"  
+			phrase="Called or Accepted|State of the business process for this case is Called or Accepted"/>
+		<CalculatedField 
+			name="_ProcessStateIDne1"  type="bool"  
+			calcFunction="is_not_equal" params="_ProcessStateID #1"  
+			phrase="Other than Uncalled|State of the business process for this case is other thena Uncalled"/>
+			
+		<TableField 
+			name="_beupdActionFlag" type="bool" defaultValue="#1"
+			phrase="Before Flag|Action flag for before update trigger"/>
+		<TableField 
+			name="_afupdActionFlag" type="bool"  
+			phrase="After Flag|Action flag for after update trigger"/>
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_LocationFunction"/>_;_<CombinedFieldRef name="_HelpticketSubject"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_LocationFunction"/>_;_<CombinedFieldRef name="_HelpticketSubject"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_HelpticketID" 
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xhd'" 			
+			phrase="Tag|A tag that classifies the record"/>
+		
+		<!-- Beautifiers -->
+		<TableField 
+			name="BlankField" type="varchar(10)"
+			phrase="Blank field|Hack for the IE8 one submit field problem" />
+			
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+			
+	</ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_HelpticketID"/>
+        </PrimaryKey>
+		<Index name="_OwnedBy_Deleted">
+			<FieldRef name="_OwnedBy"/>
+			<FieldRef name="_Deleted"/>
+		</Index>
+         <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>	
+	<SubModules>
+		<SubModule 
+			name="Actions" parentKey="_HelpticketID"
+			moduleID="ntf"  localKey="RelatedRecordID">
+			<SubModuleCondition field="RelatedModuleID" value="xhd"/>
+		</SubModule>
+		<SubModule 
+			name="Decisionmakers" parentKey="_PersonStatusOne"
+			moduleID="ppl"  localKey="PersonStatusID">
+			<SubModuleCondition field="HelpdeskDecisionmaker" value="1"/>
+		</SubModule>
+		<SubModule 
+			name="Handler" parentKey="_PersonStatusOne"
+			moduleID="ppl1"  localKey="PersonStatusID">
+			<SubModuleCondition field="HelpdeskHandler" value="1"/>
+		</SubModule>
+	</SubModules>
+	<RecordSummaryFields>
+		<ViewField name="_HelpticketID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_HelpticketPerson" link="_OwnedLink"/>	
+		<ViewField name="_HelpticketSubject"/>
+		<ViewField name="_HelpticketDescription"/>
+	</RecordSummaryFields>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_HelpticketID" phrase="ID"/>			
+			<ListField name="_ProcessState1"/>
+			<ListField name="_HelpticketPerson"/>
+			<ListField name="_HelpticketSubject"/>						
+			<ListField name="_Location" align="center" phrase="Location"/>
+			<OrderByField name="_HelpticketID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_HelpticketID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_HelpticketSubject" size="50" maxLength="50"/>
+			<ViewField name="ruler3"/>
+			<ViewField name="ruler4"/>
+			<CodeRadioField name="_ProcessStateID" orientation="vertical"/>
+			<CheckBoxField name="_ProcessStateIDne1" onlyTrue="yes"/>
+			<CheckBoxField name="_ProcessStateIDe23"/>
+			<ViewField name="ruler5"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler6"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_HelpticketID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_HelpticketPerson" link="_OwnedLink"/>	
+			<ViewField name="_HelpticketSubject"/>
+			<ViewField name="_HelpticketDescription" goEditScreen="Form"/>
+			<ViewScreenSection name="CaseState" >								
+				<ViewField name="_LocationFunction" link="_LocationLink"/>
+				<ViewField name="_OwnedOrganization" link="_OwnedLink">
+					<ViewField name="_OwnedMobileIMLinkIcon"/>
+				</ViewField>				
+				<ViewGrid 
+					moduleID="ppl" rowIDon="HelpdeskDecisionmaker=1&amp;null" 
+					phrase="Help desk decision makers"/>
+				<ViewGrid 
+					moduleID="ppl1" akaID="ppl" rowIDon="HelpdeskHandler=1&amp;null" 
+					phrase="Help desk handlers"/>
+			</ViewScreenSection>				
+			<ViewScreenSection name="CaseActions" phrase="Case actions history">				 					
+				<ViewField name="_ProcessStateRemark" goEditScreen="Actions"/>
+				<ViewGrid moduleID="ntf"/>
+			</ViewScreenSection>
+        </ViewScreen>
+        <EditScreen 
+			name="Form" onNewGoEditScreen="Actions" onOkGoEditScreen="Actions" cloneAsNew="no" 
+			phrase="Form|Edit summary information about a help request">
+			<ViewField name="_HelpticketID"/>
+			<ViewField 
+				name="_ProcessStateProgress" 
+				inlinePreContent="&lt;br/&gt;" inlinePostContent="&lt;br/&gt;&#160;"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_HelpticketSubject" size="50" maxLength="50"/>
+			<MemoField name="_HelpticketDescription" rows="5" cols="60"/>
+			<!-- Initialisation-->
+			<HiddenField name="_OwnedBy"/>
+			<HiddenField name="_ProcessStateID"/>
+        </EditScreen>
+		<EditScreen name="Actions" onOkGoListScreen="List" phrase="Actions|Decison taking for the help request">
+			<RecordSummaryFieldsRef/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_ProcessStateRemark"/>			
+			<HiddenField name="_NextProcessStep"/>
+			<CodeRadioField name="_NextProcessStateID" orientation="vertical"/>
+			<EditField name="_NextProcessStepRemark" size="50" maxLength="50">
+					<!-- Hack for one field submit problme in IE8 -->
+					<EditField name="BlankField" size="10" maxLength="10" inlinePreContent="&lt;span style=&quot;visibility:hidden&quot;&gt;" inlinePostContent="&lt;/span&gt;"/>
+			</EditField>
+			<HiddenField name="_beupdActionFlag"/>			
+		</EditScreen>
+    </Screens>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<ol>
+<li><b>Wnioskujący</b> w sprawie wypełnia dane merytoryczne w ekranie 'Nowy wiersz' dostępnym w zakładkach listy.</li>
+<br/>
+<li><b>Wnioskujący</b> zgłasza wniosek w ekranie 'Działania w sprawie' dostępnym w zakładkach widoku szczegółów wiersza i blokuje edycję danych w wierszu, <b>Akceptujący</b> otrzymuje powiadomienie emailem o sprawie.</li>
+<br/>
+<li><b>Akceptujący</b> odrzuca wniosek lub go akceptuje do zatwierdzenia, <b>Wnioskujący</b> i <b>Obsługujący</b> otrzymuje powiadomienie emailem o stanie sprawy.</li>
+<br/>
+<li><b>Obsługujący</b> odmawia realizacji sprawy lub załatwią ją i zamyka sprawę w systemie, <b>Wnioskujący</b> otrzymuje powiadomienie emailem o stanie sprawy.</li>
+<br/>
+<li>Zamknięta sprawa zostaje wpisana automatycznie do rejestru.
+</ol>
+<p>W przypadku odrzucenia lub odmowy tylko <b>Wnioskujący</b> otrzymuje powiadomienie emailem. Po odrzuceniu wniosku lub odmowie realizacji sprawy <b>Wnioskujący</b> może otworzyć sprawę do ponownej edycji w ekranie 'Działania w sprawie' dostępnym w zakładkach widoku szczegółów wiersza i po zmianie danych zgłosić ją do ponownego rozpatrzenia w opisanym powyżej trybie.</p>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Help desk" (xhd)</li>
+<li>"Rejestr help desku" (xhdr)</li>
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Help desk" (xhd): Edycja tylko własnych danych</li>
+<li>"Rejestr help desku" (xhdr): Podgląd tylko własnych danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>"Rejestr help desku" (xhdr): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Grupy użytkowników założone do obsługi uprawnień w modułach realizujących proces:</li>
+<ul>
+<li>*Help desk* (hd)</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników 
+*Help desk* (hd): </li>
+<ul>
+<li>"Help desk" (xhd): Edycja wszystkich danych</li>
+<li>"Rejestr help desku" (xhdr): Podgląd wszystkich danych</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Przyjmuje zgłoszenia problemów do help desku#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Help desk* (hd)</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Obsługuje rozwiązanie zgłoszeń w help desku#: </li>
+<ul>
+<li>Dodaje do grupy użytkowników *Help desk* (hd)</li>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów należących do grupy *Help desk* (hd)</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

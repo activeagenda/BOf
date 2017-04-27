@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module
+	name="Absent days from work register" moduleID="xad" 
+	singularRecordName="Absent days entry" pluralRecordName="Absent days entries"  
+	defaultMenuPath="Main Menu / Work time management / Absent days from work register">
+ 
+	<ModuleFields>
+        <TableField 
+			name="_AbsentdaysID" type="int" dbFlags="unsigned auto_increment not null" 
+			deleteOnIdGlobals="att nts cos lnk rmd"
+			phrase="Absent days ID|An automatically assigned number used to identify a record"/>
+		
+		<TableField 
+			name="_AbsentdaysBegin" type="date" validate="notEmpty"
+			phrase="Absent days begin|Date of the start of the absent days"/>			
+		<TableField 
+			name="_AbsentdaysFinish" type="date"
+			validate="notEmpty | eval: NoLaterThan( $_AbsentdaysBegin, $_AbsentdaysFinish )"
+			phrase="Absent days finish|Date of the finish of the absent days"/>	
+		
+		<TableField 
+			name="_AbsentdaysDescription" type="varchar(50)" validate="notEmpty"
+			phrase="Absent days description|What the absent person does during absent days"/>	
+			
+		<TableField 
+			name="_CallmeAllowed" type="bool"  validate="RequireSelection"
+			phrase="Call me allowed|If the person may be called by phone during absent days"/>	
+		<CalculatedField 
+			name="_CallmeAllowedSign" calcFunction="flipflop" params="_CallmeAllowed #&#9679; #&#9675;"  
+			phrase="Call me allowed|If the person may be called by phone during absent days"/>
+		<CombinedField 
+			name="_CallmeAllowedGraph" 
+			phrase="Call me allowed|If the person may be called by phone during absent days">
+			<![CDATA[<div class="gsblt">]]>
+			<CombinedFieldRef name="_CallmeAllowedSign"/><![CDATA[</div>]]>
+		</CombinedField>
+		
+		<CalculatedField 
+			name="_AbsentToday"  type="bool"  
+			calcFunction="point_in_timeinterval" params="_AbsentdaysBegin _AbsentdaysFinish #0"  
+			phrase="Absent today|If the person will be absent today"/>
+		<CalculatedField 
+			name="_AbsentThisWeek"  type="bool"  
+			calcFunction="week_in_timeinterval" params="_AbsentdaysBegin _AbsentdaysFinish #0 #0"  
+			phrase="Absent this week|If the person will be absent this week"/>
+		<CalculatedField 
+			name="_AbsentThisNextWeek"  type="bool"  
+			calcFunction="week_in_timeinterval" params="_AbsentdaysBegin _AbsentdaysFinish #0 #7"  
+			phrase="Absent this and next week|If the person will be absent someday this week and next week"/>
+			
+		<!-- Record owner -->
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="eval: userID_is( $_OwnedBy )" defaultValue="userID" orgListOptions="intpar" 
+			phrase="Absent days owner|Displays absent days owners name"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Absent days owner|Displays absent days owners name"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Absent days owner|Displays absent days owners name"/>
+		<ForeignField 
+			name="_OrganizationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			orgListOptions="intpar"
+			phrase="Organization|Name of organization associated with the absent days owner"/>
+		<ForeignField 
+			name="_Organization"  key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Name of organization associated with the absent days owner"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Absent days owner|Displays absent days owners name">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>		
+		
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_OwnedOrganization"/>_;_<CombinedFieldRef name="_AbsentdaysBegin"/><![CDATA[&nbsp\;]]>_<CombinedFieldRef name="_AbsentdaysFinish"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_OwnedOrganization"/>_;_<CombinedFieldRef name="_AbsentdaysBegin"/><![CDATA[&nbsp\;]]>_<CombinedFieldRef name="_AbsentdaysFinish"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_AbsentdaysID"
+			foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xad'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- beautyfiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_AbsentdaysID"/>
+        </PrimaryKey>
+        <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>		
+		<ViewField name="_AbsentdaysID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+		<ViewField name="_AbsentdaysBegin"/>
+		<ViewField name="_AbsentdaysFinish"/>
+		<ViewField name="_CallmeAllowed"/>
+		<ViewField name="_AbsentdaysDescription"/>		
+	</RecordSummaryFields> 
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_AbsentdaysID" phrase="ID" />
+			<ListField name="_OwnedOrganization"/>			
+			<ListField name="_AbsentdaysBegin" phrase="Absent days beginn"/>
+			<ListField name="_AbsentdaysFinish" phrase="Absent days finish"/>
+			<ListField name="_AbsentdaysDescription"/>
+			<ListField name="_CallmeAllowedGraph" align="center"/>			
+			<OrderByField name="_AbsentdaysBegin" direction="desc"/>	
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_AbsentdaysID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<ViewField name="ruler2"/>
+			<CheckBoxField name="_AbsentToday" onlyTrue="yes"/>
+			<CheckBoxField name="_AbsentThisWeek" onlyTrue="yes"/>
+			<CheckBoxField name="_AbsentThisNextWeek" onlyTrue="yes"/>
+			<DateField name="_AbsentdaysBegin"/>
+			<DateField name="_AbsentdaysFinish"/>
+			<ViewField name="ruler4"/>
+			<CheckBoxField name="_CallmeAllowed"/>
+			<EditField name="_AbsentdaysDescription" size="50" maxLength="50"/>
+			<ViewField name="ruler5"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_AbsentdaysID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="_AbsentdaysBegin"/>
+			<ViewField name="_AbsentdaysFinish"/>
+			<ViewField name="_CallmeAllowed"/>
+			<ViewField name="_AbsentdaysDescription" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen 
+			name="Form" onOkGoListScreen="List" 
+			phrase="Form|Edit summary information about the absent days">
+			<ViewField name="_AbsentdaysID"/>
+			<ViewField name="ruler1"/>			
+			<ViewField name="_OwnedOrganization"/>
+			<DateField name="_AbsentdaysBegin"/>
+			<DateField name="_AbsentdaysFinish"/>
+			<CheckBoxField name="_CallmeAllowed"/>
+			<EditField name="_AbsentdaysDescription" size="50" maxLength="50"/>
+			<HiddenField name="_OwnedBy"/>			
+        </EditScreen>		
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xad" rowIDon="_OwnedBy" phrase="Absent days">
+			<InvisibleField name="_AbsentdaysID"/>
+			<ViewField name="_AbsentdaysBegin" phrase="Absent days beginn"/>
+			<ViewField name="_AbsentdaysFinish" phrase="Absent days finish"/>
+			<ViewField name="_CallmeAllowedGraph" align="center"/>
+			<ViewField name="_AbsentdaysDescription"/>
+			<OrderByField name="_AbsentdaysBegin" direction="desc"/>
+        </ViewGrid>	
+	</Exports>
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>
+<p>Funkcjonalność procesu ma charakter samoobsługowego rejestru danych:</p>
+<ul>
+<li>Wszyscy użytkownicy mają podgląd wszystkich danych.</li>
+<li>Tylko właściciel wiersza ma prawo edycji swoich danych.</li>
+</ul>
+]]>
+		</DocumentationSection>	
+        <DocumentationSection sectionID="Implementation" title="Wdrożenie">		
+<![CDATA[<br/>
+<ol>
+<li>Uprzednio wdrożone  moduły wymagane do rozpoczęcia wdrożenia modułów realizujących proces:</li>
+<ul>
+<li>"Osoby" (ppl)</li>
+</ul>
+<br/>
+<li>Moduły wchodzące w skład procesu:</li>
+<ul>
+<li>"Nieobecności w pracy" (xad)</li>
+</ul>
+<br/>
+<li>Konfiguracja modułów przez grupę użytkowników *Pracownicy* (emp):</li>
+<ul>
+<li>"Nieobecności w pracy" (xad): Edycja wszystkich danych</li>
+</ul>
+<br/>
+<li>Moduły konfigurowane przez grupę użytkowników *Kierownicy* (mng):</li>
+<ul>
+<li>brak</li>
+</ul>
+<br/>
+<li>Konfiguracja uprawnień pojedynczych użytkowników poprzez moduł "Osoby"/'Role w organizacji' 
+#Opiekuje się systemem#: </li>
+<ul>
+<li>Wpisuje osobę jako wsparcie dla użytkowników modułów wchodzących w skład procesu</li>
+<li>Dodaje osobę do grupy użytkowników *Uwagi do modułów* (modfn)</li> 
+</ul>
+<br/>
+<li>Wymagane wstępne wypełnienie wdrażanych modułów danymi:</li>
+<ul>
+<li>Określenie przynajmniej jednej osoby pełniącej daną rolę poprzez moduł "Osoby"/'Role w organizacji'</li>
+</ul>
+<br/>
+</ol>
+]]>
+		</DocumentationSection>		
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>

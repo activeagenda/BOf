@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Marketing collateral stock income" moduleID="xmcs" 
+	allowAddRecord="no"
+	singularRecordName="Stock item" pluralRecordName="Stock items"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_StockitemID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk"
+			phrase="Stock item ID|An automatically assigned number used to identify a record"/>
+		
+		<!-- Key -->
+		<TableField 
+			name="_CollateralID" type="int" dbFlags="unsigned default 0" validate="notEmpty" 
+			phrase="Marketing collateral ID|An automatically assigned number used to identify a record"/>
+		<ForeignField
+			name="_CollateralTitle" foreignTable="xmc" foreignKey="_CollateralID" foreignField="_CollateralTitle" key="_CollateralID" 
+			phrase="Marketing collateral|Title of the  marketing collateral item for fast identification"/>
+		<ForeignField
+			name="_CollateralDescription" foreignTable="xmc" foreignKey="_CollateralID" foreignField="_CollateralDescription" key="_CollateralID"
+			phrase="Description|Short description of marketing collateral item"/>
+		<TableField 
+			name="_StockitemOn" type="date" validate="notEmpty" defaultValue="today"
+			phrase="Stock entry on|Date the marketing collateral item entered the stock"/>		
+		<TableField 
+			name="_StockitemCount" type="int" validate="notEmpty | notNegative" 
+			phrase="Number of items|Number of marketing collateral stocked in the stock"/>		
+		<TableField 
+			name="_StockitemRemarks" type="varchar(50)" 
+			phrase="Remarks|Remarks to the stock operation"/>
+		
+		
+		<!-- Record description   -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_CollateralTitle"/>;_<CombinedFieldRef name="_StockitemCount"/>
+		</CombinedField>
+		
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_CollateralTitle"/>;_<CombinedFieldRef name="_StockitemCount"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_StockitemID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xmcs'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_StockitemID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_StockitemID" phrase="ID" />
+			<ListField name="_StockitemOn"/>
+			<ListField name="_CollateralTitle"/>
+			<ListField name="_StockitemCount" align="center"/>
+			<ListField name="_StockitemRemarks"/>
+        </ListScreen>
+        <SearchScreen name="Search">		
+			<EditField name="_StockitemID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<InvisibleField name="_CollateralID"/>
+			<EditField name="_CollateralTitle" size="50" maxLength="50"/>
+			<DateField name="_StockitemOn"/>
+			<EditField name="_StockitemCount" size="10" maxLength="10"/>
+			<EditField name="_StockitemRemarks" size="50" maxLength="50"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_StockitemID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_CollateralTitle"/>
+			<ViewField name="_CollateralDescription"/>
+			<ViewField name="ruler2"/>
+			<ViewField name="_StockitemOn"/>
+			<ViewField name="_StockitemCount"/>
+			<ViewField name="_StockitemRemarks" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about a stock item">
+			<ViewField name="_StockitemID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_CollateralTitle"/>
+			<ViewField name="ruler2"/>
+			<DateField name="_StockitemOn"/>
+			<EditField name="_StockitemCount" size="10" maxLength="10"/>
+			<EditField name="_StockitemRemarks" size="50" maxLength="50"/>
+        </EditScreen>	
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xmcs" phrase="Stock income">
+			<InvisibleField name="_StockitemID"/>
+			<ViewField name="_StockitemOn"/>			
+			<ViewField name="_StockitemCount" align="center"/>
+			<ViewField name="_StockitemRemarks"/>
+			<OrderByField name="_StockitemOn" direction="desc"/>			
+        </ViewGrid>
+        <EditGrid moduleID="xmcs" phrase="Stock income">
+			<InvisibleField name="_StockitemID"/>			
+			<ViewField name="_StockitemOn"/>			
+			<ViewField name="_StockitemCount" align="center"/>
+			<ViewField name="_StockitemRemarks"/>
+			<OrderByField name="_StockitemOn" direction="desc"/>
+			<GridForm>
+				<InvisibleField name="_StockitemID"/>
+				<DateField name="_StockitemOn"/>
+				<EditField name="_StockitemCount" size="10" maxLength="10"/>
+				<EditField name="_StockitemRemarks" size="50" maxLength="50"/>
+			</GridForm>			
+		</EditGrid>
+    </Exports>    
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+	      <DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xmo">Zamówienia materiałów marketingowych  (xmo)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

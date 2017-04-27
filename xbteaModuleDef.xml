@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module 
+	name="Business trip allowance configuration" moduleID="xbtea"
+	singularRecordName="Business trip allowance set" pluralRecordName="Business trip allowance sets"  
+	defaultMenuPath="Main Menu / Business trip allowance configuration"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_AllowancesetID" type="int" dbFlags="unsigned auto_increment not null" 
+				deleteOnIdGlobals="rmd att nts cos lnk"
+			phrase="Business trip allowance set ID|An automatically assigned number used to identify a record"/>
+		
+		<!-- Key -->		
+		<TableField 
+			name="_AllowancesetValidFrom" type="date" validate="notEmpty"
+			phrase="Valid from|The date business trip allowance set is valid from"/>	
+		<TableField 
+			name="_TravelAllowance" type="money" validate="notEmpty"
+			phrase="Travel allowance|Travel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_HotelAllowance" type="money" validate="notEmpty"
+			phrase="Hotel allowance|Hotel allowance as set by law or internal regulations"/>
+		<TableField 
+			name="_CommutingAllowance" type="money" validate="notEmpty"
+			phrase="Commuting allowance|Commuting allowance during a business trip as set by law or internal regulations"/>
+		
+		<TableField 
+			name="_AllowancesetRemarks" type="text" 
+			phrase="Remarks|Remarks to the business trip allowance set"/>
+		
+			
+		
+		<!-- Record description   -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+			<CombinedFieldRef name="_AllowancesetValidFrom"/>
+		</CombinedField>
+		
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+			<CombinedFieldRef name="_AllowancesetValidFrom"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_AllowancesetID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xbtea'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->		
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+			
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_AllowancesetID"/>
+        </PrimaryKey>
+        <!-- <OwnerField name="_"/> -->
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_AllowancesetID"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_AllowancesetValidFrom"/>
+		<ViewField name="_TravelAllowance"/>
+		<ViewField name="_HotelAllowance"/>
+		<ViewField name="_CommutingAllowance"/>
+		<ViewField name="_AllowancesetRemarks"/>
+	</RecordSummaryFields>
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_AllowancesetID" phrase="ID" />
+			<ListField name="_AllowancesetValidFrom" phrase="Valid from"/>
+			<ListField name="_TravelAllowance" align="center"/>
+			<ListField name="_HotelAllowance" align="center"/>
+			<ListField name="_CommutingAllowance" align="center"/>
+			<OrderByField name="_AllowancesetValidFrom" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">		
+			<EditField name="_AllowancesetID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<DateField name="_AllowancesetValidFrom"/>
+			<MoneyField name="_TravelAllowance" size="9" maxLength="9"/>
+			<MoneyField name="_HotelAllowance" size="9" maxLength="9"/>
+			<MoneyField name="_CommutingAllowance" size="9" maxLength="9"/>
+			<ViewField name="ruler2"/>			
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_AllowancesetID"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_AllowancesetValidFrom"/>
+			<ViewField name="_TravelAllowance"/>
+			<ViewField name="_HotelAllowance"/>
+			<ViewField name="_CommutingAllowance"/>
+			<ViewField name="_AllowancesetRemarks" goEditScreen="Form"/>
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the business trip allowance set">
+			<ViewField name="_AllowancesetID"/>
+			<ViewField name="ruler1"/>
+			<DateField name="_AllowancesetValidFrom"/>
+			<MoneyField name="_TravelAllowance" size="9" maxLength="9"/>
+			<MoneyField name="_HotelAllowance" size="9" maxLength="9"/>
+			<MoneyField name="_CommutingAllowance" size="9" maxLength="9"/>
+			<MemoField name="_AllowancesetRemarks" rows="5" cols="60"/>
+        </EditScreen>	
+    </Screens>	
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xbte">Akceptacja diet i ryczałtów za delegacje (xbte)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xbte">Akceptacja diet i ryczałtów za delegacje (xbte)</a>.</p>
+]]>		
+		</DocumentationSection>	
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-21"/>
+</Module>

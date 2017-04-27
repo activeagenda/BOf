@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ReportGroup name="Main" author="JWach">
+    <Report name="Business-trip-orderDOC" title="Business trip order" 
+	singularRecordName="Business trip order" displayFormat="doc" maxRecords="10000" fileExtension="xml">
+        <!--
+            ReportLocation determines which reports screen the report will be listed in. Level can be either "Record" or "List". If the report should be visible in both the record-level and list-level screens, simply add a ReportLocation element for each.
+            
+            The group attribute can be any sensible group name, and will determine the header on the report view screen under whic a particular report will be sorted. Until I think of something better, reports will appear in alpha order on the page.
+        -->
+        <ReportLocation level="Record" group="Main"/>
+		<ReportField name="_BusinesstripID"/>
+		<ReportField name="_OwnedOrganization"/>
+		<ReportField name="_BusinesstripDestination"/>
+		<ReportField name="_BusinesstripBegin"/>
+		<ReportField name="_BusinesstripFinish"/>
+		<ReportField name="_BusinesstripObjective"/>
+		<ReportField name="_BusinesstripTransportation"/>
+		<ReportField name="_AcceptedOn"/>
+		<ReportField name="_AcceptedByAcceptedByOrganization"/>
+		<ReportField name="_ClosedOn"/>
+		<ReportField name="_ClosedByClosedByOrganization"/>
+    </Report>
+</ReportGroup>

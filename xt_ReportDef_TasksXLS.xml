@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ReportGroup name="Main" author="JWach">
+    <Report name="TasksXLS" title="Tasks and Jobs" 
+	singularRecordName="Task" displayFormat="xls" maxRecords="30000" fileExtension="xml">
+        <!--
+            ReportLocation determines which reports screen the report will be listed in. Level can be either "Record" or "List". If the report should be visible in both the record-level and list-level screens, simply add a ReportLocation element for each.
+            
+            The group attribute can be any sensible group name, and will determine the header on the report view screen under whic a particular report will be sorted. Until I think of something better, reports will appear in alpha order on the page.
+        -->
+        <ReportLocation level="List" group="Main"/> 
+		<ReportField name="_TaskName"/>
+		<ReportField name="_Project"/>
+		<ReportField name="_TaskStatus"/>
+		<ReportField name="_TaskStartDate"/>
+		<ReportField name="_TaskFinishDate"/>
+		  
+		<ReportField name="_TaskEstimatedWorkload"/>
+		<ReportField name="_TaskID"/>
+		<ReportField name="_TaskDoneWorkload"/>
+		<SubReport moduleID="xj">		   
+			<ReportField name="_TaskID"/>
+			<ReportField name="_JobID"/>
+			<ReportField name="_JobName"/>
+			<ReportField name="_OwnedOrganization"/>
+			<ReportField name="_JobStatus"/>
+			<ReportField name="_JobStartDate"/>
+			<ReportField name="_JobFinishDate"/>
+			<ReportField name="_JobEstimatedWorkload"/>
+			<ReportField name="_JobDoneWorkload"/>
+		</SubReport>		
+    </Report>
+</ReportGroup>

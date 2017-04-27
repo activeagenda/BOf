@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Module
+	name="Incoming invoice register" moduleID="xiirr"
+	allowAddRecord="no"
+	singularRecordName="Incoming invoice" pluralRecordName="Incoming invoices"   
+	defaultMenuPath="Main Menu / Purchase invoice assignment / Incoming invoice assignment [xii] / Incoming invoice register"> 
+ 
+	<ModuleFields>
+        <TableField 
+			name="_InvoiceID" type="int" dbFlags="unsigned auto_increment not null"
+				deleteOnIdGlobals="rmd att nts cos lnk ntf"
+			phrase="Case ID|An automatically assigned number used to identify a record"/>
+			
+		<!-- Business -->
+		<TableField 
+			name="_IncomingInvoiceID" type="int" validate="notEmpty"
+			phrase="Incoming invoice register ID|Record ID used to identify the invoice in the incoming invoice register"/>
+		<LinkField 
+			name="_IncomingInvoiceLink" foreignModuleID="xiir" recordIDField="_IncomingInvoiceID" 
+			phrase="Incoming invoice register ID|Record ID used to identify the invoice in the incoming invoice register"/>
+		<TableField 
+			name="_InvoiceNumber" type="varchar(128)" validate="notEmpty"
+			phrase="Invoice number|Invoice number as requiered by tax law"/>
+		<TableField 
+			name="_InvoiceNettoAmount" type="money" validate="notEmpty"
+			phrase="Netto amount|Netto amount as stated on the invoice total"/>
+		<TableField 
+			name="_InvoiceBruttoAmount" type="money" validate="notEmpty"
+			phrase="Brutto amount|Brutto amount as stated on the invoice total"/>
+		<TableField 
+			name="_InvoiceIssuedOn" type="date" validate="notEmpty"
+			phrase="Issued on|The date the invoice has been issued"/>
+		<TableField 
+			name="_InvoiceReceivedOn" type="date"
+			validate="notEmpty | eval: NoLaterThan( $_InvoiceIssuedOn, $_InvoiceReceivedOn )"
+			phrase="Received on|The date the invoice has been received"/>		
+		<TableField 
+			name="_InvoicePaymentOn" type="date"
+			validate="notEmpty | eval: NoLaterThan( $_InvoiceIssuedOn, $_InvoicePaymentOn )"
+			phrase="Payment on|The date the invoice should be paid"/>
+		<TableField 
+			name="_InvoicePaymentID" type="int" validate="notEmpty"
+			phrase="Payment|The way the invoice has been paid or has to be paid"/>
+		<CodeField 
+			name="_InvoicePayment" key="_InvoicePaymentID"  codeTypeID="1013"
+			phrase="Payment|The way the invoice has been paid or has to be paid"/>	
+		<TableField 
+			name="_InvoiceTypeID" type="int" validate="notEmpty"
+			phrase="Type of invoice|Type of invoice according to the tax law"/>
+		<CodeField 
+			name="_InvoiceType" key="_InvoiceTypeID"  codeTypeID="1011"
+			phrase="Type of invoice|Type of invoice according to the tax law"/>	
+		<TableField 
+			name="_InvoiceSellersNumber" type="varchar(25)"
+			displayFormat="/(\d)\s*(\d\d)(\d)\s*(\d\d)(\d)\s*(\d)(\d\d)/$1$2-$3$4-$5$6-$7/"
+			validate="notEmpty  | regexr: /\D*//u | eval: NIPIsValid( $_InvoiceSellersNumber )"
+			phrase="Sellers tax number|Sellers registration number as issued by the tax authority"/>		
+		<CombinedField 
+			name="_InvoiceSellerLink" 
+			phrase="Sellers tax number|Sellers registration number as issued by the tax authority">
+			http://baza-gus.pl/index.php?nip=<CombinedFieldRef name="_InvoiceSellersNumber"/>
+		</CombinedField>
+		<TableField 
+			name="_InvoiceRemarks" type="varchar(50)" validate="notEmpty"
+			phrase="Invoice description|Description of puchased goods and services"/>
+		<TableField 
+			name="_InvoiceOrganizationID" type="int" orgListOptions="intpar" 
+			phrase="Organization assignment|Name of organization associated with the invoice bookkeeping"/>	
+		<ForeignField 
+			name="_InvoiceOrganization" key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization assignment|Name of organization associated with the invoice bookkeeping"/>			
+		<TableField 
+			name="_InvoiceCostCenter" type="varchar(50)" 
+			phrase="Invoice assignment|The description how to assign the invoice in the bookkeeping e.g. contracts, CAPEX/OPEX, payment stop, etc."/>
+		<TableField 
+			name="_InvoiceOrganizationID" type="int"
+			phrase="Organization assignment|Name of organization associated with the invoice bookkeeping"/>				
+		<TableField 
+			name="_InvoiceApproved" type="int" dbFlags="default 1"
+			phrase="Approved|The invoice has been approved"/>	
+			
+		<TableField 
+			name="_OwnedBy" type="int" dbFlags="unsigned default 0" 
+			validate="RequireSelection" orgListOptions="intpar" 
+			phrase="Submitter|Person submitting the invoice for approval"/>
+		<ForeignField 
+			name="_Owned"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Submitter|Person submitting the invoice for approval"/>
+		<LinkField 
+			name="_OwnedLink" foreignModuleID="ppl" recordIDField="_OwnedBy" 
+			phrase="Submitter|Person submitting the invoice for approval"/>
+		<ForeignField 
+			name="_OrganizationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"
+			orgListOptions="intpar"
+			phrase="Organization|Organization submitting the invoice for approval"/>
+		<ForeignField 
+			name="_Organization"  key="_OrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name"
+			phrase="Organization|Organization submitting the invoice for approval"/>
+		<CombinedField name="_OwnedOrganization"  
+			phrase="Submitter|Person submitting the invoice for approval">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>		
+		
+		<ForeignField 
+			name="_LocationID"  key="_OwnedBy" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="LocationID"
+			phrase="Case owner|Displays case owners name"/>			
+		<ForeignField 
+			name="_Location"  key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="Name"
+			phrase="Owners location|The name of case owners location"/>
+		<LinkField 
+			name="_LocationLink" foreignModuleID="loc" recordIDField="_LocationID" 
+			phrase="Owners location|The name of case owners location"/>				
+		<ForeignField 
+			name="_LocationOrgFunctionID" key="_LocationID" 
+			foreignTable="loc" foreignKey="LocationID" foreignField="OrgFunctionID"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CodeField  
+			name="_LocationOrgFunction" key="_LocationOrgFunctionID"  codeTypeID="308"
+			phrase="Level|Function in the organization of the case owner like: headquarters, department, branch, section, etc"/>
+		<CombinedField 
+			name="_LocationFunction" 
+			phrase="Owners level and location|The name of case owners location and level in the organization">
+			<CombinedFieldRef name="_LocationOrgFunction"/>_<CombinedFieldRef name="_Location"/>
+		</CombinedField>
+		
+		<CombinedField name="_SubmittedByOrganization"  
+			phrase="Submitted by|Person who submitted the case to the approval process">
+			<CombinedFieldRef name="_Owned"/>_/_<CombinedFieldRef name="_Organization"/>
+		</CombinedField>
+		<TableField 
+			name="_SubmittedOn" type="datetime" validate="notEmpty"
+			phrase="Case submitted on|The date of the case submission the approval process"/>
+		<TableField 
+			name="_SubmittedRemark" type="varchar(50)" 
+			phrase="Submission remark|Remark attached to the submission to the approval process"/>
+		
+		<TableField 
+			name="_AcceptedByID" type="int" validate="RequireSelection" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedBy"  key="_AcceptedByID" 
+			foreignTable="ppl" 	foreignKey="PersonID" foreignField="DisplayName"
+			phrase="Accepted by|Person who accepted the case"/>
+		<LinkField 
+			name="_AcceptedByLink" 	foreignModuleID="ppl" recordIDField="_AcceptedByID" 
+			phrase="Accepted by|Person who accepted the case"/>
+		<ForeignField 
+			name="_AcceptedByOrganizationID" key="_AcceptedByID" 
+			foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID"			
+			phrase="Organization|Name of organization associated with the person taking the action"/>
+		<ForeignField 
+			name="_AcceptedByOrganization" key="_AcceptedByOrganizationID" 
+			foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 			
+			phrase="Organization|Name of organization associated with the action taker"/>
+		<CombinedField name="_AcceptedByAcceptedByOrganization"  
+			phrase="Accepted by|Person who accepted the case">
+			<CombinedFieldRef name="_AcceptedBy"/>_/_<CombinedFieldRef name="_AcceptedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_AcceptedOn" type="datetime" validate="notEmpty"
+			phrase="Accepted on|Date and time the case has been accepted by the person"/>
+		<TableField 
+			name="_AcceptedRemark" type="varchar(50)" 
+			phrase="Remark for accepted|Remark for accepting the case"/>
+		
+		<TableField 
+			name="_ClosedByID" type="int" dbFlags="unsigned default 0" orgListOptions="intpar" 
+			validate="RequireSelection" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedBy" foreignTable="ppl" foreignKey="PersonID" foreignField="DisplayName" 
+			key="_ClosedByID"	listCondition="PersonStatusID=1"			
+			phrase="Closed by|Person who closed the case"/>
+		<LinkField 
+			name="_ClosedByLink" foreignModuleID="ppl" recordIDField="_ClosedByID" 
+			phrase="Closed by|Person who closed the case"/>
+		<ForeignField 
+			name="_ClosedByOrganizationID" foreignTable="ppl" foreignKey="PersonID" foreignField="OrganizationID" 
+			key="_ClosedByID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<ForeignField 
+			name="_ClosedByOrganization" foreignTable="org" foreignKey="OrganizationID" foreignField="Name" 
+			key="_ClosedByOrganizationID" 
+			phrase="Organization|Name of organization associated with the case owner"/>
+		<CombinedField name="_ClosedByClosedByOrganization"  
+			phrase="Closed by|Person who closed the case">
+			<CombinedFieldRef name="_ClosedBy"/>_/_<CombinedFieldRef name="_ClosedByOrganization"/>
+		</CombinedField>
+		<TableField 
+			name="_ClosedOn" type="datetime" validate="notEmpty"
+			phrase="Closed on|Date and time the case has been closed"/>
+		<TableField 
+			name="_ClosedRemark" type="varchar(50)" 
+			phrase="Remark for closed|Remark for closing the case"/>
+		
+		<CalculatedField 
+			name="_DaysBetween12" type="int" 
+			calcFunction="datediff" params="_AcceptedOn _SubmittedOn"  
+			phrase="Days between|Number of days between change of the state"/>
+		<CalculatedField 
+			name="_DaysBetween23" type="int" 
+			calcFunction="datediff" params="_ClosedOn _AcceptedOn"  
+			phrase="Days between|Number of days between change of the state"/>	
+			
+		<!-- Record description -->
+		<CombinedField 
+			name="_RecordLabel" 
+			phrase="Record Label|The short, concise, label of the record for display purposes">
+				<CombinedFieldRef name="_OwnedOrganization"/>_;_<CombinedFieldRef name="_InvoiceSellersNumber"/>_;_<CombinedFieldRef name="_InvoiceNumber"/>
+		</CombinedField>
+		<CombinedField 
+			name="_RecordDescription" 
+			phrase="Record Description|A combined field used to describe this record when associating it with other records">
+				<CombinedFieldRef name="_OwnedOrganization"/>_;_<CombinedFieldRef name="_InvoiceSellersNumber"/>_;_<CombinedFieldRef name="_InvoiceNumber"/>
+		</CombinedField>
+		<ForeignField 
+			name="_Tag" key="_InvoiceID" foreignTable="cos" foreignKey="RelatedRecordID" foreignField="Tag"
+			listCondition="RelatedModuleID='xiirr'" 			
+			phrase="Tag|A tag that classifies the record"/>
+			
+		<!-- Beautifiers -->
+		<StaticField 
+			name="ruler1" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler2" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler3" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler4" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler5" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler6" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler7" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler8" type="text" content="" phrase=" "/>
+		<StaticField 
+			name="ruler9" type="text" content="" phrase=" "/>	
+    </ModuleFields>
+    <ModuleInfo>
+        <PrimaryKey>
+            <FieldRef name="_InvoiceID"/>
+        </PrimaryKey>
+         <OwnerField name="_OrganizationID"/>
+        <RecordDescriptionField name="_RecordDescription"/>
+        <RecordLabelField name="_RecordLabel"/>
+    </ModuleInfo>
+	<RecordSummaryFields>
+		<ViewField name="_InvoiceID"/>
+		<ViewField name="_IncomingInvoiceID" link="_IncomingInvoiceLink"/>
+		<ViewField name="ruler1"/>
+		<ViewField name="_OwnedOrganization" link="_OwnedLink"/>		
+		<ViewField name="_InvoiceRemarks"/>	
+		<ViewField name="_InvoiceType"/>
+		<ViewField name="_InvoiceNumber"/>	
+		<ViewField name="_InvoiceSellersNumber" link="_InvoiceSellerLink" icon="com.png"/>		
+		<ViewField name="_InvoiceIssuedOn"/>
+		<ViewField name="_InvoiceReceivedOn"/>		
+		<ViewField name="_InvoicePaymentOn"/>
+		<ViewField name="_InvoiceNettoAmount"/>
+		<ViewField name="_InvoiceBruttoAmount"/>
+		<ViewField name="_InvoicePayment"/>
+		<ViewField name="_InvoiceOrganization"/>
+		<ViewField name="_InvoiceCostCenter"/>
+	</RecordSummaryFields>	
+    <Screens>
+        <ListScreen name="List">
+			<ListField name="_InvoiceID" phrase="ID"/>	
+			<ListField name="_OwnedOrganization"  phrase="Invoice submitter"/>
+			<ListField name="_InvoiceIssuedOn"  phrase="Issued on"/>	
+			<ListField name="_InvoiceSellersNumber"  align="center"  phrase="Sellers tax number"/>
+			<ListField name="_InvoiceNumber" phrase="Invoice tax number"/>			
+			<ListField name="_InvoiceNettoAmount" phrase="Netto"/>
+			
+			<HiddenField name="_InvoiceOrganization"/>
+			<HiddenField name="_InvoiceCostCenter"/>
+			
+			<HiddenField name="_SubmittedOn"/>
+			<HiddenField name="_SubmittedByOrganization"/>
+			<HiddenField name="_SubmittedRemark"/>
+			<HiddenField name="_DaysBetween12"/>
+			<HiddenField name="_AcceptedOn"/>
+			<HiddenField name="_AcceptedByAcceptedByOrganization"/>
+			<HiddenField name="_AcceptedRemark"/>
+			<HiddenField name="_DaysBetween23"/>
+			<HiddenField name="_ClosedOn"/>
+			<HiddenField name="_ClosedByClosedByOrganization"/>
+			<HiddenField name="_ClosedRemark"/>
+			<OrderByField name="_InvoiceID" direction="desc"/>
+        </ListScreen>
+        <SearchScreen name="Search">
+			<EditField name="_InvoiceID" FromTo="no" size="50" maxLength="250"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_IncomingInvoiceID" FromTo="no" size="50" maxLength="50"/>
+			<EditField name="_InvoiceRemarks" size="50" maxLength="50"/>
+			<CodeComboField name="_InvoiceTypeID" suppressItemAdd="yes"/>			
+			<EditField name="_InvoiceNumber" size="50" maxLength="128"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_InvoiceSellersNumber" size="25" maxLength="25"/>			
+			<DateField name="_InvoiceIssuedOn"/>	
+			<DateField name="_InvoiceReceivedOn"/>
+			<DateField name="_InvoicePaymentOn"/>
+			<ViewField name="ruler3"/>
+			<MoneyField name="_InvoiceNettoAmount" size="25" maxLength="25"/>
+			<MoneyField name="_InvoiceBruttoAmount" size="25" maxLength="25"/>
+			<CodeComboField name="_InvoicePaymentID" suppressItemAdd="yes"/>
+			<ViewField name="ruler4"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>		
+			<ViewField name="ruler5"/>
+			<ViewField name="ruler6"/>
+			<DateField name="_SubmittedOn"/>
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>			
+			<OrgComboField name="_OrganizationID" findMode="text"/>
+			<CodeComboField name="_LocationOrgFunctionID" suppressItemAdd="yes"/>
+			<ComboField name="_LocationID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler7"/>
+			<DateField name="_AcceptedOn"/>			
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>	
+			<ViewField name="ruler8"/>			
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<ViewField name="ruler9"/>
+			<EditField name="_Tag" size="50" maxLength="50"/>			
+        </SearchScreen>
+        <ViewScreen name="View">
+			<ViewField name="_InvoiceID"/>
+			<ViewField name="_IncomingInvoiceID" link="_IncomingInvoiceLink"/>
+			<ViewField name="ruler1"/>
+			<ViewField name="_LocationFunction" link="_LocationLink"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink"/>
+			<ViewField name="ruler2"/>			
+			<ViewField name="_InvoiceRemarks"/>
+			<ViewField name="_InvoiceType"/>
+			<ViewField name="_InvoiceNumber"/>			
+			<ViewField name="_InvoiceSellersNumber" link="_InvoiceSellerLink" icon="com.png"/>			
+			<ViewField name="_InvoiceIssuedOn"/>
+			<ViewField name="_InvoiceReceivedOn"/>		
+			<ViewField name="_InvoicePaymentOn"/>
+			<ViewField name="_InvoiceNettoAmount"/>
+			<ViewField name="_InvoiceBruttoAmount"/>
+			<ViewField name="_InvoicePayment"/>			
+			<ViewField name="_InvoiceOrganization"/>
+			<ViewField name="_InvoiceCostCenter" goEditScreen="Form"/>
+			<ViewScreenSection name="CaseState" phrase="Case approval history">
+				<ViewField name="_SubmittedOn"/>
+				<ViewField name="_SubmittedByOrganization" link="_OwnedLink"/>
+				<ViewField name="_SubmittedRemark"/>
+				<ViewField name="ruler3"/>						
+				<ViewField name="_AcceptedOn"/>
+				<ViewField name="_AcceptedByAcceptedByOrganization" link="_AcceptedByLink"/>
+				<ViewField name="_AcceptedRemark"/>
+				<ViewField name="ruler4"/>	
+				<ViewField name="_ClosedOn"/>
+				<ViewField name="_ClosedByClosedByOrganization" link="_ClosedByLink"/>
+				<ViewField name="_ClosedRemark" goEditScreen="Form"/>
+			</ViewScreenSection>				
+        </ViewScreen>
+        <EditScreen name="Form" phrase="Form|Edit summary information about the invoice">
+			<ViewField name="_InvoiceID"/>
+			<ViewField name="ruler1"/>
+			<EditField name="_IncomingInvoiceID" size="9" maxLength="9"/>		
+			<EditField name="_InvoiceRemarks" size="50" maxLength="50"/>
+			<CodeComboField name="_InvoiceTypeID" suppressItemAdd="yes"/>
+			<EditField name="_InvoiceNumber" size="50" maxLength="128"/>
+			<ViewField name="ruler2"/>
+			<EditField name="_InvoiceSellersNumber" size="25" maxLength="25"/>			
+			<DateField name="_InvoiceIssuedOn"/>	
+			<DateField name="_InvoiceReceivedOn"/>
+			<DateField name="_InvoicePaymentOn"/>
+			<ViewField name="ruler3"/>
+			<MoneyField name="_InvoiceNettoAmount" size="25" maxLength="25"/>
+			<MoneyField name="_InvoiceBruttoAmount" size="25" maxLength="25"/>
+			<CodeComboField name="_InvoicePaymentID" suppressItemAdd="yes"/>
+			<ViewField name="ruler4"/>
+			<OrgComboField name="_InvoiceOrganizationID" findMode="text"/>
+			<EditField name="_InvoiceCostCenter" size="50" maxLength="50"/>				
+			<ViewField name="ruler5"/>
+			<ViewField name="ruler6"/>
+			<DateField name="_SubmittedOn"/>	
+			<PersonComboField name="_OwnedBy" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_SubmittedRemark" size="50" maxLength="50"/>	
+			<ViewField name="ruler7"/>
+			<DateField name="_AcceptedOn"/>				
+			<PersonComboField name="_AcceptedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_AcceptedRemark" size="50" maxLength="50"/>
+			<ViewField name="ruler8"/>
+			<DateField name="_ClosedOn"/>	
+			<PersonComboField name="_ClosedByID" findMode="text" suppressItemAdd="yes"/>
+			<EditField name="_ClosedRemark" size="50" maxLength="50"/>			
+        </EditScreen>		
+    </Screens>
+	<Exports>
+        <ViewGrid moduleID="xiirr" phrase="Incoming invoice register">
+			<InvisibleField name="_InvoiceID"/>
+			<ViewField name="_SubmittedOn"/>
+			<ViewField name="_OwnedOrganization" link="_OwnedLink" phrase="Invoice submitted by"/>
+			<ViewField name="_AcceptedOn"/>
+			<ViewField name="_AcceptedByAcceptedByOrganization" link="_AcceptedByLink"/>
+			<ViewField name="_ClosedOn"/>
+			<ViewField name="_ClosedByClosedByOrganization" link="_ClosedByLink"/>
+			<OrderByField name="_InvoiceID" direction="desc"/>			
+        </ViewGrid>
+	</Exports> 
+   <Documentation>
+		<DocumentationSection sectionID="Introduction" title="Wprowadzenie">		
+<![CDATA[
+<br/>	
+<p>Wprowadzenie do obsługi systemu jest dostępne po naciśnięciu przycisku „Tutorial”, który znajduje się na Listwie Głównej u góry ekranu przeglądarki. Tutorial zawiera prezentację:</p>
+<ul>
+<li>Koncepcji systemu:</li>
+<ul>
+<li>związku lista-wiersz jako podstawy modułu,</li>
+<li>pojęcia działań w kontekście listy,</li>
+<li>pojęcia działań w kontekście wiersza,</li>
+<li>powiązania wiersza z innymi modułami,</li>
+</ul>
+<li>Logowania i nawigacji po systemie;</li>
+<li>Funkcjonalności dostępnych na ekranie Listy;</li>
+<li>Funkcjonalności dostępnych na ekranie Wiersza;</li>
+<li>Funkcjonalności związanych z edycją zawartości danych wiersza;</li>
+<li>Funkcjonalności raportów;</li>
+<li>Funkcjonalności wykresów.</li>
+</ul>
+<p>Powyższe możliwości systemu mogą być wypróbowane na modułach demonstracyjnych:</p>
+<ul>
+<li>Państwa;</li>
+<li>Województwa;</li>
+<li>Powiaty.</li>
+</ul>
+<p>Moduły demonstracyjne dostępne są po najechaniu myszą na "Menu Główne" w Listwie Głównej i wybranie ścieżki menu: "Menu Główne/Pomocnicze/Piaskownica/*". Zmiany wprowadzone w modułach demonstracyjnych nie mają wpływu na funkcje biznesowe aplikacji i mogą być wycofane przez administratora systemu.</p>
+]]>
+		</DocumentationSection>	
+		<DocumentationSection sectionID="ProcesDescription" title="Przebieg procesu">		
+<![CDATA[<br/>	
+<p>Przebieg procesu jest opisany w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=2&mdl=xii">Akceptacja faktur wchodzących (xii)</a>.</p>
+]]>
+		</DocumentationSection>
+		<DocumentationSection sectionID="Implementation" title="Wdrożenie">
+<![CDATA[<br/>	
+<p>Wdrożenie funkcjonalności jest opisane w dokumentacji modułu <a href="supportDocView.php?mode=paged&sectionID=3&mdl=xii">Akceptacja faktur wchodzących (xii)</a>.</p>
+]]>		
+		</DocumentationSection>			
+	</Documentation>
+    <Revision author="JWach" id="1" date="2011-09-20"/>
+</Module>
