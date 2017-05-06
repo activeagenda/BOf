@@ -1097,8 +1097,8 @@
         <ListScreen name="List" allowDelete="no">
 			<InvisibleField name="_RoomDayID"/>	
 			<ListField name="_BookingDate" phrase="Reservation day"/>
-			<ListField name="_BookingDateDay1" align="center" phrase="Day"/>
-			<ListField name="_RoomNameColor" align="center" phrase="Conference Room"/>
+			<ListField name="_BookingDateDay" phrase="Day"/>
+			<ListField name="_RoomNameColor" phrase="Conference Room"/>
 			<ListField name="_Booking000080Graph" align="center" phrase="-8&#160;"/>
 			<ListField name="_Booking080090Graph" align="center" phrase="&#160;8-"/>
 			<ListField name="_Booking090100Graph" align="center" phrase="&#160;9-"/>

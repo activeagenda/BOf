@@ -1,5 +1,5 @@
-#  What is BOf::
-BOf:: is a set of application developed on basis of the Active Agenda framework. For details see [BOf::](https://activeagenda.github.io)
+#  What is BOf ::
+BOf :: is a set of application developed on basis of the Active Agenda framework. For details see [BOf::](https://activeagenda.github.io)
 
 # Installation
 For details how to install the framework and the [BOf ::](https://activeagenda.github.io) look at https://github.com/activeagenda/documentation 
