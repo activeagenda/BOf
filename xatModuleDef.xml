@@ -408,7 +408,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_FlightbookingID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_FlightbookingPerson"/>
 			<ListField name="_FlightDepartDate1"/>
 			<ListField name="_FlightFrom1" phrase="Flight from"/>

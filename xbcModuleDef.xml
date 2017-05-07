@@ -378,7 +378,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_BusinesscardID" phrase="ID" />			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_OwnedOrganization" phrase="Ordering person"/>
 			<ListField name="_BusinesscardCount" align="center" phrase="Businesscard count"/>
 			<InvisibleField name="_BusinesscardTitle"/>

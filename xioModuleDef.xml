@@ -377,7 +377,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_InternalorderID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_InternalorderPerson"/>
 			<ListField name="_InternalorderItem"/>			
 			<ListField name="_InternalorderTotal" align="right"/>

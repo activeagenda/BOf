@@ -401,7 +401,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_VacationID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_PersonOnVacation"/>
 			<ListField name="_VacationBegin"  phrase="Vacation begin"/>			
 			<ListField name="_VacationFinish" phrase="Vacation finish"/>

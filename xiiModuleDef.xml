@@ -429,7 +429,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_InvoiceID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_InvoicePerson" phrase="Invoice submitter"/>					
 			<ListField name="_InvoiceRemarks" phrase="Purchase on invoice"/>
 			<ListField name="_InvoiceNettoAmount" phrase="Netto"/>

@@ -346,7 +346,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_CollateralorderingID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_Collateral" phrase="Marketing collateral item"/>
 			<ListField name="_CollateralorderingQuantity" align="center"/>	
 			<OrderByField name="_CollateralorderingID" direction="desc"/>

@@ -368,7 +368,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_TimesheetID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_WorkPeriodStart" phrase="Work period start"/>
 			<ListField name="_WorkPeriodEnd" phrase="Work period end"/>
 			<ListField name="_WorkTime" phrase="Work time" align="center"/>

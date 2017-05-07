@@ -332,7 +332,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_HelpticketID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_HelpticketPerson"/>
 			<ListField name="_HelpticketSubject"/>						
 			<ListField name="_Location" align="center" phrase="Location"/>

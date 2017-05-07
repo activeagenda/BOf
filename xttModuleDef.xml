@@ -377,7 +377,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_TrainticketID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_TrainticketPerson"/>
 			<ListField name="_TrainDepartureDate"/>
 			<ListField name="_TrainDepartureStation" phrase="Departure station"/>	

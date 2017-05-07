@@ -362,7 +362,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_AdvanceID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_AdvancePerson"/>
 			<ListField name="_AdvanceSubject"/>	
 			<ListField name="_AdvanceTotal"/>	

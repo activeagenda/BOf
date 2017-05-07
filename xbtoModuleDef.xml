@@ -373,7 +373,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_BusinesstripID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_BusinesstripPerson"/>
 			<ListField name="_BusinesstripDestination" phrase="Business trip destination"/>
 			<ListField name="_BusinesstripBegin" phrase="Business trip begin"/>			

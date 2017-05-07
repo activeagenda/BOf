@@ -526,7 +526,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_TripexpensesID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_BusinesstripPerson"/>
 			<ListField name="_BusinesstripBegin" phrase="Business trip begin"/>			
 			<ListField name="_BusinesstripFinish" phrase="Business trip finish"/>

@@ -361,7 +361,7 @@
     <Screens>
         <ListScreen name="List">
 			<ListField name="_HotelreservationID" phrase="ID"/>			
-			<ListField name="_ProcessState1"/>
+			<ListField name="_ProcessState1" align="center"/>
 			<ListField name="_HotelPerson"/>
 			<ListField name="_HotelPlace"/>			
 			<ListField name="_HotelArrival" phrase="Hotel arrival"/>
